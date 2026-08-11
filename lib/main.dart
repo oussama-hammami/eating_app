@@ -641,14 +641,16 @@ class _RecipesTabState extends State<RecipesTab> {
                               decoration: const InputDecoration(labelText: 'Protein (g)'),
                             ),
                           ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextField(
+                              controller: portionsController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              decoration: const InputDecoration(labelText: 'Portions'),
+                            ),
+                          ),
                         ],
-                      ),
-                      const SizedBox(height: 12),
-                      TextField(
-                        controller: portionsController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        decoration: const InputDecoration(labelText: 'Portions'),
                       ),
                       const SizedBox(height: 16),
                       const Text('Ingredients', style: TextStyle(fontWeight: FontWeight.bold)),
