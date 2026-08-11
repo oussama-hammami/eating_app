@@ -13,11 +13,12 @@ class AddMealEntry {
     required double grams,
     required String logDate,
     required DateTime loggedAt,
+    required String languageCode,
   }) {
     final macros = MacroCalculator.fromGrams(food, grams);
     return _repository.addEntry(
       foodId: food.id,
-      foodName: food.foodName,
+      foodName: food.displayName(languageCode),
       grams: grams,
       calories: macros.calories,
       protein: macros.protein,

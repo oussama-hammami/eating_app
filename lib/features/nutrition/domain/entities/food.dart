@@ -3,6 +3,7 @@ class Food {
   const Food({
     required this.id,
     required this.foodName,
+    this.foodNameFr = '',
     required this.caloriesKcal100g,
     required this.proteinG100g,
     required this.carbsG100g,
@@ -12,6 +13,10 @@ class Food {
 
   final int id;
   final String foodName;
+  final String foodNameFr;
+
+  String displayName(String languageCode) =>
+      languageCode == 'fr' && foodNameFr.isNotEmpty ? foodNameFr : foodName;
   final double? caloriesKcal100g;
   final double? proteinG100g;
   final double? carbsG100g;

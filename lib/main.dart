@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,6 +10,7 @@ import 'core/database/app_database.dart';
 import 'core/database/database_provider.dart';
 import 'features/meal_log/presentation/screens/food_diary_screen.dart';
 import 'features/nutrition/presentation/widgets/ingredient_food_field.dart';
+import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,14 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Eating App',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: colorScheme,
@@ -391,10 +401,19 @@ class _RootShellState extends State<RootShell> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.restaurant_menu), label: 'Recipes'),
-          NavigationDestination(icon: Icon(Icons.shopping_cart), label: 'Groceries'),
-          NavigationDestination(icon: Icon(Icons.local_dining), label: 'Diary'),
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.restaurant_menu),
+            label: AppLocalizations.of(context)!.navRecipes,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.shopping_cart),
+            label: AppLocalizations.of(context)!.navGroceries,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.local_dining),
+            label: AppLocalizations.of(context)!.navDiary,
+          ),
         ],
       ),
     );
@@ -449,22 +468,21 @@ class _RecipesTabState extends State<RecipesTab> {
 
   Future<void> _generateGroceries() async {
     final selectedRecipes = _selectedIndexes.map((i) => widget.recipes[i]).toList();
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Generate groceries?'),
-        content: const Text(
-          'This will replace the current grocery list with a fresh one built only from the selected meals.',
-        ),
+        title: Text(l10n.generateGroceriesConfirmTitle),
+        content: Text(l10n.generateGroceriesConfirmMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton.icon(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             icon: const Icon(Icons.auto_awesome),
-            label: const Text('Generate'),
+            label: Text(l10n.generate),
           ),
         ],
       ),
@@ -477,20 +495,21 @@ class _RecipesTabState extends State<RecipesTab> {
   }
 
   Future<void> _deleteRecipe(int index) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete recipe?'),
-        content: Text('This will remove "${widget.recipes[index].name}" permanently.'),
+        title: Text(l10n.deleteRecipeConfirmTitle),
+        content: Text(l10n.deleteRecipeConfirmMessage(widget.recipes[index].name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton.icon(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             icon: const Icon(Icons.delete_outline),
-            label: const Text('Delete'),
+            label: Text(l10n.delete),
           ),
         ],
       ),
@@ -505,6 +524,7 @@ class _RecipesTabState extends State<RecipesTab> {
   }
 
   Future<String?> _pickRecipePhoto(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       backgroundColor: Colors.white,
@@ -516,12 +536,12 @@ class _RecipesTabState extends State<RecipesTab> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera_outlined, color: AppPalette.tealDark),
-              title: const Text('Take a photo'),
+              title: Text(l10n.takeAPhoto),
               onTap: () => Navigator.of(sheetContext).pop(ImageSource.camera),
             ),
             ListTile(
               leading: const Icon(Icons.photo_library_outlined, color: AppPalette.tealDark),
-              title: const Text('Choose from library'),
+              title: Text(l10n.chooseFromLibrary),
               onTap: () => Navigator.of(sheetContext).pop(ImageSource.gallery),
             ),
           ],
@@ -553,13 +573,14 @@ class _RecipesTabState extends State<RecipesTab> {
         ? existing.ingredients.map((i) => TextEditingController(text: i.quantity)).toList()
         : <TextEditingController>[TextEditingController()];
 
+    final l10n = AppLocalizations.of(context)!;
     await showDialog(
       context: context,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
             return AlertDialog(
-              title: Text(existing != null ? 'Edit Recipe' : 'Add Recipe'),
+              title: Text(existing != null ? l10n.editRecipeTitle : l10n.addRecipeTitle),
               content: SizedBox(
                 width: 400,
                 child: SingleChildScrollView(
@@ -619,7 +640,7 @@ class _RecipesTabState extends State<RecipesTab> {
                       const SizedBox(height: 16),
                       TextField(
                         controller: nameController,
-                        decoration: const InputDecoration(labelText: 'Meal name'),
+                        decoration: InputDecoration(labelText: l10n.mealName),
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -629,7 +650,7 @@ class _RecipesTabState extends State<RecipesTab> {
                               controller: caloriesController,
                               keyboardType: TextInputType.number,
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: const InputDecoration(labelText: 'Calories (kcal)'),
+                              decoration: InputDecoration(labelText: l10n.caloriesKcal),
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -638,7 +659,7 @@ class _RecipesTabState extends State<RecipesTab> {
                               controller: proteinController,
                               keyboardType: TextInputType.number,
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: const InputDecoration(labelText: 'Protein (g)'),
+                              decoration: InputDecoration(labelText: l10n.proteinG),
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -647,13 +668,13 @@ class _RecipesTabState extends State<RecipesTab> {
                               controller: portionsController,
                               keyboardType: TextInputType.number,
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: const InputDecoration(labelText: 'Portions'),
+                              decoration: InputDecoration(labelText: l10n.portions),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 16),
-                      const Text('Ingredients', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
                       ...ingredientNameControllers.asMap().entries.map((entry) {
                         final index = entry.key;
                         final nameController = entry.value;
@@ -666,14 +687,14 @@ class _RecipesTabState extends State<RecipesTab> {
                                 flex: 2,
                                 child: IngredientFoodField(
                                   controller: nameController,
-                                  label: 'Ingredient ${index + 1}',
+                                  label: l10n.ingredientN(index + 1),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: TextField(
                                   controller: quantityController,
-                                  decoration: const InputDecoration(labelText: 'Quantity'),
+                                  decoration: InputDecoration(labelText: l10n.quantity),
                                 ),
                               ),
                               IconButton(
@@ -701,17 +722,17 @@ class _RecipesTabState extends State<RecipesTab> {
                             });
                           },
                           icon: const Icon(Icons.add),
-                          label: const Text('Add ingredient'),
+                          label: Text(l10n.addIngredient),
                         ),
                       ),
                       const SizedBox(height: 16),
                       TextField(
                         controller: descriptionController,
                         maxLines: 4,
-                        decoration: const InputDecoration(
-                          labelText: 'Preparation description',
+                        decoration: InputDecoration(
+                          labelText: l10n.preparationDescription,
                           alignLabelWithHint: true,
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ],
@@ -721,7 +742,7 @@ class _RecipesTabState extends State<RecipesTab> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(l10n.cancel),
                 ),
                 FilledButton.icon(
                   onPressed: () {
@@ -757,7 +778,7 @@ class _RecipesTabState extends State<RecipesTab> {
                     Navigator.of(dialogContext).pop();
                   },
                   icon: Icon(editIndex != null ? Icons.save : Icons.add),
-                  label: Text(editIndex != null ? 'Save' : 'Add'),
+                  label: Text(editIndex != null ? l10n.save : l10n.add),
                 ),
               ],
             );
@@ -768,6 +789,7 @@ class _RecipesTabState extends State<RecipesTab> {
   }
 
   void _openRecipeDetailsDialog(Recipe recipe, int index) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -781,7 +803,7 @@ class _RecipesTabState extends State<RecipesTab> {
                   IconButton(
                     icon: const Icon(Icons.edit_outlined),
                     color: AppPalette.tealDark,
-                    tooltip: 'Edit recipe',
+                    tooltip: l10n.editRecipe,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
                       _openAddRecipeDialog(editIndex: index);
@@ -790,7 +812,7 @@ class _RecipesTabState extends State<RecipesTab> {
                   IconButton(
                     icon: const Icon(Icons.delete_outline),
                     color: AppPalette.orangeDeep,
-                    tooltip: 'Delete recipe',
+                    tooltip: l10n.deleteRecipe,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
                       _deleteRecipe(index);
@@ -818,11 +840,11 @@ class _RecipesTabState extends State<RecipesTab> {
                         const SizedBox(height: 16),
                       ],
                       Text(
-                        '${recipe.calories} kcal • ${recipe.protein} g protein • ${recipe.portions} portion(s)',
+                        l10n.recipeStatsLine(recipe.calories, recipe.protein, recipe.portions),
                       ),
                       const SizedBox(height: 16),
                       if (recipe.ingredients.isNotEmpty) ...[
-                        const Text('Ingredients', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
                         ...recipe.ingredients.asMap().entries.map((entry) {
                           final i = entry.key;
                           final ingredient = entry.value;
@@ -845,7 +867,7 @@ class _RecipesTabState extends State<RecipesTab> {
                         const SizedBox(height: 16),
                       ],
                       if (recipe.description.isNotEmpty) ...[
-                        const Text('Preparation', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(l10n.preparation, style: const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 4),
                         Text(recipe.description),
                       ],
@@ -856,7 +878,7 @@ class _RecipesTabState extends State<RecipesTab> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Close'),
+                  child: Text(l10n.close),
                 ),
               ],
             );
@@ -868,13 +890,14 @@ class _RecipesTabState extends State<RecipesTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final recipes = widget.recipes;
     return Scaffold(
-      appBar: AppBar(title: const Text('🍽️  My Recipes')),
+      appBar: AppBar(title: Text(l10n.recipesTitle)),
       body: recipes.isEmpty
-          ? const _EmptyState(
+          ? _EmptyState(
               icon: Icons.restaurant_menu,
-              message: 'No recipes yet.\nTap + to add one.',
+              message: l10n.recipesEmpty,
             )
           : ListView.builder(
               padding: const EdgeInsets.all(12),
@@ -925,17 +948,17 @@ class _RecipesTabState extends State<RecipesTab> {
                             children: [
                               _StatChip(
                                 icon: Icons.local_fire_department,
-                                label: '${recipe.calories} kcal',
+                                label: l10n.caloriesKcalChip(recipe.calories),
                                 color: AppPalette.orangeDeep,
                               ),
                               _StatChip(
                                 icon: Icons.fitness_center,
-                                label: '${recipe.protein} g protein',
+                                label: l10n.proteinGChip(recipe.protein),
                                 color: AppPalette.tealDark,
                               ),
                               _StatChip(
                                 icon: Icons.people_outline,
-                                label: '${recipe.portions} portion(s)',
+                                label: l10n.portionsChip(recipe.portions),
                                 color: AppPalette.ink,
                               ),
                             ],
@@ -948,13 +971,13 @@ class _RecipesTabState extends State<RecipesTab> {
                             IconButton(
                               icon: const Icon(Icons.edit_outlined),
                               color: AppPalette.tealDark,
-                              tooltip: 'Edit recipe',
+                              tooltip: l10n.editRecipe,
                               onPressed: () => _openAddRecipeDialog(editIndex: index),
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete_outline),
                               color: AppPalette.orangeDeep,
-                              tooltip: 'Delete recipe',
+                              tooltip: l10n.deleteRecipe,
                               onPressed: () => _deleteRecipe(index),
                             ),
                             IconButton(
@@ -1024,7 +1047,7 @@ class _RecipesTabState extends State<RecipesTab> {
                       child: OutlinedButton.icon(
                         onPressed: _addToGroceries,
                         icon: const Icon(Icons.add_shopping_cart),
-                        label: Text('Add to groceries (${_selectedIndexes.length})'),
+                        label: Text(l10n.addToGroceriesCount(_selectedIndexes.length)),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -1032,7 +1055,7 @@ class _RecipesTabState extends State<RecipesTab> {
                       child: FilledButton.icon(
                         onPressed: _generateGroceries,
                         icon: const Icon(Icons.auto_awesome),
-                        label: const Text('Generate groceries'),
+                        label: Text(l10n.generateGroceries),
                       ),
                     ),
                   ],
@@ -1056,22 +1079,21 @@ class GroceriesTab extends StatelessWidget {
   final VoidCallback onReset;
 
   Future<void> _confirmReset(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Reset groceries?'),
-        content: const Text(
-          'This clears the grocery list and unselects all meals in Recipes.',
-        ),
+        title: Text(l10n.resetGroceriesConfirmTitle),
+        content: Text(l10n.resetGroceriesConfirmMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton.icon(
             onPressed: () => Navigator.of(dialogContext).pop(true),
             icon: const Icon(Icons.restart_alt),
-            label: const Text('Reset'),
+            label: Text(l10n.reset),
           ),
         ],
       ),
@@ -1083,23 +1105,24 @@ class GroceriesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🛒  Groceries'),
+        title: Text(l10n.groceriesTitle),
         actions: items.isEmpty
             ? null
             : [
                 IconButton(
                   icon: const Icon(Icons.restart_alt),
-                  tooltip: 'Reset groceries',
+                  tooltip: l10n.resetGroceries,
                   onPressed: () => _confirmReset(context),
                 ),
               ],
       ),
       body: items.isEmpty
-          ? const _EmptyState(
+          ? _EmptyState(
               icon: Icons.shopping_basket_outlined,
-              message: 'No groceries yet.\nSelect meals in Recipes and generate a list.',
+              message: l10n.groceriesEmpty,
             )
           : ListView.builder(
               padding: const EdgeInsets.all(12),

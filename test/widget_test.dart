@@ -15,6 +15,7 @@ void main() {
         id INTEGER PRIMARY KEY,
         food_name TEXT NOT NULL,
         search_name TEXT NOT NULL,
+        alim_nom_fr_no_comma TEXT NOT NULL DEFAULT '',
         calories_kcal_100g REAL,
         protein_g_100g REAL,
         carbs_g_100g REAL,

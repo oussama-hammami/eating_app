@@ -37,36 +37,38 @@ class AppDatabase {
   }
 
   /// Guards against a stale copy left behind by a previous run — either
-  /// empty (asset not yet bundled, e.g. added via hot reload) or built from
-  /// an older `schema_version` (e.g. before `search_name` was derived from
-  /// the comma-stripped columns). Compares the installed `schema_version`
-  /// against the bundled asset's, re-copying on any mismatch instead of
-  /// silently keeping stale `foods` data forever. `schema_version` — unlike
-  /// `food_count` — changes even when rows are re-derived without the row
-  /// count itself changing.
+  /// empty (asset not yet bundled, e.g. added via hot reload), built from an
+  /// older `schema_version` (e.g. before `search_name` was derived from the
+  /// comma-stripped columns), or simply re-derived from updated CIQUAL data
+  /// (e.g. new foods added) without any schema change. Comparing
+  /// `schema_version` alone misses that last case since it's a hardcoded
+  /// constant in the conversion script, not a content hash — so `food_count`
+  /// is compared too, catching row additions/removals that a schema bump
+  /// wouldn't.
   static Future<bool> _isUpToDate(String dbPath, ByteData assetBytes) async {
     try {
-      final installedVersion = await _schemaVersion(dbPath);
-      final assetVersion = await _assetSchemaVersion(assetBytes);
-      return installedVersion == assetVersion;
+      final installedMeta = await _dbMeta(dbPath);
+      final assetMeta = await _assetDbMeta(assetBytes);
+      return installedMeta['schema_version'] == assetMeta['schema_version'] &&
+          installedMeta['food_count'] == assetMeta['food_count'];
     } catch (_) {
       return false;
     }
   }
 
-  static Future<String> _schemaVersion(String dbPath) async {
+  static Future<Map<String, String>> _dbMeta(String dbPath) async {
     final db = await openReadOnlyDatabase(dbPath);
     try {
-      final result = await db.rawQuery(
-        "SELECT value FROM db_meta WHERE key = 'schema_version'",
-      );
-      return result.first['value'] as String;
+      final result = await db.query('db_meta');
+      return {
+        for (final row in result) row['key'] as String: row['value'] as String,
+      };
     } finally {
       await db.close();
     }
   }
 
-  static Future<String> _assetSchemaVersion(ByteData assetBytes) async {
+  static Future<Map<String, String>> _assetDbMeta(ByteData assetBytes) async {
     final tempDir = await getTemporaryDirectory();
     final tempPath = p.join(
       tempDir.path,
@@ -78,7 +80,7 @@ class AppDatabase {
       flush: true,
     );
     try {
-      return await _schemaVersion(tempPath);
+      return await _dbMeta(tempPath);
     } finally {
       await tempFile.delete();
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/food.dart';
 
 class FoodSuggestionTile extends StatelessWidget {
@@ -10,10 +11,12 @@ class FoodSuggestionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final languageCode = Localizations.localeOf(context).languageCode;
     final kcal = food.caloriesKcal100g;
     return ListTile(
-      title: Text(food.foodName),
-      subtitle: Text(kcal == null ? 'per 100g' : '${kcal.round()} kcal / 100g'),
+      title: Text(food.displayName(languageCode)),
+      subtitle: Text(kcal == null ? l10n.perHundredGrams : l10n.kcalPer100g(kcal.round())),
       onTap: onTap,
     );
   }

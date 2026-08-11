@@ -81,7 +81,8 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
   }
 
   void _selectFood(Food food) {
-    widget.controller.text = food.foodName;
+    final languageCode = Localizations.localeOf(context).languageCode;
+    widget.controller.text = food.displayName(languageCode);
     _requestId++;
     setState(() => _suggestions = const []);
     _removeOverlay();
@@ -94,6 +95,7 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
 
     final renderBox = context.findRenderObject() as RenderBox?;
     final width = renderBox?.size.width ?? 240.0;
+    final languageCode = Localizations.localeOf(context).languageCode;
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -115,7 +117,7 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
                   final food = _suggestions[index];
                   return ListTile(
                     dense: true,
-                    title: Text(food.foodName),
+                    title: Text(food.displayName(languageCode)),
                     onTap: () => _selectFood(food),
                   );
                 },

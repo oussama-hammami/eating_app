@@ -42,7 +42,7 @@ class TodayMealLogNotifier extends AsyncNotifier<List<MealEntry>> {
     return ref.read(watchTodayEntriesProvider)(DateTime.now());
   }
 
-  Future<void> addFood(Food food, double grams) async {
+  Future<void> addFood(Food food, double grams, String languageCode) async {
     final now = DateTime.now();
     final add = ref.read(addMealEntryProvider);
     final entry = await add(
@@ -50,6 +50,7 @@ class TodayMealLogNotifier extends AsyncNotifier<List<MealEntry>> {
       grams: grams,
       logDate: todayLogDate(now),
       loggedAt: now,
+      languageCode: languageCode,
     );
     final current = state.valueOrNull ?? const [];
     state = AsyncData([...current, entry]);

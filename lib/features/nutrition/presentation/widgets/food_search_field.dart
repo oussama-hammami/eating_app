@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../providers/food_search_provider.dart';
 
 class FoodSearchField extends ConsumerWidget {
@@ -15,7 +16,7 @@ class FoodSearchField extends ConsumerWidget {
       onChanged: (value) =>
           ref.read(foodSearchProvider.notifier).onQueryChanged(value),
       decoration: InputDecoration(
-        hintText: 'Search foods…',
+        hintText: AppLocalizations.of(context)!.searchFoodsHint,
         prefixIcon: const Icon(Icons.search),
         suffixIcon: controller.text.isEmpty
             ? null

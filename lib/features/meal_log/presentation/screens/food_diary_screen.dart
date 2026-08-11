@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../nutrition/domain/entities/food.dart';
 import '../../../nutrition/presentation/providers/food_search_provider.dart';
 import '../../../nutrition/presentation/widgets/food_search_field.dart';
@@ -28,10 +29,14 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
   }
 
   Future<void> _onFoodSelected(Food food) async {
-    final grams = await showQuantityDialog(context, foodName: food.foodName);
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final grams = await showQuantityDialog(
+      context,
+      foodName: food.displayName(languageCode),
+    );
     if (grams == null) return;
 
-    await ref.read(todayMealLogProvider.notifier).addFood(food, grams);
+    await ref.read(todayMealLogProvider.notifier).addFood(food, grams, languageCode);
 
     _searchController.clear();
     ref.read(foodSearchProvider.notifier).clear();
@@ -57,12 +62,13 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final searchState = ref.watch(foodSearchProvider);
     final todayState = ref.watch(todayMealLogProvider);
     final totals = ref.watch(dailyTotalsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Food Diary')),
+      appBar: AppBar(title: Text(l10n.foodDiaryTitle)),
       body: Column(
         children: [
           DailyTotalsCard(totals: totals),
@@ -94,7 +100,7 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
             ),
             error: (error, _) => Padding(
               padding: const EdgeInsets.all(12),
-              child: Text('Search error: $error'),
+              child: Text(l10n.searchErrorLabel(error.toString())),
             ),
           ),
           const Divider(height: 24),
@@ -102,7 +108,7 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
             child: todayState.when(
               data: (entries) {
                 if (entries.isEmpty) {
-                  return const Center(child: Text('No foods logged yet today.'));
+                  return Center(child: Text(l10n.noFoodsLoggedToday));
                 }
                 return ListView.builder(
                   itemCount: entries.length,
@@ -117,7 +123,7 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(child: Text('Error: $error')),
+              error: (error, _) => Center(child: Text(l10n.errorLabel(error.toString()))),
             ),
           ),
         ],

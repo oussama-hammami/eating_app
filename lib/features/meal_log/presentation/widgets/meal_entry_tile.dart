@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/meal_entry.dart';
 
 class MealEntryTile extends StatelessWidget {
@@ -16,13 +17,17 @@ class MealEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       title: Text(entry.foodName),
       subtitle: Text(
-        '${entry.grams.toStringAsFixed(0)} g · ${entry.calories.round()} kcal · '
-        'P ${entry.protein.toStringAsFixed(1)}g · '
-        'C ${entry.carbs.toStringAsFixed(1)}g · '
-        'F ${entry.fat.toStringAsFixed(1)}g',
+        l10n.mealEntrySubtitle(
+          entry.grams.toStringAsFixed(0),
+          entry.calories.round(),
+          entry.protein.toStringAsFixed(1),
+          entry.carbs.toStringAsFixed(1),
+          entry.fat.toStringAsFixed(1),
+        ),
       ),
       onTap: onEdit,
       trailing: IconButton(

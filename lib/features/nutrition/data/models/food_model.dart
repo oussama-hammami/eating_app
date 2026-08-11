@@ -4,6 +4,7 @@ class FoodModel extends Food {
   const FoodModel({
     required super.id,
     required super.foodName,
+    required super.foodNameFr,
     required super.caloriesKcal100g,
     required super.proteinG100g,
     required super.carbsG100g,
@@ -15,6 +16,7 @@ class FoodModel extends Food {
     return FoodModel(
       id: map['id']! as int,
       foodName: map['food_name']! as String,
+      foodNameFr: map['alim_nom_fr_no_comma'] as String? ?? '',
       caloriesKcal100g: (map['calories_kcal_100g'] as num?)?.toDouble(),
       proteinG100g: (map['protein_g_100g'] as num?)?.toDouble(),
       carbsG100g: (map['carbs_g_100g'] as num?)?.toDouble(),

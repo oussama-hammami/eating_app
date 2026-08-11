@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/daily_totals.dart';
 
 class DailyTotalsCard extends StatelessWidget {
@@ -9,6 +10,7 @@ class DailyTotalsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.all(12),
       child: Padding(
@@ -16,16 +18,16 @@ class DailyTotalsCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: _Stat(label: 'Calories', value: totals.calories.round().toString()),
+              child: _Stat(label: l10n.statCalories, value: totals.calories.round().toString()),
             ),
             Expanded(
-              child: _Stat(label: 'Protein', value: '${totals.protein.toStringAsFixed(1)}g'),
+              child: _Stat(label: l10n.statProtein, value: '${totals.protein.toStringAsFixed(1)}g'),
             ),
             Expanded(
-              child: _Stat(label: 'Carbs', value: '${totals.carbs.toStringAsFixed(1)}g'),
+              child: _Stat(label: l10n.statCarbs, value: '${totals.carbs.toStringAsFixed(1)}g'),
             ),
             Expanded(
-              child: _Stat(label: 'Fat', value: '${totals.fat.toStringAsFixed(1)}g'),
+              child: _Stat(label: l10n.statFat, value: '${totals.fat.toStringAsFixed(1)}g'),
             ),
           ],
         ),

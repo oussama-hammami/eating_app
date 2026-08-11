@@ -1,0 +1,107 @@
+{
+  "@@locale": "en",
+  "appTitle": "Eating App",
+  "navRecipes": "Recipes",
+  "navGroceries": "Groceries",
+  "navDiary": "Diary",
+
+  "recipesTitle": "🍽️  My Recipes",
+  "recipesEmpty": "No recipes yet.\nTap + to add one.",
+  "editRecipe": "Edit recipe",
+  "deleteRecipe": "Delete recipe",
+  "deleteRecipeConfirmTitle": "Delete recipe?",
+  "deleteRecipeConfirmMessage": "This will remove \"{name}\" permanently.",
+  "@deleteRecipeConfirmMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "close": "Close",
+  "save": "Save",
+  "add": "Add",
+  "editRecipeTitle": "Edit Recipe",
+  "addRecipeTitle": "Add Recipe",
+  "takeAPhoto": "Take a photo",
+  "chooseFromLibrary": "Choose from library",
+  "mealName": "Meal name",
+  "caloriesKcal": "Calories (kcal)",
+  "proteinG": "Protein (g)",
+  "portions": "Portions",
+  "ingredients": "Ingredients",
+  "ingredientN": "Ingredient {number}",
+  "@ingredientN": {
+    "placeholders": { "number": { "type": "int" } }
+  },
+  "quantity": "Quantity",
+  "addIngredient": "Add ingredient",
+  "preparationDescription": "Preparation description",
+  "preparation": "Preparation",
+  "recipeStatsLine": "{calories} kcal • {protein} g protein • {portions} portion(s)",
+  "@recipeStatsLine": {
+    "placeholders": {
+      "calories": { "type": "int" },
+      "protein": { "type": "int" },
+      "portions": { "type": "int" }
+    }
+  },
+  "caloriesKcalChip": "{calories} kcal",
+  "@caloriesKcalChip": {
+    "placeholders": { "calories": { "type": "int" } }
+  },
+  "proteinGChip": "{protein} g protein",
+  "@proteinGChip": {
+    "placeholders": { "protein": { "type": "int" } }
+  },
+  "portionsChip": "{portions} portion(s)",
+  "@portionsChip": {
+    "placeholders": { "portions": { "type": "int" } }
+  },
+  "addToGroceriesCount": "Add to groceries ({count})",
+  "@addToGroceriesCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "generateGroceries": "Generate groceries",
+  "generateGroceriesConfirmTitle": "Generate groceries?",
+  "generateGroceriesConfirmMessage": "This will replace the current grocery list with a fresh one built only from the selected meals.",
+  "generate": "Generate",
+
+  "groceriesTitle": "🛒  Groceries",
+  "groceriesEmpty": "No groceries yet.\nSelect meals in Recipes and generate a list.",
+  "resetGroceries": "Reset groceries",
+  "resetGroceriesConfirmTitle": "Reset groceries?",
+  "resetGroceriesConfirmMessage": "This clears the grocery list and unselects all meals in Recipes.",
+  "reset": "Reset",
+
+  "foodDiaryTitle": "Food Diary",
+  "searchFoodsHint": "Search foods…",
+  "searchErrorLabel": "Search error: {error}",
+  "@searchErrorLabel": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "noFoodsLoggedToday": "No foods logged yet today.",
+  "errorLabel": "Error: {error}",
+  "@errorLabel": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "quantityGrams": "Quantity (grams)",
+  "quantityValidatorMessage": "Enter a quantity greater than 0",
+  "perHundredGrams": "per 100g",
+  "kcalPer100g": "{kcal} kcal / 100g",
+  "@kcalPer100g": {
+    "placeholders": { "kcal": { "type": "int" } }
+  },
+  "mealEntrySubtitle": "{grams} g · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g",
+  "@mealEntrySubtitle": {
+    "placeholders": {
+      "grams": { "type": "String" },
+      "calories": { "type": "int" },
+      "protein": { "type": "String" },
+      "carbs": { "type": "String" },
+      "fat": { "type": "String" }
+    }
+  },
+  "statCalories": "Calories",
+  "statProtein": "Protein",
+  "statCarbs": "Carbs",
+  "statFat": "Fat"
+}
