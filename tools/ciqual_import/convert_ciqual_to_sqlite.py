@@ -15,6 +15,7 @@ from __future__ import annotations
 import re
 import sqlite3
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from openpyxl import load_workbook
@@ -23,7 +24,12 @@ from text_normalizer import normalize
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_XLSX = ROOT / "food_bd" / "ciqual" / "Table Ciqual 2025_ENG_2025_11_03.xlsx"
+SOURCE_XML = ROOT / "food_bd" / "ciqual" / "alim_2025_11_03.xml"
 OUTPUT_DB = ROOT / "assets" / "db" / "nutrition.db"
+
+# Bump on any change to the schema or to how existing columns are derived
+# (e.g. search_name's source columns) — food_count alone can't detect that.
+SCHEMA_VERSION = "2"
 
 # Header text is used verbatim from the sheet (with embedded newlines), so we
 # match on normalized (lowercased, whitespace-collapsed) substrings instead of
@@ -79,7 +85,27 @@ def normalize_food_name(raw: str) -> str:
     return re.sub(r"\s+", " ", str(raw).strip())
 
 
-def read_foods(xlsx_path: Path) -> list[dict]:
+def strip_commas(raw: str) -> str:
+    return normalize_food_name(str(raw).replace(",", ""))
+
+
+def read_french_names(xml_path: Path) -> dict[int, str]:
+    """Maps alim_code -> alim_nom_fr, since the French name only lives in the
+    CIQUAL XML export, not the English xlsx used for the rest of the data."""
+    tree = ET.parse(xml_path)
+    names: dict[int, str] = {}
+    for alim in tree.getroot().findall("ALIM"):
+        code_el = alim.find("alim_code")
+        name_el = alim.find("alim_nom_fr")
+        if code_el is None or name_el is None or name_el.text is None:
+            continue
+        names[int(code_el.text.strip())] = normalize_food_name(name_el.text)
+    return names
+
+
+def read_foods(xlsx_path: Path, xml_path: Path) -> list[dict]:
+    french_names = read_french_names(xml_path)
+
     wb = load_workbook(xlsx_path, read_only=True, data_only=True)
     sheet = wb["Sheet1"] if "Sheet1" in wb.sheetnames else wb.worksheets[0]
     rows = sheet.iter_rows(values_only=True)
@@ -94,10 +120,15 @@ def read_foods(xlsx_path: Path) -> list[dict]:
         raw_name = row[indices["food_name"]]
         if raw_id is None or raw_name is None:
             continue
+        food_id = int(raw_id) if isinstance(raw_id, (int, float)) else int(str(raw_id).strip())
+        food_name = normalize_food_name(raw_name)
+        alim_nom_fr = french_names.get(food_id, "")
         foods.append(
             {
-                "id": int(raw_id) if isinstance(raw_id, (int, float)) else int(str(raw_id).strip()),
-                "food_name": normalize_food_name(raw_name),
+                "id": food_id,
+                "food_name": food_name,
+                "alim_nom_fr_no_comma": strip_commas(alim_nom_fr),
+                "alim_nom_eng_no_comma": strip_commas(food_name),
                 "calories_kcal_100g": parse_float(row[indices["calories_kcal_100g"]]),
                 "protein_g_100g": parse_float(row[indices["protein_g_100g"]]),
                 "carbs_g_100g": parse_float(row[indices["carbs_g_100g"]]),
@@ -128,6 +159,8 @@ CREATE TABLE foods (
     id INTEGER PRIMARY KEY,
     food_name TEXT NOT NULL,
     search_name TEXT NOT NULL,
+    alim_nom_fr_no_comma TEXT NOT NULL,
+    alim_nom_eng_no_comma TEXT NOT NULL,
     calories_kcal_100g REAL,
     protein_g_100g REAL,
     carbs_g_100g REAL,
@@ -149,6 +182,11 @@ CREATE TABLE meal_entries (
     log_date TEXT NOT NULL
 );
 CREATE INDEX idx_meal_entries_log_date ON meal_entries(log_date);
+
+CREATE TABLE db_meta (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+);
 """
 
 
@@ -163,12 +201,24 @@ def write_database(foods: list[dict], output_path: Path) -> None:
         conn.executemany(
             """
             INSERT INTO foods (
-                id, food_name, search_name, calories_kcal_100g,
-                protein_g_100g, carbs_g_100g, fat_g_100g, fiber_g_100g
-            ) VALUES (:id, :food_name, :search_name, :calories_kcal_100g,
-                      :protein_g_100g, :carbs_g_100g, :fat_g_100g, :fiber_g_100g)
+                id, food_name, search_name, alim_nom_fr_no_comma, alim_nom_eng_no_comma,
+                calories_kcal_100g, protein_g_100g, carbs_g_100g, fat_g_100g, fiber_g_100g
+            ) VALUES (:id, :food_name, :search_name, :alim_nom_fr_no_comma, :alim_nom_eng_no_comma,
+                      :calories_kcal_100g, :protein_g_100g, :carbs_g_100g, :fat_g_100g, :fiber_g_100g)
             """,
-            [{**food, "search_name": normalize(food["food_name"])} for food in foods],
+            [
+                {
+                    **food,
+                    "search_name": normalize(
+                        f"{food['alim_nom_eng_no_comma']} {food['alim_nom_fr_no_comma']}"
+                    ),
+                }
+                for food in foods
+            ],
+        )
+        conn.executemany(
+            "INSERT INTO db_meta (key, value) VALUES (?, ?)",
+            [("food_count", str(len(foods))), ("schema_version", SCHEMA_VERSION)],
         )
         conn.commit()
         conn.execute("VACUUM")
@@ -180,9 +230,12 @@ def main() -> None:
     if not SOURCE_XLSX.exists():
         print(f"Source file not found: {SOURCE_XLSX}", file=sys.stderr)
         sys.exit(1)
+    if not SOURCE_XML.exists():
+        print(f"Source file not found: {SOURCE_XML}", file=sys.stderr)
+        sys.exit(1)
 
-    print(f"Reading {SOURCE_XLSX} ...")
-    foods = read_foods(SOURCE_XLSX)
+    print(f"Reading {SOURCE_XLSX} and {SOURCE_XML} ...")
+    foods = read_foods(SOURCE_XLSX, SOURCE_XML)
     print(f"Parsed {len(foods)} rows.")
 
     foods = dedupe(foods)
