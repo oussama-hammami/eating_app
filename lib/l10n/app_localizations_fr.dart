@@ -92,6 +92,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quantity => 'Quantité';
 
   @override
+  String get mealType => 'Type de repas';
+
+  @override
+  String get mealTypeBreakfast => 'Petit-déjeuner';
+
+  @override
+  String get mealTypeLunch => 'Déjeuner';
+
+  @override
+  String get mealTypeDinner => 'Dîner';
+
+  @override
+  String get mealTypeSnack => 'Collation';
+
+  @override
+  String get mealTypeDrink => 'Boisson';
+
+  @override
   String get addIngredient => 'Ajouter un ingrédient';
 
   @override

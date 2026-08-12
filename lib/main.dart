@@ -201,6 +201,33 @@ class Ingredient {
   final String quantity;
 }
 
+enum MealType {
+  breakfast(Icons.free_breakfast_outlined),
+  lunch(Icons.lunch_dining_outlined),
+  dinner(Icons.dinner_dining_outlined),
+  snack(Icons.cookie_outlined),
+  drink(Icons.local_bar_outlined);
+
+  const MealType(this.icon);
+
+  final IconData icon;
+
+  String label(AppLocalizations l10n) {
+    switch (this) {
+      case MealType.breakfast:
+        return l10n.mealTypeBreakfast;
+      case MealType.lunch:
+        return l10n.mealTypeLunch;
+      case MealType.dinner:
+        return l10n.mealTypeDinner;
+      case MealType.snack:
+        return l10n.mealTypeSnack;
+      case MealType.drink:
+        return l10n.mealTypeDrink;
+    }
+  }
+}
+
 class Recipe {
   Recipe({
     required this.name,
@@ -209,6 +236,7 @@ class Recipe {
     required this.portions,
     required this.ingredients,
     required this.description,
+    required this.mealType,
     this.photoPath,
   }) : checkedIngredients = List.filled(ingredients.length, false);
 
@@ -218,6 +246,7 @@ class Recipe {
   final int portions;
   final List<Ingredient> ingredients;
   final String description;
+  final MealType mealType;
   final String? photoPath;
   final List<bool> checkedIngredients;
 }
@@ -566,6 +595,7 @@ class _RecipesTabState extends State<RecipesTab> {
         TextEditingController(text: existing != null ? existing.portions.toString() : '');
     final descriptionController = TextEditingController(text: existing?.description ?? '');
     String? photoPath = existing?.photoPath;
+    MealType mealType = existing?.mealType ?? MealType.breakfast;
     final ingredientNameControllers = existing != null && existing.ingredients.isNotEmpty
         ? existing.ingredients.map((i) => TextEditingController(text: i.name)).toList()
         : <TextEditingController>[TextEditingController()];
@@ -643,6 +673,34 @@ class _RecipesTabState extends State<RecipesTab> {
                         decoration: InputDecoration(labelText: l10n.mealName),
                       ),
                       const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(l10n.mealType, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: MealType.values.map((type) {
+                          final selected = mealType == type;
+                          return ChoiceChip(
+                            avatar: Icon(
+                              type.icon,
+                              size: 18,
+                              color: selected ? Colors.white : AppPalette.tealDark,
+                            ),
+                            label: Text(type.label(l10n)),
+                            selected: selected,
+                            selectedColor: AppPalette.tealDark,
+                            labelStyle: TextStyle(
+                              color: selected ? Colors.white : AppPalette.ink,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            onSelected: (_) => setDialogState(() => mealType = type),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
                           Expanded(
@@ -768,6 +826,7 @@ class _RecipesTabState extends State<RecipesTab> {
                       portions: int.tryParse(portionsController.text.trim()) ?? 1,
                       ingredients: ingredients,
                       description: descriptionController.text.trim(),
+                      mealType: mealType,
                       photoPath: photoPath,
                     );
                     if (editIndex != null) {
@@ -839,6 +898,12 @@ class _RecipesTabState extends State<RecipesTab> {
                         ),
                         const SizedBox(height: 16),
                       ],
+                      _StatChip(
+                        icon: recipe.mealType.icon,
+                        label: recipe.mealType.label(l10n),
+                        color: AppPalette.tealDark,
+                      ),
+                      const SizedBox(height: 8),
                       Text(
                         l10n.recipeStatsLine(recipe.calories, recipe.protein, recipe.portions),
                       ),
@@ -946,6 +1011,11 @@ class _RecipesTabState extends State<RecipesTab> {
                           child: Wrap(
                             spacing: 8,
                             children: [
+                              _StatChip(
+                                icon: recipe.mealType.icon,
+                                label: recipe.mealType.label(l10n),
+                                color: AppPalette.tealDark,
+                              ),
                               _StatChip(
                                 icon: Icons.local_fire_department,
                                 label: l10n.caloriesKcalChip(recipe.calories),

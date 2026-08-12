@@ -254,6 +254,42 @@ abstract class AppLocalizations {
   /// **'Quantity'**
   String get quantity;
 
+  /// No description provided for @mealType.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal type'**
+  String get mealType;
+
+  /// No description provided for @mealTypeBreakfast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast'**
+  String get mealTypeBreakfast;
+
+  /// No description provided for @mealTypeLunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch'**
+  String get mealTypeLunch;
+
+  /// No description provided for @mealTypeDinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner'**
+  String get mealTypeDinner;
+
+  /// No description provided for @mealTypeSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Snack'**
+  String get mealTypeSnack;
+
+  /// No description provided for @mealTypeDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink'**
+  String get mealTypeDrink;
+
   /// No description provided for @addIngredient.
   ///
   /// In en, this message translates to:

@@ -33,6 +33,12 @@
     "placeholders": { "number": { "type": "int" } }
   },
   "quantity": "Quantity",
+  "mealType": "Meal type",
+  "mealTypeBreakfast": "Breakfast",
+  "mealTypeLunch": "Lunch",
+  "mealTypeDinner": "Dinner",
+  "mealTypeSnack": "Snack",
+  "mealTypeDrink": "Drink",
   "addIngredient": "Add ingredient",
   "preparationDescription": "Preparation description",
   "preparation": "Preparation",
