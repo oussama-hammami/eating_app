@@ -1,5 +1,7 @@
+import 'package:eating_app/core/units/unit.dart';
 import 'package:eating_app/features/meal_log/domain/usecases/macro_calculator.dart';
 import 'package:eating_app/features/nutrition/domain/entities/food.dart';
+import 'package:eating_app/features/nutrition/domain/entities/quantity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -41,5 +43,29 @@ void main() {
   test('zero grams yields zero macros', () {
     final macros = MacroCalculator.fromGrams(food, 0);
     expect(macros.calories, 0);
+  });
+
+  test('fromQuantity resolves a universal weight unit before computing', () {
+    final macros = MacroCalculator.fromQuantity(
+      food,
+      const Quantity(amount: 1, unit: Unit.kg),
+    );
+    expect(macros.calories, 2000); // 200 * 1000g/100
+  });
+
+  test('fromQuantity uses ingredient-specific conversion for olive-oil-like tbsp', () {
+    final macros = MacroCalculator.fromQuantity(
+      food,
+      const Quantity(amount: 1, unit: Unit.tbsp),
+      ingredientGramsPerUnit: const {Unit.tbsp: 13.6},
+    );
+    expect(macros.calories, closeTo(27.2, 0.001)); // 200 * 13.6/100
+  });
+
+  test('fromQuantity throws for a unit with no available conversion', () {
+    expect(
+      () => MacroCalculator.fromQuantity(food, const Quantity(amount: 1, unit: Unit.piece)),
+      throwsArgumentError,
+    );
   });
 }

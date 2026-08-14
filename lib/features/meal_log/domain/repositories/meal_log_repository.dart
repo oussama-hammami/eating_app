@@ -1,3 +1,4 @@
+import '../../../../core/units/unit.dart';
 import '../entities/meal_entry.dart';
 
 abstract class MealLogRepository {
@@ -8,7 +9,8 @@ abstract class MealLogRepository {
   Future<MealEntry> addEntry({
     required int foodId,
     required String foodName,
-    required double grams,
+    required double amount,
+    required Unit unit,
     required double calories,
     required double protein,
     required double carbs,
@@ -19,7 +21,8 @@ abstract class MealLogRepository {
 
   Future<MealEntry> updateEntry({
     required int entryId,
-    required double grams,
+    required double amount,
+    required Unit unit,
     required double calories,
     required double protein,
     required double carbs,

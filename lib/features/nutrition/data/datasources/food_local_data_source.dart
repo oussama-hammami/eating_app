@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/text/text_normalizer.dart';
+import '../../../../core/units/unit.dart';
 import '../models/food_model.dart';
 
 const _foodColumns =
@@ -72,5 +73,22 @@ class FoodLocalDataSource {
     );
     if (rows.isEmpty) return null;
     return FoodModel.fromMap(rows.first);
+  }
+
+  /// Ingredient-specific unit -> grams-per-unit overrides for [foodId]
+  /// (e.g. `{tbsp: 13.6}` for olive oil), sourced from `food_unit_conversions`.
+  /// Empty when the ingredient has none, meaning only universal weight units
+  /// (g/kg/oz/lb) are usable for it.
+  Future<Map<Unit, double>> getUnitConversions(int foodId) async {
+    final rows = await _db.query(
+      'food_unit_conversions',
+      columns: ['unit', 'grams_per_unit'],
+      where: 'food_id = ?',
+      whereArgs: [foodId],
+    );
+    return {
+      for (final row in rows)
+        Unit.fromId(row['unit']! as String): (row['grams_per_unit']! as num).toDouble(),
+    };
   }
 }

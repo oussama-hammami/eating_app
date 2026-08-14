@@ -96,10 +96,10 @@
   "@kcalPer100g": {
     "placeholders": { "kcal": { "type": "int" } }
   },
-  "mealEntrySubtitle": "{grams} g · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g",
+  "mealEntrySubtitle": "{amount} · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g",
   "@mealEntrySubtitle": {
     "placeholders": {
-      "grams": { "type": "String" },
+      "amount": { "type": "String" },
       "calories": { "type": "int" },
       "protein": { "type": "String" },
       "carbs": { "type": "String" },
@@ -109,5 +109,16 @@
   "statCalories": "Calories",
   "statProtein": "Protein",
   "statCarbs": "Carbs",
-  "statFat": "Fat"
+  "statFat": "Fat",
+  "unitG": "g",
+  "unitKg": "kg",
+  "unitOz": "oz",
+  "unitLb": "lb",
+  "unitMl": "ml",
+  "unitL": "l",
+  "unitTsp": "tsp",
+  "unitTbsp": "tbsp",
+  "unitCup": "cup",
+  "unitFlOz": "fl oz",
+  "unitPiece": "piece"
 }

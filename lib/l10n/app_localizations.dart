@@ -455,9 +455,9 @@ abstract class AppLocalizations {
   /// No description provided for @mealEntrySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g'**
+  /// **'{amount} · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g'**
   String mealEntrySubtitle(
-    String grams,
+    String amount,
     int calories,
     String protein,
     String carbs,
@@ -487,6 +487,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fat'**
   String get statFat;
+
+  /// No description provided for @unitG.
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get unitG;
+
+  /// No description provided for @unitKg.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get unitKg;
+
+  /// No description provided for @unitOz.
+  ///
+  /// In en, this message translates to:
+  /// **'oz'**
+  String get unitOz;
+
+  /// No description provided for @unitLb.
+  ///
+  /// In en, this message translates to:
+  /// **'lb'**
+  String get unitLb;
+
+  /// No description provided for @unitMl.
+  ///
+  /// In en, this message translates to:
+  /// **'ml'**
+  String get unitMl;
+
+  /// No description provided for @unitL.
+  ///
+  /// In en, this message translates to:
+  /// **'l'**
+  String get unitL;
+
+  /// No description provided for @unitTsp.
+  ///
+  /// In en, this message translates to:
+  /// **'tsp'**
+  String get unitTsp;
+
+  /// No description provided for @unitTbsp.
+  ///
+  /// In en, this message translates to:
+  /// **'tbsp'**
+  String get unitTbsp;
+
+  /// No description provided for @unitCup.
+  ///
+  /// In en, this message translates to:
+  /// **'cup'**
+  String get unitCup;
+
+  /// No description provided for @unitFlOz.
+  ///
+  /// In en, this message translates to:
+  /// **'fl oz'**
+  String get unitFlOz;
+
+  /// No description provided for @unitPiece.
+  ///
+  /// In en, this message translates to:
+  /// **'piece'**
+  String get unitPiece;
 }
 
 class _AppLocalizationsDelegate

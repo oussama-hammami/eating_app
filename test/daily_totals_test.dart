@@ -1,3 +1,4 @@
+import 'package:eating_app/core/units/unit.dart';
 import 'package:eating_app/features/meal_log/domain/entities/daily_totals.dart';
 import 'package:eating_app/features/meal_log/domain/entities/meal_entry.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +14,8 @@ MealEntry _entry({
     id: id,
     foodId: id,
     foodName: 'Food $id',
-    grams: 100,
+    amount: 100,
+    unit: Unit.g,
     calories: calories,
     protein: protein,
     carbs: carbs,

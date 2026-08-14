@@ -8,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 
 import 'core/database/app_database.dart';
 import 'core/database/database_provider.dart';
+import 'core/units/unit.dart';
 import 'features/meal_log/presentation/screens/food_diary_screen.dart';
+import 'features/meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
 import 'features/nutrition/presentation/widgets/ingredient_food_field.dart';
 import 'l10n/app_localizations.dart';
 
@@ -199,6 +201,30 @@ class Ingredient {
 
   final String name;
   final String quantity;
+}
+
+const _unitAliases = {
+  'g': Unit.g, 'gram': Unit.g, 'grams': Unit.g,
+  'kg': Unit.kg, 'kilogram': Unit.kg, 'kilograms': Unit.kg,
+  'oz': Unit.oz, 'ounce': Unit.oz, 'ounces': Unit.oz,
+  'lb': Unit.lb, 'lbs': Unit.lb, 'pound': Unit.lb, 'pounds': Unit.lb,
+  'ml': Unit.ml, 'l': Unit.l, 'liter': Unit.l, 'liters': Unit.l,
+  'tsp': Unit.tsp, 'teaspoon': Unit.tsp, 'teaspoons': Unit.tsp,
+  'tbsp': Unit.tbsp, 'tablespoon': Unit.tbsp, 'tablespoons': Unit.tbsp,
+  'cup': Unit.cup, 'cups': Unit.cup,
+  'fl oz': Unit.flOz, 'fl_oz': Unit.flOz,
+  'piece': Unit.piece, 'pieces': Unit.piece, '': Unit.g,
+};
+
+/// Splits a legacy free-text quantity like "2 cups" into a numeric amount
+/// and its best-guess [Unit], falling back to the whole string as the
+/// amount with [Unit.g] when no unit can be recognized.
+(String amount, Unit unit) _parseLegacyQuantity(String raw) {
+  final match = RegExp(r'^([\d.]+)\s*(.*)$').firstMatch(raw.trim());
+  if (match == null) return (raw.trim(), Unit.g);
+  final amount = match.group(1)!;
+  final unitText = match.group(2)!.trim().toLowerCase();
+  return (amount, _unitAliases[unitText] ?? Unit.g);
 }
 
 enum MealType {
@@ -600,8 +626,13 @@ class _RecipesTabState extends State<RecipesTab> {
         ? existing.ingredients.map((i) => TextEditingController(text: i.name)).toList()
         : <TextEditingController>[TextEditingController()];
     final ingredientQuantityControllers = existing != null && existing.ingredients.isNotEmpty
-        ? existing.ingredients.map((i) => TextEditingController(text: i.quantity)).toList()
+        ? existing.ingredients
+            .map((i) => TextEditingController(text: _parseLegacyQuantity(i.quantity).$1))
+            .toList()
         : <TextEditingController>[TextEditingController()];
+    final ingredientUnits = existing != null && existing.ingredients.isNotEmpty
+        ? existing.ingredients.map((i) => _parseLegacyQuantity(i.quantity).$2).toList()
+        : <Unit>[Unit.g];
 
     final l10n = AppLocalizations.of(context)!;
     await showDialog(
@@ -752,8 +783,23 @@ class _RecipesTabState extends State<RecipesTab> {
                               Expanded(
                                 child: TextField(
                                   controller: quantityController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(decimal: true),
                                   decoration: InputDecoration(labelText: l10n.quantity),
                                 ),
+                              ),
+                              const SizedBox(width: 8),
+                              DropdownButton<Unit>(
+                                value: ingredientUnits[index],
+                                items: [
+                                  for (final unit in Unit.values)
+                                    DropdownMenuItem(
+                                      value: unit,
+                                      child: Text(unitLabel(l10n, unit)),
+                                    ),
+                                ],
+                                onChanged: (unit) =>
+                                    setDialogState(() => ingredientUnits[index] = unit!),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.remove_circle_outline),
@@ -762,6 +808,7 @@ class _RecipesTabState extends State<RecipesTab> {
                                         setDialogState(() {
                                           ingredientNameControllers.removeAt(index);
                                           ingredientQuantityControllers.removeAt(index);
+                                          ingredientUnits.removeAt(index);
                                         });
                                       }
                                     : null,
@@ -777,6 +824,7 @@ class _RecipesTabState extends State<RecipesTab> {
                             setDialogState(() {
                               ingredientNameControllers.add(TextEditingController());
                               ingredientQuantityControllers.add(TextEditingController());
+                              ingredientUnits.add(Unit.g);
                             });
                           },
                           icon: const Icon(Icons.add),
@@ -811,10 +859,12 @@ class _RecipesTabState extends State<RecipesTab> {
                     for (var i = 0; i < ingredientNameControllers.length; i++) {
                       final ingredientName = ingredientNameControllers[i].text.trim();
                       if (ingredientName.isEmpty) continue;
+                      final amount = ingredientQuantityControllers[i].text.trim();
+                      final unit = ingredientUnits[i];
                       ingredients.add(
                         Ingredient(
                           name: ingredientName,
-                          quantity: ingredientQuantityControllers[i].text.trim(),
+                          quantity: amount.isEmpty ? '' : '$amount ${unitLabel(l10n, unit)}',
                         ),
                       );
                     }

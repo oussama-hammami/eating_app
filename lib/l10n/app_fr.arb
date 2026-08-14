@@ -62,9 +62,20 @@
   "quantityValidatorMessage": "Saisissez une quantité supérieure à 0",
   "perHundredGrams": "pour 100g",
   "kcalPer100g": "{kcal} kcal / 100g",
-  "mealEntrySubtitle": "{grams} g · {calories} kcal · P {protein}g · G {carbs}g · L {fat}g",
+  "mealEntrySubtitle": "{amount} · {calories} kcal · P {protein}g · G {carbs}g · L {fat}g",
   "statCalories": "Calories",
   "statProtein": "Protéines",
   "statCarbs": "Glucides",
-  "statFat": "Lipides"
+  "statFat": "Lipides",
+  "unitG": "g",
+  "unitKg": "kg",
+  "unitOz": "oz",
+  "unitLb": "lb",
+  "unitMl": "ml",
+  "unitL": "l",
+  "unitTsp": "c. à café",
+  "unitTbsp": "c. à soupe",
+  "unitCup": "tasse",
+  "unitFlOz": "oz liq.",
+  "unitPiece": "pièce"
 }

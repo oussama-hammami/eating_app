@@ -1,3 +1,4 @@
+import '../../../../core/units/unit.dart';
 import '../../domain/entities/meal_entry.dart';
 import '../../domain/repositories/meal_log_repository.dart';
 import '../datasources/meal_log_local_data_source.dart';
@@ -16,7 +17,8 @@ class MealLogRepositoryImpl implements MealLogRepository {
   Future<MealEntry> addEntry({
     required int foodId,
     required String foodName,
-    required double grams,
+    required double amount,
+    required Unit unit,
     required double calories,
     required double protein,
     required double carbs,
@@ -29,7 +31,8 @@ class MealLogRepositoryImpl implements MealLogRepository {
         id: 0,
         foodId: foodId,
         foodName: foodName,
-        grams: grams,
+        amount: amount,
+        unit: unit,
         calories: calories,
         protein: protein,
         carbs: carbs,
@@ -43,7 +46,8 @@ class MealLogRepositoryImpl implements MealLogRepository {
   @override
   Future<MealEntry> updateEntry({
     required int entryId,
-    required double grams,
+    required double amount,
+    required Unit unit,
     required double calories,
     required double protein,
     required double carbs,
@@ -51,7 +55,8 @@ class MealLogRepositoryImpl implements MealLogRepository {
   }) async {
     await _dataSource.update(
       entryId: entryId,
-      grams: grams,
+      amount: amount,
+      unit: unit.id,
       calories: calories,
       protein: protein,
       carbs: carbs,

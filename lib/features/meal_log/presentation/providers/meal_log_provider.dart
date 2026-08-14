@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
 import '../../../nutrition/domain/entities/food.dart';
+import '../../../nutrition/domain/entities/quantity.dart';
+import '../../../nutrition/presentation/providers/food_search_provider.dart';
 import '../../data/datasources/meal_log_local_data_source.dart';
 import '../../data/repositories/meal_log_repository_impl.dart';
 import '../../domain/entities/daily_totals.dart';
@@ -42,12 +44,14 @@ class TodayMealLogNotifier extends AsyncNotifier<List<MealEntry>> {
     return ref.read(watchTodayEntriesProvider)(DateTime.now());
   }
 
-  Future<void> addFood(Food food, double grams, String languageCode) async {
+  Future<void> addFood(Food food, Quantity quantity, String languageCode) async {
     final now = DateTime.now();
+    final conversions = await ref.read(foodRepositoryProvider).getUnitConversions(food.id);
     final add = ref.read(addMealEntryProvider);
     final entry = await add(
       food: food,
-      grams: grams,
+      quantity: quantity,
+      ingredientGramsPerUnit: conversions,
       logDate: todayLogDate(now),
       loggedAt: now,
       languageCode: languageCode,
@@ -56,9 +60,15 @@ class TodayMealLogNotifier extends AsyncNotifier<List<MealEntry>> {
     state = AsyncData([...current, entry]);
   }
 
-  Future<void> editEntry(MealEntry entry, Food food, double grams) async {
+  Future<void> editEntry(MealEntry entry, Food food, Quantity quantity) async {
+    final conversions = await ref.read(foodRepositoryProvider).getUnitConversions(food.id);
     final update = ref.read(updateMealEntryProvider);
-    final updated = await update(entry: entry, food: food, grams: grams);
+    final updated = await update(
+      entry: entry,
+      food: food,
+      quantity: quantity,
+      ingredientGramsPerUnit: conversions,
+    );
     final current = state.valueOrNull ?? const [];
     state = AsyncData([
       for (final e in current) if (e.id == entry.id) updated else e,

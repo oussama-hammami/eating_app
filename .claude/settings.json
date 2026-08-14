@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/python convert_ciqual_to_sqlite.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(kill -0 442565)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(flutter --version)",
+      "Bash(sqlite3 assets/db/nutrition.db \".tables\")",
+      "Bash(sqlite3 assets/db/nutrition.db \"select count\\(*\\) from food_unit_conversions\")",
+      "Bash(sqlite3 assets/db/nutrition.db \".schema food_unit_conversions\")",
+      "Bash(adb -s d2f7041d install -r build/app/outputs/flutter-apk/app-release.apk)",
+      "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d install -r build/app/outputs/flutter-apk/app-release.apk)",
+      "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d logcat -c)",
+      "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d install -r build/app/outputs/flutter-apk/app-debug.apk)",
+      "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d logcat -d)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(break)"
+    ]
+  }
+}

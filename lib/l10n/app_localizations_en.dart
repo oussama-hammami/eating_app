@@ -210,13 +210,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String mealEntrySubtitle(
-    String grams,
+    String amount,
     int calories,
     String protein,
     String carbs,
     String fat,
   ) {
-    return '$grams g · $calories kcal · P ${protein}g · C ${carbs}g · F ${fat}g';
+    return '$amount · $calories kcal · P ${protein}g · C ${carbs}g · F ${fat}g';
   }
 
   @override
@@ -230,4 +230,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statFat => 'Fat';
+
+  @override
+  String get unitG => 'g';
+
+  @override
+  String get unitKg => 'kg';
+
+  @override
+  String get unitOz => 'oz';
+
+  @override
+  String get unitLb => 'lb';
+
+  @override
+  String get unitMl => 'ml';
+
+  @override
+  String get unitL => 'l';
+
+  @override
+  String get unitTsp => 'tsp';
+
+  @override
+  String get unitTbsp => 'tbsp';
+
+  @override
+  String get unitCup => 'cup';
+
+  @override
+  String get unitFlOz => 'fl oz';
+
+  @override
+  String get unitPiece => 'piece';
 }

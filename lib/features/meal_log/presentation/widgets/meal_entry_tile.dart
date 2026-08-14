@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/meal_entry.dart';
+import 'quantity_dialog.dart';
 
 class MealEntryTile extends StatelessWidget {
   const MealEntryTile({
@@ -22,7 +23,7 @@ class MealEntryTile extends StatelessWidget {
       title: Text(entry.foodName),
       subtitle: Text(
         l10n.mealEntrySubtitle(
-          entry.grams.toStringAsFixed(0),
+          '${_formatAmount(entry.amount)} ${unitLabel(l10n, entry.unit)}',
           entry.calories.round(),
           entry.protein.toStringAsFixed(1),
           entry.carbs.toStringAsFixed(1),
@@ -36,4 +37,10 @@ class MealEntryTile extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatAmount(double amount) {
+  return amount == amount.roundToDouble()
+      ? amount.toStringAsFixed(0)
+      : amount.toString();
 }

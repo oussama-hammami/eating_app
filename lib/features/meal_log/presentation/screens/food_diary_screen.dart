@@ -30,30 +30,36 @@ class _FoodDiaryScreenState extends ConsumerState<FoodDiaryScreen> {
 
   Future<void> _onFoodSelected(Food food) async {
     final languageCode = Localizations.localeOf(context).languageCode;
-    final grams = await showQuantityDialog(
+    final conversions = await ref.read(foodRepositoryProvider).getUnitConversions(food.id);
+    if (!mounted) return;
+    final quantity = await showQuantityDialog(
       context,
       foodName: food.displayName(languageCode),
+      ingredientUnits: conversions.keys.toSet(),
     );
-    if (grams == null) return;
+    if (quantity == null) return;
 
-    await ref.read(todayMealLogProvider.notifier).addFood(food, grams, languageCode);
+    await ref.read(todayMealLogProvider.notifier).addFood(food, quantity, languageCode);
 
     _searchController.clear();
     ref.read(foodSearchProvider.notifier).clear();
   }
 
   Future<void> _onEditEntry(MealEntry entry) async {
-    final grams = await showQuantityDialog(
+    final conversions = await ref.read(foodRepositoryProvider).getUnitConversions(entry.foodId);
+    if (!mounted) return;
+    final quantity = await showQuantityDialog(
       context,
       foodName: entry.foodName,
-      initialGrams: entry.grams,
+      ingredientUnits: conversions.keys.toSet(),
+      initialQuantity: entry.quantity,
     );
-    if (grams == null) return;
+    if (quantity == null) return;
 
     final food = await ref.read(foodRepositoryProvider).getById(entry.foodId);
     if (food == null || !mounted) return;
 
-    await ref.read(todayMealLogProvider.notifier).editEntry(entry, food, grams);
+    await ref.read(todayMealLogProvider.notifier).editEntry(entry, food, quantity);
   }
 
   Future<void> _onDeleteEntry(int entryId) {

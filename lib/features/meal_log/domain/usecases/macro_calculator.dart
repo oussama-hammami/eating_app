@@ -1,4 +1,7 @@
+import '../../../../core/units/unit.dart';
 import '../../../nutrition/domain/entities/food.dart';
+import '../../../nutrition/domain/entities/quantity.dart';
+import '../../../nutrition/domain/usecases/unit_conversion_service.dart';
 
 class Macros {
   const Macros({
@@ -25,5 +28,28 @@ class MacroCalculator {
       carbs: (food.carbsG100g ?? 0) * ratio,
       fat: (food.fatG100g ?? 0) * ratio,
     );
+  }
+
+  /// Normalizes [quantity] to grams (using [ingredientGramsPerUnit] for
+  /// ingredient-specific units, falling back to universal weight
+  /// conversion) then computes macros the same way as [fromGrams]. The
+  /// caller is expected to only offer units it already knows convert (see
+  /// the unit picker in the quantity dialog), so a missing conversion here
+  /// is a programming error, not a user-facing case.
+  static Macros fromQuantity(
+    Food food,
+    Quantity quantity, {
+    Map<Unit, double> ingredientGramsPerUnit = const {},
+  }) {
+    final grams = UnitConversionService.convertToGrams(
+      quantity,
+      ingredientGramsPerUnit: ingredientGramsPerUnit,
+    );
+    if (grams == null) {
+      throw ArgumentError(
+        'No conversion available for unit ${quantity.unit.id} on food ${food.id}',
+      );
+    }
+    return fromGrams(food, grams);
   }
 }

@@ -29,7 +29,24 @@ OUTPUT_DB = ROOT / "assets" / "db" / "nutrition.db"
 
 # Bump on any change to the schema or to how existing columns are derived
 # (e.g. search_name's source columns) — food_count alone can't detect that.
-SCHEMA_VERSION = "2"
+SCHEMA_VERSION = "3"
+
+# Curated ingredient-specific unit -> grams conversions, since CIQUAL only
+# provides per-100g nutrition, not household-measure weights. Matched by
+# case-insensitive substring against the English food name; the first
+# matching entry wins. Extend this list as more units/foods are needed —
+# accuracy over invented conversions, so foods with no entry here simply
+# can't use non-weight units (see UnitConversionService on the Dart side).
+UNIT_CONVERSIONS: list[tuple[str, dict[str, float]]] = [
+    ("olive oil", {"tbsp": 13.6, "tsp": 4.5, "ml": 0.92, "l": 920.0}),
+    ("butter", {"tbsp": 14.2, "tsp": 4.7}),
+    ("egg, raw", {"piece": 50.0}),
+    ("tomato", {"piece": 120.0}),
+    ("milk", {"ml": 1.03, "l": 1030.0}),
+    ("sugar", {"tbsp": 12.5, "tsp": 4.2}),
+    ("salt", {"tbsp": 18.0, "tsp": 6.0}),
+    ("rice", {"cup": 195.0}),
+]
 
 # Header text is used verbatim from the sheet (with embedded newlines), so we
 # match on normalized (lowercased, whitespace-collapsed) substrings instead of
@@ -174,6 +191,7 @@ CREATE TABLE meal_entries (
     food_id INTEGER NOT NULL REFERENCES foods(id),
     food_name TEXT NOT NULL,
     grams REAL NOT NULL,
+    unit TEXT NOT NULL DEFAULT 'g',
     calories REAL NOT NULL,
     protein REAL NOT NULL,
     carbs REAL NOT NULL,
@@ -187,7 +205,33 @@ CREATE TABLE db_meta (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
 );
+
+CREATE TABLE food_unit_conversions (
+    food_id INTEGER NOT NULL REFERENCES foods(id),
+    unit TEXT NOT NULL,
+    grams_per_unit REAL NOT NULL,
+    PRIMARY KEY (food_id, unit)
+);
 """
+
+
+def build_unit_conversions(foods: list[dict]) -> list[dict]:
+    rows = []
+    for food in foods:
+        # CIQUAL names the raw/base food "<Ingredient>, <descriptor>, ..."
+        # (e.g. "Tomato, raw"). Matching only a name *starting with* the
+        # needle avoids false positives like "Tomato soup" or "Tripe with
+        # tomato", which aren't measured the same way as the plain
+        # ingredient.
+        name_lower = food["food_name"].lower()
+        for needle, units in UNIT_CONVERSIONS:
+            if name_lower.startswith(needle):
+                rows.extend(
+                    {"food_id": food["id"], "unit": unit, "grams_per_unit": grams}
+                    for unit, grams in units.items()
+                )
+                break
+    return rows
 
 
 def write_database(foods: list[dict], output_path: Path) -> None:
@@ -219,6 +263,13 @@ def write_database(foods: list[dict], output_path: Path) -> None:
         conn.executemany(
             "INSERT INTO db_meta (key, value) VALUES (?, ?)",
             [("food_count", str(len(foods))), ("schema_version", SCHEMA_VERSION)],
+        )
+        conn.executemany(
+            """
+            INSERT INTO food_unit_conversions (food_id, unit, grams_per_unit)
+            VALUES (:food_id, :unit, :grams_per_unit)
+            """,
+            build_unit_conversions(foods),
         )
         conn.commit()
         conn.execute("VACUUM")

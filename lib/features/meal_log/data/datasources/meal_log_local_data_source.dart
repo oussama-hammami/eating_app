@@ -23,7 +23,8 @@ class MealLogLocalDataSource {
       id: id,
       foodId: entry.foodId,
       foodName: entry.foodName,
-      grams: entry.grams,
+      amount: entry.amount,
+      unit: entry.unit,
       calories: entry.calories,
       protein: entry.protein,
       carbs: entry.carbs,
@@ -45,7 +46,8 @@ class MealLogLocalDataSource {
 
   Future<void> update({
     required int entryId,
-    required double grams,
+    required double amount,
+    required String unit,
     required double calories,
     required double protein,
     required double carbs,
@@ -54,7 +56,8 @@ class MealLogLocalDataSource {
     return _db.update(
       'meal_entries',
       {
-        'grams': grams,
+        'grams': amount,
+        'unit': unit,
         'calories': calories,
         'protein': protein,
         'carbs': carbs,
