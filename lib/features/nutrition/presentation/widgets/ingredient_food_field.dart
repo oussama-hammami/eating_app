@@ -16,10 +16,15 @@ class IngredientFoodField extends ConsumerStatefulWidget {
     super.key,
     required this.controller,
     required this.label,
+    this.onFoodSelected,
   });
 
   final TextEditingController controller;
   final String label;
+
+  /// Called with the picked [Food] when the user selects a suggestion, or
+  /// with `null` once the text is edited away from that selection.
+  final ValueChanged<Food?>? onFoodSelected;
 
   @override
   ConsumerState<IngredientFoodField> createState() => _IngredientFoodFieldState();
@@ -62,6 +67,7 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
 
   void _onTextChanged() {
     _debounce?.cancel();
+    widget.onFoodSelected?.call(null);
     final query = widget.controller.text.trim();
     if (query.isEmpty) {
       _requestId++;
@@ -83,6 +89,7 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
   void _selectFood(Food food) {
     final languageCode = Localizations.localeOf(context).languageCode;
     widget.controller.text = food.displayName(languageCode);
+    widget.onFoodSelected?.call(food);
     _requestId++;
     setState(() => _suggestions = const []);
     _removeOverlay();

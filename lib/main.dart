@@ -11,6 +11,8 @@ import 'core/database/database_provider.dart';
 import 'core/units/unit.dart';
 import 'features/meal_log/presentation/screens/food_diary_screen.dart';
 import 'features/meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
+import 'features/nutrition/domain/entities/food.dart';
+import 'features/nutrition/domain/entities/piece_weight.dart';
 import 'features/nutrition/presentation/widgets/ingredient_food_field.dart';
 import 'l10n/app_localizations.dart';
 
@@ -614,11 +616,11 @@ class _RecipesTabState extends State<RecipesTab> {
     final existing = editIndex != null ? widget.recipes[editIndex] : null;
     final nameController = TextEditingController(text: existing?.name ?? '');
     final caloriesController =
-        TextEditingController(text: existing != null ? existing.calories.toString() : '');
+        TextEditingController(text: existing != null ? existing.calories.toString() : '0');
     final proteinController =
-        TextEditingController(text: existing != null ? existing.protein.toString() : '');
+        TextEditingController(text: existing != null ? existing.protein.toString() : '0');
     final portionsController =
-        TextEditingController(text: existing != null ? existing.portions.toString() : '');
+        TextEditingController(text: existing != null ? existing.portions.toString() : '1');
     final descriptionController = TextEditingController(text: existing?.description ?? '');
     String? photoPath = existing?.photoPath;
     MealType mealType = existing?.mealType ?? MealType.breakfast;
@@ -633,6 +635,37 @@ class _RecipesTabState extends State<RecipesTab> {
     final ingredientUnits = existing != null && existing.ingredients.isNotEmpty
         ? existing.ingredients.map((i) => _parseLegacyQuantity(i.quantity).$2).toList()
         : <Unit>[Unit.g];
+    final ingredientFoods =
+        List<Food?>.filled(ingredientNameControllers.length, null, growable: true);
+
+    void recalculateNutrition() {
+      var totalCalories = 0.0;
+      var totalProtein = 0.0;
+      for (var i = 0; i < ingredientFoods.length; i++) {
+        final food = ingredientFoods[i];
+        if (food == null) continue;
+        final unit = ingredientUnits[i];
+        final amount = double.tryParse(ingredientQuantityControllers[i].text.trim());
+        if (amount == null) continue;
+
+        double? grams;
+        switch (unit.category) {
+          case UnitCategory.weight:
+            grams = amount * unit.gramsPerBaseUnit!;
+          case UnitCategory.volume:
+            grams = amount * unit.mlPerBaseUnit! * (food.gramsPerMl ?? 1.0);
+          case UnitCategory.count:
+            final pieceGrams = pieceGramsFor(food);
+            grams = pieceGrams == null ? null : amount * pieceGrams;
+        }
+        if (grams == null) continue; // no way to estimate grams for this ingredient
+
+        totalCalories += grams / 100 * (food.caloriesKcal100g ?? 0);
+        totalProtein += grams / 100 * (food.proteinG100g ?? 0);
+      }
+      caloriesController.text = totalCalories.round().toString();
+      proteinController.text = totalProtein.round().toString();
+    }
 
     final l10n = AppLocalizations.of(context)!;
     await showDialog(
@@ -709,27 +742,112 @@ class _RecipesTabState extends State<RecipesTab> {
                         child: Text(l10n.mealType, style: const TextStyle(fontWeight: FontWeight.bold)),
                       ),
                       const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: MealType.values.map((type) {
-                          final selected = mealType == type;
-                          return ChoiceChip(
-                            avatar: Icon(
-                              type.icon,
-                              size: 18,
-                              color: selected ? Colors.white : AppPalette.tealDark,
+                      DropdownButtonFormField<MealType>(
+                        initialValue: mealType,
+                        decoration: const InputDecoration(border: OutlineInputBorder()),
+                        items: MealType.values.map((type) {
+                          return DropdownMenuItem(
+                            value: type,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(type.icon, size: 18, color: AppPalette.tealDark),
+                                const SizedBox(width: 8),
+                                Text(type.label(l10n)),
+                              ],
                             ),
-                            label: Text(type.label(l10n)),
-                            selected: selected,
-                            selectedColor: AppPalette.tealDark,
-                            labelStyle: TextStyle(
-                              color: selected ? Colors.white : AppPalette.ink,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            onSelected: (_) => setDialogState(() => mealType = type),
                           );
                         }).toList(),
+                        onChanged: (type) {
+                          if (type != null) setDialogState(() => mealType = type);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ...ingredientNameControllers.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final nameController = entry.value;
+                        final quantityController = ingredientQuantityControllers[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: IngredientFoodField(
+                                  controller: nameController,
+                                  label: l10n.ingredientN(index + 1),
+                                  onFoodSelected: (food) => setDialogState(() {
+                                    ingredientFoods[index] = food;
+                                    recalculateNutrition();
+                                  }),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: TextField(
+                                  controller: quantityController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(decimal: true),
+                                  decoration: InputDecoration(labelText: l10n.quantity),
+                                  onChanged: (_) => setDialogState(recalculateNutrition),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              SizedBox(
+                                width: 64,
+                                child: DropdownButton<Unit>(
+                                  value: ingredientUnits[index],
+                                  isExpanded: true,
+                                  isDense: true,
+                                  items: [
+                                    for (final unit in Unit.values)
+                                      DropdownMenuItem(
+                                        value: unit,
+                                        child: Text(
+                                          unitLabel(l10n, unit),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                  ],
+                                  onChanged: (unit) => setDialogState(() {
+                                    ingredientUnits[index] = unit!;
+                                    recalculateNutrition();
+                                  }),
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.remove_circle_outline),
+                                onPressed: ingredientNameControllers.length > 1
+                                    ? () {
+                                        setDialogState(() {
+                                          ingredientNameControllers.removeAt(index);
+                                          ingredientQuantityControllers.removeAt(index);
+                                          ingredientUnits.removeAt(index);
+                                          ingredientFoods.removeAt(index);
+                                          recalculateNutrition();
+                                        });
+                                      }
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            setDialogState(() {
+                              ingredientNameControllers.add(TextEditingController());
+                              ingredientQuantityControllers.add(TextEditingController());
+                              ingredientUnits.add(Unit.g);
+                              ingredientFoods.add(null);
+                            });
+                          },
+                          icon: const Icon(Icons.add),
+                          label: Text(l10n.addIngredient),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -761,75 +879,6 @@ class _RecipesTabState extends State<RecipesTab> {
                             ),
                           ),
                         ],
-                      ),
-                      const SizedBox(height: 16),
-                      Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      ...ingredientNameControllers.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final nameController = entry.value;
-                        final quantityController = ingredientQuantityControllers[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: IngredientFoodField(
-                                  controller: nameController,
-                                  label: l10n.ingredientN(index + 1),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: TextField(
-                                  controller: quantityController,
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(decimal: true),
-                                  decoration: InputDecoration(labelText: l10n.quantity),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              DropdownButton<Unit>(
-                                value: ingredientUnits[index],
-                                items: [
-                                  for (final unit in Unit.values)
-                                    DropdownMenuItem(
-                                      value: unit,
-                                      child: Text(unitLabel(l10n, unit)),
-                                    ),
-                                ],
-                                onChanged: (unit) =>
-                                    setDialogState(() => ingredientUnits[index] = unit!),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.remove_circle_outline),
-                                onPressed: ingredientNameControllers.length > 1
-                                    ? () {
-                                        setDialogState(() {
-                                          ingredientNameControllers.removeAt(index);
-                                          ingredientQuantityControllers.removeAt(index);
-                                          ingredientUnits.removeAt(index);
-                                        });
-                                      }
-                                    : null,
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton.icon(
-                          onPressed: () {
-                            setDialogState(() {
-                              ingredientNameControllers.add(TextEditingController());
-                              ingredientQuantityControllers.add(TextEditingController());
-                              ingredientUnits.add(Unit.g);
-                            });
-                          },
-                          icon: const Icon(Icons.add),
-                          label: Text(l10n.addIngredient),
-                        ),
                       ),
                       const SizedBox(height: 16),
                       TextField(

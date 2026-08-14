@@ -9,6 +9,7 @@ class Food {
     required this.carbsG100g,
     required this.fatG100g,
     required this.fiberG100g,
+    this.gramsPerMl,
   });
 
   final int id;
@@ -22,6 +23,11 @@ class Food {
   final double? carbsG100g;
   final double? fatG100g;
   final double? fiberG100g;
+
+  /// Density (g/ml) for converting volume units to grams. Not sourced from
+  /// CIQUAL (no such column) — null means "unknown", callers should fall
+  /// back to water's density (1.0) as an approximation.
+  final double? gramsPerMl;
 
   @override
   bool operator ==(Object other) => other is Food && other.id == id;

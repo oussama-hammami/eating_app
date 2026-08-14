@@ -104,7 +104,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get mealTypeDinner => 'Dîner';
 
   @override
-  String get mealTypeSnack => 'Collation';
+  String get mealTypeSnack => 'Snacks';
 
   @override
   String get mealTypeDrink => 'Boisson';
