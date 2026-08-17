@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'core/database/app_database.dart';
 import 'core/database/database_provider.dart';
@@ -45,6 +46,10 @@ class AppPalette {
   static const ink = Color(0xFF5C5450); // warm grey
 }
 
+// TODO: Update once the GitHub Pages repo is created and published.
+const String privacyPolicyUrl =
+    'https://ohammami.github.io/my-food-this-week/privacy-policy.html';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -60,7 +65,7 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Eating App',
+      title: 'My Food This Week',
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -1403,12 +1408,42 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
     );
   }
 
+  void _showPrivacyPolicyDialog(BuildContext context, AppLocalizations l10n) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.privacyPolicyTitle),
+        content: Text(l10n.privacyPolicyBody),
+        actions: [
+          TextButton(
+            onPressed: () =>
+                launchUrl(Uri.parse(privacyPolicyUrl), mode: LaunchMode.externalApplication),
+            child: Text(l10n.privacyPolicyViewFull),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.privacyPolicyClose),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final recipes = widget.recipes;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.recipesTitle)),
+      appBar: AppBar(
+        title: Text(l10n.recipesTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: l10n.privacyPolicyTitle,
+            onPressed: () => _showPrivacyPolicyDialog(context, l10n),
+          ),
+        ],
+      ),
       body: recipes.isEmpty
           ? _EmptyState(
               icon: Icons.restaurant_menu,

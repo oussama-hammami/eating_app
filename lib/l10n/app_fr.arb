@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appTitle": "Eating App",
+  "appTitle": "My Food This Week",
   "navRecipes": "Recettes",
   "navGroceries": "Courses",
   "navDiary": "Journal",
@@ -8,6 +8,10 @@
 
   "recipesTitle": "🍽️  Mes recettes",
   "recipesEmpty": "Aucune recette pour le moment.\nAppuyez sur + pour en ajouter une.",
+  "privacyPolicyTitle": "Politique de confidentialité",
+  "privacyPolicyBody": "My Food This Week ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.",
+  "privacyPolicyViewFull": "Voir la politique complète",
+  "privacyPolicyClose": "Fermer",
   "communityTitle": "🌍  Recettes de la communauté",
   "communityEmpty": "Aucune recette de la communauté pour le moment.",
   "communityLoadingNutrition": "Calcul des valeurs nutritionnelles à partir des ingrédients…",

@@ -9,7 +9,7 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get appTitle => 'Eating App';
+  String get appTitle => 'My Food This Week';
 
   @override
   String get navRecipes => 'Recettes';
@@ -29,6 +29,19 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get recipesEmpty =>
       'Aucune recette pour le moment.\nAppuyez sur + pour en ajouter une.';
+
+  @override
+  String get privacyPolicyTitle => 'Politique de confidentialité';
+
+  @override
+  String get privacyPolicyBody =>
+      'My Food This Week ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.';
+
+  @override
+  String get privacyPolicyViewFull => 'Voir la politique complète';
+
+  @override
+  String get privacyPolicyClose => 'Fermer';
 
   @override
   String get communityTitle => '🌍  Recettes de la communauté';

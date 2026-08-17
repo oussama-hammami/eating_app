@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Eating App'**
+  /// **'My Food This Week'**
   String get appTitle;
 
   /// No description provided for @navRecipes.
@@ -139,6 +139,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recipes yet.\nTap + to add one.'**
   String get recipesEmpty;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @privacyPolicyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'My Food This Week does not collect or share any personal data. Recipes, ingredients, and photos are stored only on your device.'**
+  String get privacyPolicyBody;
+
+  /// No description provided for @privacyPolicyViewFull.
+  ///
+  /// In en, this message translates to:
+  /// **'View full policy'**
+  String get privacyPolicyViewFull;
+
+  /// No description provided for @privacyPolicyClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get privacyPolicyClose;
 
   /// No description provided for @communityTitle.
   ///
