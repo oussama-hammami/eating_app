@@ -4,9 +4,13 @@
   "navRecipes": "Recipes",
   "navGroceries": "Groceries",
   "navDiary": "Diary",
+  "navCommunity": "Community",
 
   "recipesTitle": "🍽️  My Recipes",
   "recipesEmpty": "No recipes yet.\nTap + to add one.",
+  "communityTitle": "🌍  Community Recipes",
+  "communityEmpty": "No community recipes yet.",
+  "communityLoadingNutrition": "Calculating nutrition from ingredients…",
   "editRecipe": "Edit recipe",
   "deleteRecipe": "Delete recipe",
   "deleteRecipeConfirmTitle": "Delete recipe?",
@@ -61,6 +65,20 @@
   "portionsChip": "{portions} portion(s)",
   "@portionsChip": {
     "placeholders": { "portions": { "type": "int" } }
+  },
+  "ingredientNutritionUnknown": "Nutrition values unavailable for this ingredient",
+  "ingredientNeedsConfirmation": "No confident food match — please confirm which food this is",
+  "carbsGChip": "{carbs} g carbs",
+  "@carbsGChip": {
+    "placeholders": { "carbs": { "type": "int" } }
+  },
+  "fatGChip": "{fat} g fat",
+  "@fatGChip": {
+    "placeholders": { "fat": { "type": "int" } }
+  },
+  "fiberGChip": "{fiber} g fiber",
+  "@fiberGChip": {
+    "placeholders": { "fiber": { "type": "int" } }
   },
   "addToGroceriesCount": "Add to groceries ({count})",
   "@addToGroceriesCount": {

@@ -3,28 +3,38 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/units/ingredient_text_parser.dart';
+import '../../../../core/units/unit.dart';
+import '../../../meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/food.dart';
+import '../../domain/usecases/food_matcher.dart';
 import '../providers/food_search_provider.dart';
 
-/// A plain text field that shows up to [maxSuggestions] CIQUAL food-name
-/// suggestions in a floating overlay as the user types (200ms debounced),
-/// for use in contexts (like the recipe ingredient list) that aren't part
-/// of the Riverpod-driven Food Diary screen and so can't share its single
-/// global search provider.
+/// The amount/unit/food resolved from an [IngredientFoodField]'s current
+/// text, e.g. "1 tablespoon of olive oil" -> `(1, tbsp, <olive oil Food>)`.
+/// [food] is null until a suggestion is picked (or after the text is edited
+/// away from a previous pick).
+typedef IngredientMatch = ({double? amount, Unit unit, Food? food});
+
+/// A single free-text field ("1 tablespoon of olive oil") that parses out
+/// an amount + unit, searches up to [maxSuggestions] CIQUAL food-name
+/// suggestions for the remaining text in a floating overlay (200ms
+/// debounced), and reports the resolved (amount, unit, food) via
+/// [onMatchChanged] — for use in contexts (like the recipe ingredient list)
+/// that aren't part of the Riverpod-driven Food Diary screen and so can't
+/// share its single global search provider.
 class IngredientFoodField extends ConsumerStatefulWidget {
   const IngredientFoodField({
     super.key,
     required this.controller,
     required this.label,
-    this.onFoodSelected,
+    this.onMatchChanged,
   });
 
   final TextEditingController controller;
   final String label;
-
-  /// Called with the picked [Food] when the user selects a suggestion, or
-  /// with `null` once the text is edited away from that selection.
-  final ValueChanged<Food?>? onFoodSelected;
+  final ValueChanged<IngredientMatch>? onMatchChanged;
 
   @override
   ConsumerState<IngredientFoodField> createState() => _IngredientFoodFieldState();
@@ -35,7 +45,7 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
   final _focusNode = FocusNode();
   OverlayEntry? _overlayEntry;
   Timer? _debounce;
-  List<Food> _suggestions = const [];
+  List<FoodMatch> _suggestions = const [];
   int _requestId = 0;
 
   @override
@@ -67,8 +77,9 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
 
   void _onTextChanged() {
     _debounce?.cancel();
-    widget.onFoodSelected?.call(null);
-    final query = widget.controller.text.trim();
+    final parsed = parseIngredientText(widget.controller.text);
+    widget.onMatchChanged?.call((amount: parsed.amount, unit: parsed.unit, food: null));
+    final query = parsed.name.trim();
     if (query.isEmpty) {
       _requestId++;
       setState(() => _suggestions = const []);
@@ -80,16 +91,24 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
 
   Future<void> _search(String query) async {
     final requestId = ++_requestId;
-    final results = await ref.read(foodRepositoryProvider).search(query, limit: maxSuggestions);
+    final matcher = FoodMatcher(ref.read(foodRepositoryProvider));
+    final result = await matcher.match(query);
     if (!mounted || requestId != _requestId) return;
-    setState(() => _suggestions = results);
+    setState(() => _suggestions = result.candidates.take(maxSuggestions).toList());
     _showOverlay();
   }
 
   void _selectFood(Food food) {
     final languageCode = Localizations.localeOf(context).languageCode;
-    widget.controller.text = food.displayName(languageCode);
-    widget.onFoodSelected?.call(food);
+    final l10n = AppLocalizations.of(context)!;
+    final parsed = parseIngredientText(widget.controller.text);
+    final amount = parsed.amount ?? 1;
+    final amountText = formatIngredientAmount(amount);
+    widget.controller.text =
+        '$amountText ${unitLabel(l10n, parsed.unit)} ${food.displayName(languageCode)}';
+    // The user explicitly tapped this suggestion, so it's confirmed
+    // regardless of what FoodMatcher's confidence score said about it.
+    widget.onMatchChanged?.call((amount: amount, unit: parsed.unit, food: food));
     _requestId++;
     setState(() => _suggestions = const []);
     _removeOverlay();
@@ -121,11 +140,17 @@ class _IngredientFoodFieldState extends ConsumerState<IngredientFoodField> {
                 shrinkWrap: true,
                 itemCount: _suggestions.length,
                 itemBuilder: (context, index) {
-                  final food = _suggestions[index];
+                  final match = _suggestions[index];
+                  final confident = match.confidence >= FoodMatcher.autoAcceptThreshold;
                   return ListTile(
                     dense: true,
-                    title: Text(food.displayName(languageCode)),
-                    onTap: () => _selectFood(food),
+                    title: Text(match.food.displayName(languageCode)),
+                    trailing: Icon(
+                      confident ? Icons.check_circle : Icons.help_outline,
+                      size: 18,
+                      color: confident ? Colors.green : Colors.orange,
+                    ),
+                    onTap: () => _selectFood(match.food),
                   );
                 },
               ),

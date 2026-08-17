@@ -7,9 +7,10 @@ import '../models/food_model.dart';
 const _foodColumns =
     'id, food_name, alim_nom_fr_no_comma, calories_kcal_100g, protein_g_100g, carbs_g_100g, fat_g_100g, fiber_g_100g';
 
-/// Raw SQL access to the `foods` table. Two-pass search keeps ranking
-/// (prefix before substring) and the 5-result cap fully under our control,
-/// while the `search_name` index makes the prefix pass effectively instant.
+/// Raw SQL access to the `foods` table. Three-pass search (prefix, then
+/// substring, then word-order-independent) keeps ranking and the 5-result
+/// cap fully under our control, while the `search_name` index makes the
+/// prefix pass effectively instant.
 class FoodLocalDataSource {
   const FoodLocalDataSource(this._db);
 
@@ -51,6 +52,33 @@ class FoodLocalDataSource {
     );
 
     results.addAll(substringRows.map(FoodModel.fromMap));
+    if (results.length >= limit) return results;
+
+    // Word-order-independent fallback: CIQUAL names are noun-first ("Yogurt,
+    // Greek-style, ..."), so a natural-order query like "greek yogurt" never
+    // matches the first two passes. Require every query word to appear
+    // somewhere in search_name (any order, plain substring so hyphenated
+    // forms like "greek-style" still match "greek"), ranked alphabetically.
+    // Single-word queries already got their best shot above, so this only
+    // kicks in for multi-word queries still short on results.
+    final words = normalized.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    if (words.length > 1) {
+      final matchedIds = results.map((food) => food.id).toSet();
+      final whereClauses = List.filled(words.length, "search_name LIKE '%' || ? || '%'");
+      final anyOrderRows = await _db.rawQuery(
+        '''
+        SELECT $_foodColumns FROM foods
+        WHERE ${whereClauses.join(' AND ')}
+        ORDER BY food_name COLLATE NOCASE
+        LIMIT ?
+        ''',
+        [...words, limit - results.length],
+      );
+      results.addAll(
+        anyOrderRows.map(FoodModel.fromMap).where((food) => !matchedIds.contains(food.id)),
+      );
+    }
+
     return results;
   }
 

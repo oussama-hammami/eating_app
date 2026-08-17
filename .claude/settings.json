@@ -15,7 +15,14 @@
       "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d install -r build/app/outputs/flutter-apk/app-debug.apk)",
       "Bash(/home/oussama/Android/Sdk/platform-tools/adb -s d2f7041d logcat -d)",
       "Bash(echo \"PID: $!\")",
-      "Bash(break)"
+      "Bash(break)",
+      "Bash(flutter install *)",
+      "Bash(adb devices *)",
+      "Read(//etc/udev/rules.d/**)",
+      "Bash(sudo apt list --installed)",
+      "Bash(python3 -c \"import sqlite3; print\\('ok'\\)\")",
+      "Bash(python3)",
+      "Bash(timeout 15 grep -c '\"type\":\"testStart\"' test_report.json)"
     ]
   }
 }

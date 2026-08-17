@@ -8,11 +8,15 @@ import 'package:image_picker/image_picker.dart';
 
 import 'core/database/app_database.dart';
 import 'core/database/database_provider.dart';
+import 'core/units/ingredient_text_parser.dart';
 import 'core/units/unit.dart';
 import 'features/meal_log/presentation/screens/food_diary_screen.dart';
 import 'features/meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
 import 'features/nutrition/domain/entities/food.dart';
-import 'features/nutrition/domain/entities/piece_weight.dart';
+import 'features/nutrition/domain/repositories/food_repository.dart';
+import 'features/nutrition/domain/usecases/food_matcher.dart';
+import 'features/nutrition/domain/usecases/nutrition_calculator.dart';
+import 'features/nutrition/presentation/providers/food_search_provider.dart';
 import 'features/nutrition/presentation/widgets/ingredient_food_field.dart';
 import 'l10n/app_localizations.dart';
 
@@ -199,10 +203,37 @@ class MyApp extends StatelessWidget {
 }
 
 class Ingredient {
-  Ingredient({required this.name, required this.quantity});
+  Ingredient({
+    required this.name,
+    required this.quantity,
+    this.calories,
+    this.protein,
+    this.carbs,
+    this.fat,
+    this.fiber,
+    this.matchConfidence,
+    this.needsConfirmation = false,
+  });
 
   final String name;
   final String quantity;
+
+  /// Nutrition contributed by this ingredient (at its recipe quantity), when
+  /// it was matched to a food item with known grams — null otherwise.
+  final double? calories;
+  final double? protein;
+  final double? carbs;
+  final double? fat;
+  final double? fiber;
+
+  /// How confident [FoodMatcher] was in the food match used to compute the
+  /// nutrition above (null if no candidate was found at all).
+  final double? matchConfidence;
+
+  /// True when the best food match wasn't confident enough to auto-accept —
+  /// nutrition fields are null in that case; a human should confirm which
+  /// food was meant instead of trusting a silent guess.
+  final bool needsConfirmation;
 }
 
 const _unitAliases = {
@@ -277,6 +308,263 @@ class Recipe {
   final MealType mealType;
   final String? photoPath;
   final List<bool> checkedIngredients;
+}
+
+/// Community-contributed breakfast recipes shown in the Community tab.
+/// Calories/protein/carbs/fat/fiber are left at 0/null here — the Community
+/// tab computes them on load by running each ingredient through the same
+/// food-matching + [_ingredientNutrition] pipeline used when a user adds a
+/// recipe by hand.
+List<Recipe> communityBreakfastRecipes() => [
+  Recipe(
+    name: 'High-Protein Greek Yogurt Pancakes',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'yogurt greek', quantity: '120 g'),
+      Ingredient(name: 'egg raw', quantity: '2 piece'),
+      Ingredient(name: 'vanilla pod', quantity: '0.5 tsp'),
+      Ingredient(name: 'cinnamon', quantity: '0.5 tsp'),
+      Ingredient(name: 'blueberry raw', quantity: '50 g'),
+      Ingredient(name: 'honey', quantity: '1 tsp'),
+    ],
+  ),
+  Recipe(
+    name: 'Cottage Cheese Protein Pancakes',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'fresh cream cheese petit-suisse type plain', quantity: '100 g'),
+      Ingredient(name: 'egg raw', quantity: '1 piece'),
+      Ingredient(name: 'sodium bicarbonate', quantity: '0.25 tsp'),
+      Ingredient(name: 'honey', quantity: '0.5 tsp'),
+      Ingredient(name: 'cinnamon', quantity: '0.25 tsp'),
+      Ingredient(name: 'blueberry raw', quantity: '50 g'),
+      Ingredient(name: 'yogurt greek', quantity: '30 g'),
+    ],
+  ),
+  Recipe(
+    name: 'Greek Yogurt Overnight Oats',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '50 g'),
+      Ingredient(name: 'yogurt greek', quantity: '150 g'),
+      Ingredient(name: 'milk semi-skimmed', quantity: '100 ml'),
+      Ingredient(name: 'chia seed', quantity: '10 g'),
+      Ingredient(name: 'banana flesh without skin raw', quantity: '60 g'),
+      Ingredient(name: 'blueberry raw', quantity: '50 g'),
+      Ingredient(name: 'cinnamon', quantity: '0.5 tsp'),
+    ],
+  ),
+  Recipe(
+    name: 'Cottage Cheese & Greek Yogurt Breakfast Bowl',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'fresh cream cheese petit-suisse type plain', quantity: '110 g'),
+      Ingredient(name: 'yogurt greek', quantity: '90 g'),
+      Ingredient(name: 'almond peeled', quantity: '14 g'),
+      Ingredient(name: 'walnut kernel', quantity: '14 g'),
+      Ingredient(name: 'chia seed', quantity: '6 g'),
+      Ingredient(name: 'strawberry raw', quantity: '50 g'),
+      Ingredient(name: 'cinnamon', quantity: ''),
+    ],
+  ),
+  Recipe(
+    name: 'Cottage Cheese Egg Bake',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'egg raw', quantity: '2 piece'),
+      Ingredient(name: 'fresh cream cheese petit-suisse type plain', quantity: '100 g'),
+      Ingredient(name: 'spinach raw', quantity: '30 g'),
+      Ingredient(name: 'tomato raw', quantity: '50 g'),
+      Ingredient(name: 'Parmesan', quantity: '10 g'),
+      Ingredient(name: 'bread multigrain', quantity: '40 g'),
+      Ingredient(name: 'black pepper', quantity: ''),
+      Ingredient(name: 'herbes de provence', quantity: ''),
+    ],
+  ),
+  Recipe(
+    name: 'High-Protein Egg White Oatmeal',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'milk semi-skimmed', quantity: '150 ml'),
+      Ingredient(name: 'egg white', quantity: '100 g'),
+      Ingredient(name: 'vanilla pod', quantity: '0.5 tsp'),
+      Ingredient(name: 'cinnamon', quantity: '0.5 tsp'),
+      Ingredient(name: 'raspberry raw', quantity: '50 g'),
+      Ingredient(name: 'peanut butter', quantity: '10 g'),
+    ],
+  ),
+  Recipe(
+    name: 'Greek Yogurt Scrambled Eggs',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'egg raw', quantity: '3 piece'),
+      Ingredient(name: 'yogurt greek', quantity: '60 g'),
+      Ingredient(name: 'spinach raw', quantity: '30 g'),
+      Ingredient(name: 'tomato raw', quantity: '50 g'),
+      Ingredient(name: 'bread multigrain', quantity: '40 g'),
+      Ingredient(name: 'chive', quantity: '5 g'),
+      Ingredient(name: 'black pepper', quantity: ''),
+    ],
+  ),
+  Recipe(
+    name: 'Apple & Peanut Butter Protein Overnight Oats',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'yogurt greek', quantity: '100 g'),
+      Ingredient(name: 'milk semi-skimmed', quantity: '100 ml'),
+      Ingredient(name: 'hemp seed', quantity: '10 g'),
+      Ingredient(name: 'chia seed', quantity: '5 g'),
+      Ingredient(name: 'peanut butter', quantity: '15 g'),
+      Ingredient(name: 'apple flesh and skin raw', quantity: '75 g'),
+      Ingredient(name: 'maple syrup', quantity: '1 tsp'),
+      Ingredient(name: 'cinnamon', quantity: ''),
+    ],
+  ),
+  Recipe(
+    name: 'Protein Baked Cinnamon Oats',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'yogurt greek', quantity: '100 g'),
+      Ingredient(name: 'egg white', quantity: '100 g'),
+      Ingredient(name: 'chia seed', quantity: '5 g'),
+      Ingredient(name: 'hemp seed', quantity: '5 g'),
+      Ingredient(name: 'cinnamon', quantity: '0.5 tsp'),
+      Ingredient(name: 'sugar brown', quantity: '0.5 tsp'),
+      Ingredient(name: 'yogurt greek', quantity: '30 g'),
+      Ingredient(name: 'berries', quantity: '50 g'),
+    ],
+  ),
+  Recipe(
+    name: 'Cottage Cheese Overnight Oats',
+    calories: 0,
+    protein: 0,
+    portions: 1,
+    mealType: MealType.breakfast,
+    description: '',
+    ingredients: [
+      Ingredient(name: 'oat raw', quantity: '40 g'),
+      Ingredient(name: 'fresh cream cheese petit-suisse type plain', quantity: '100 g'),
+      Ingredient(name: 'milk semi-skimmed', quantity: '100 ml'),
+      Ingredient(name: 'banana flesh without skin raw', quantity: '60 g'),
+      Ingredient(name: 'chia seed', quantity: '10 g'),
+      Ingredient(name: 'cinnamon', quantity: '0.5 tsp'),
+      Ingredient(name: 'maple syrup', quantity: '1 tsp'),
+      Ingredient(name: 'berries', quantity: '50 g'),
+    ],
+  ),
+];
+
+/// Computes a [Recipe]'s ingredient-level and total nutrition by running
+/// each ingredient through the full audited pipeline: concept-level food
+/// matching ([FoodMatcher]), then unit conversion, then per-100g scaling
+/// ([calculateIngredientNutrition]) — the same pipeline the add-recipe
+/// dialog uses when a user picks a food and types a quantity. Every
+/// ingredient's full audit trail is printed via [debugPrint] so a wrong or
+/// missing value can always be traced back to exactly why.
+Future<Recipe> _withComputedNutrition(
+  FoodRepository foodRepository,
+  FoodMatcher matcher,
+  Recipe recipe,
+) async {
+  final debugRows = <IngredientCalculationDebug>[];
+
+  for (final ingredient in recipe.ingredients) {
+    if (ingredient.name.trim().isEmpty) {
+      continue;
+    }
+    final (amountText, unit) = _parseLegacyQuantity(ingredient.quantity);
+    final amount = double.tryParse(amountText);
+    debugRows.add(
+      await calculateIngredientNutrition(
+        repository: foodRepository,
+        matcher: matcher,
+        ingredientName: ingredient.name,
+        amount: amount,
+        unit: unit,
+      ),
+    );
+  }
+
+  debugPrint('--- nutrition audit: ${recipe.name} ---');
+  for (final row in debugRows) {
+    debugPrint(row.toDebugRow());
+  }
+
+  final totals = computeRecipeTotals(debugRows, servings: recipe.portions);
+  if (totals.incompleteIngredients.isNotEmpty) {
+    debugPrint(
+      '${recipe.name}: totals are a partial sum — '
+      'no confident nutrition for: ${totals.incompleteIngredients.join(', ')}',
+    );
+  }
+
+  final computedIngredients = debugRows
+      .map(
+        (row) => Ingredient(
+          name: row.ingredientEntered,
+          quantity: row.amount == null ? '' : '${row.amount} ${row.unit.id}',
+          calories: row.calories,
+          protein: row.protein,
+          carbs: row.carbs,
+          fat: row.fat,
+          fiber: row.fiber,
+          matchConfidence: row.matchConfidence,
+          needsConfirmation: row.needsConfirmation,
+        ),
+      )
+      .toList();
+
+  return Recipe(
+    name: recipe.name,
+    calories: totals.totalCalories.round(),
+    protein: totals.totalProtein.round(),
+    portions: recipe.portions,
+    ingredients: computedIngredients,
+    description: recipe.description,
+    mealType: recipe.mealType,
+    photoPath: recipe.photoPath,
+  );
 }
 
 class GroceryItem {
@@ -453,6 +741,7 @@ class _RootShellState extends State<RootShell> {
             onReset: _resetGroceries,
           ),
           const FoodDiaryScreen(),
+          const CommunityTab(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -471,13 +760,17 @@ class _RootShellState extends State<RootShell> {
             icon: const Icon(Icons.local_dining),
             label: AppLocalizations.of(context)!.navDiary,
           ),
+          NavigationDestination(
+            icon: const Icon(Icons.groups_outlined),
+            label: AppLocalizations.of(context)!.navCommunity,
+          ),
         ],
       ),
     );
   }
 }
 
-class RecipesTab extends StatefulWidget {
+class RecipesTab extends ConsumerStatefulWidget {
   const RecipesTab({
     super.key,
     required this.recipes,
@@ -498,10 +791,10 @@ class RecipesTab extends StatefulWidget {
   final int groceryResetSignal;
 
   @override
-  State<RecipesTab> createState() => _RecipesTabState();
+  ConsumerState<RecipesTab> createState() => _RecipesTabState();
 }
 
-class _RecipesTabState extends State<RecipesTab> {
+class _RecipesTabState extends ConsumerState<RecipesTab> {
   final Set<int> _expandedIndexes = {};
   final Set<int> _selectedIndexes = {};
 
@@ -613,6 +906,7 @@ class _RecipesTabState extends State<RecipesTab> {
   }
 
   Future<void> _openAddRecipeDialog({int? editIndex}) async {
+    final l10n = AppLocalizations.of(context)!;
     final existing = editIndex != null ? widget.recipes[editIndex] : null;
     final nameController = TextEditingController(text: existing?.name ?? '');
     final caloriesController =
@@ -624,50 +918,63 @@ class _RecipesTabState extends State<RecipesTab> {
     final descriptionController = TextEditingController(text: existing?.description ?? '');
     String? photoPath = existing?.photoPath;
     MealType mealType = existing?.mealType ?? MealType.breakfast;
+    // Each row is a single free-text description ("1 tablespoon of olive
+    // oil"), parsed live by IngredientFoodField into amount/unit/name and
+    // matched against the food DB. ingredientAmounts/Units/Foods track that
+    // parsed state per row, kept in sync via onMatchChanged.
     final ingredientNameControllers = existing != null && existing.ingredients.isNotEmpty
-        ? existing.ingredients.map((i) => TextEditingController(text: i.name)).toList()
+        ? existing.ingredients.map((i) {
+            final (amountText, unit) = _parseLegacyQuantity(i.quantity);
+            final prefix = amountText.isEmpty ? '' : '$amountText ${unitLabel(l10n, unit)} ';
+            return TextEditingController(text: '$prefix${i.name}');
+          }).toList()
         : <TextEditingController>[TextEditingController()];
-    final ingredientQuantityControllers = existing != null && existing.ingredients.isNotEmpty
+    final ingredientAmounts = existing != null && existing.ingredients.isNotEmpty
         ? existing.ingredients
-            .map((i) => TextEditingController(text: _parseLegacyQuantity(i.quantity).$1))
+            .map((i) => double.tryParse(_parseLegacyQuantity(i.quantity).$1))
             .toList()
-        : <TextEditingController>[TextEditingController()];
+        : <double?>[null];
     final ingredientUnits = existing != null && existing.ingredients.isNotEmpty
         ? existing.ingredients.map((i) => _parseLegacyQuantity(i.quantity).$2).toList()
         : <Unit>[Unit.g];
     final ingredientFoods =
         List<Food?>.filled(ingredientNameControllers.length, null, growable: true);
+    // Cached per-row calculation, refreshed by recalculateNutrition whenever
+    // a row's food/amount/unit changes. The save handler reads straight from
+    // this cache instead of recomputing (which would need to be async).
+    final ingredientNutritionCache =
+        List<IngredientNutrition?>.filled(ingredientNameControllers.length, null, growable: true);
+    final foodRepository = ref.read(foodRepositoryProvider);
 
-    void recalculateNutrition() {
+    Future<void> recalculateNutrition(StateSetter setDialogState) async {
+      final previews = List<IngredientNutrition?>.filled(ingredientFoods.length, null);
       var totalCalories = 0.0;
       var totalProtein = 0.0;
       for (var i = 0; i < ingredientFoods.length; i++) {
         final food = ingredientFoods[i];
-        if (food == null) continue;
+        final amount = ingredientAmounts[i];
+        if (food == null || amount == null) continue;
         final unit = ingredientUnits[i];
-        final amount = double.tryParse(ingredientQuantityControllers[i].text.trim());
-        if (amount == null) continue;
 
-        double? grams;
-        switch (unit.category) {
-          case UnitCategory.weight:
-            grams = amount * unit.gramsPerBaseUnit!;
-          case UnitCategory.volume:
-            grams = amount * unit.mlPerBaseUnit! * (food.gramsPerMl ?? 1.0);
-          case UnitCategory.count:
-            final pieceGrams = pieceGramsFor(food);
-            grams = pieceGrams == null ? null : amount * pieceGrams;
-        }
-        if (grams == null) continue; // no way to estimate grams for this ingredient
-
-        totalCalories += grams / 100 * (food.caloriesKcal100g ?? 0);
-        totalProtein += grams / 100 * (food.proteinG100g ?? 0);
+        final nutrition = await calculateKnownIngredientNutrition(
+          repository: foodRepository,
+          food: food,
+          amount: amount,
+          unit: unit,
+        );
+        previews[i] = nutrition;
+        if (nutrition.calories != null) totalCalories += nutrition.calories!;
+        if (nutrition.protein != null) totalProtein += nutrition.protein!;
       }
-      caloriesController.text = totalCalories.round().toString();
-      proteinController.text = totalProtein.round().toString();
+      setDialogState(() {
+        ingredientNutritionCache
+          ..clear()
+          ..addAll(previews);
+        caloriesController.text = totalCalories.round().toString();
+        proteinController.text = totalProtein.round().toString();
+      });
     }
 
-    final l10n = AppLocalizations.of(context)!;
     await showDialog(
       context: context,
       builder: (dialogContext) {
@@ -766,54 +1073,47 @@ class _RecipesTabState extends State<RecipesTab> {
                       Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
                       ...ingredientNameControllers.asMap().entries.map((entry) {
                         final index = entry.key;
-                        final nameController = entry.value;
-                        final quantityController = ingredientQuantityControllers[index];
+                        final descriptionController = entry.value;
+                        final matchedFood = ingredientFoods[index];
+                        final nutrition = ingredientNutritionCache[index];
+                        final languageCode = Localizations.localeOf(dialogContext).languageCode;
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                flex: 2,
-                                child: IngredientFoodField(
-                                  controller: nameController,
-                                  label: l10n.ingredientN(index + 1),
-                                  onFoodSelected: (food) => setDialogState(() {
-                                    ingredientFoods[index] = food;
-                                    recalculateNutrition();
-                                  }),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: TextField(
-                                  controller: quantityController,
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(decimal: true),
-                                  decoration: InputDecoration(labelText: l10n.quantity),
-                                  onChanged: (_) => setDialogState(recalculateNutrition),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              SizedBox(
-                                width: 64,
-                                child: DropdownButton<Unit>(
-                                  value: ingredientUnits[index],
-                                  isExpanded: true,
-                                  isDense: true,
-                                  items: [
-                                    for (final unit in Unit.values)
-                                      DropdownMenuItem(
-                                        value: unit,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    IngredientFoodField(
+                                      controller: descriptionController,
+                                      label: l10n.ingredientN(index + 1),
+                                      onMatchChanged: (match) {
+                                        setDialogState(() {
+                                          ingredientAmounts[index] = match.amount;
+                                          ingredientUnits[index] = match.unit;
+                                          ingredientFoods[index] = match.food;
+                                        });
+                                        recalculateNutrition(setDialogState);
+                                      },
+                                    ),
+                                    if (matchedFood != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4, left: 4),
                                         child: Text(
-                                          unitLabel(l10n, unit),
-                                          overflow: TextOverflow.ellipsis,
+                                          nutrition?.calories != null && nutrition?.protein != null
+                                              ? '${matchedFood.displayName(languageCode)} • '
+                                                  '${l10n.caloriesKcalChip(nutrition!.calories!.round())} • '
+                                                  '${l10n.proteinGChip(nutrition.protein!.round())}'
+                                              : l10n.ingredientNutritionUnknown,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: AppPalette.tealDark,
+                                          ),
                                         ),
                                       ),
                                   ],
-                                  onChanged: (unit) => setDialogState(() {
-                                    ingredientUnits[index] = unit!;
-                                    recalculateNutrition();
-                                  }),
                                 ),
                               ),
                               IconButton(
@@ -822,11 +1122,11 @@ class _RecipesTabState extends State<RecipesTab> {
                                     ? () {
                                         setDialogState(() {
                                           ingredientNameControllers.removeAt(index);
-                                          ingredientQuantityControllers.removeAt(index);
+                                          ingredientAmounts.removeAt(index);
                                           ingredientUnits.removeAt(index);
                                           ingredientFoods.removeAt(index);
-                                          recalculateNutrition();
                                         });
+                                        recalculateNutrition(setDialogState);
                                       }
                                     : null,
                               ),
@@ -840,9 +1140,10 @@ class _RecipesTabState extends State<RecipesTab> {
                           onPressed: () {
                             setDialogState(() {
                               ingredientNameControllers.add(TextEditingController());
-                              ingredientQuantityControllers.add(TextEditingController());
+                              ingredientAmounts.add(null);
                               ingredientUnits.add(Unit.g);
                               ingredientFoods.add(null);
+                              ingredientNutritionCache.add(null);
                             });
                           },
                           icon: const Icon(Icons.add),
@@ -906,14 +1207,24 @@ class _RecipesTabState extends State<RecipesTab> {
 
                     final ingredients = <Ingredient>[];
                     for (var i = 0; i < ingredientNameControllers.length; i++) {
-                      final ingredientName = ingredientNameControllers[i].text.trim();
-                      if (ingredientName.isEmpty) continue;
-                      final amount = ingredientQuantityControllers[i].text.trim();
+                      final rawText = ingredientNameControllers[i].text.trim();
+                      if (rawText.isEmpty) continue;
+                      final parsed = parseIngredientText(rawText);
+                      if (parsed.name.isEmpty) continue;
                       final unit = ingredientUnits[i];
+                      final amount = ingredientAmounts[i];
+                      final nutrition = ingredientNutritionCache[i];
                       ingredients.add(
                         Ingredient(
-                          name: ingredientName,
-                          quantity: amount.isEmpty ? '' : '$amount ${unitLabel(l10n, unit)}',
+                          name: parsed.name,
+                          quantity: amount == null
+                              ? ''
+                              : '${formatIngredientAmount(amount)} ${unitLabel(l10n, unit)}',
+                          calories: nutrition?.calories,
+                          protein: nutrition?.protein,
+                          carbs: nutrition?.carbs,
+                          fat: nutrition?.fat,
+                          fiber: nutrition?.fiber,
                         ),
                       );
                     }
@@ -943,6 +1254,43 @@ class _RecipesTabState extends State<RecipesTab> {
           },
         );
       },
+    );
+  }
+
+  void _showIngredientNutrition(Ingredient ingredient) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(
+          ingredient.quantity.isEmpty
+              ? ingredient.name
+              : '${ingredient.name} (${ingredient.quantity})',
+        ),
+        content: ingredient.calories != null &&
+                ingredient.protein != null &&
+                ingredient.carbs != null &&
+                ingredient.fat != null &&
+                ingredient.fiber != null
+            ? Text(
+                '${l10n.caloriesKcalChip(ingredient.calories!.round())} • '
+                '${l10n.proteinGChip(ingredient.protein!.round())} • '
+                '${l10n.carbsGChip(ingredient.carbs!.round())} • '
+                '${l10n.fatGChip(ingredient.fat!.round())} • '
+                '${l10n.fiberGChip(ingredient.fiber!.round())}',
+              )
+            : Text(
+                ingredient.needsConfirmation
+                    ? l10n.ingredientNeedsConfirmation
+                    : l10n.ingredientNutritionUnknown,
+              ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancel),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1012,20 +1360,23 @@ class _RecipesTabState extends State<RecipesTab> {
                         ...recipe.ingredients.asMap().entries.map((entry) {
                           final i = entry.key;
                           final ingredient = entry.value;
-                          return CheckboxListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(
-                              ingredient.quantity.isEmpty
-                                  ? ingredient.name
-                                  : '${ingredient.name} — ${ingredient.quantity}',
+                          return GestureDetector(
+                            onLongPress: () => _showIngredientNutrition(ingredient),
+                            child: CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                ingredient.quantity.isEmpty
+                                    ? ingredient.name
+                                    : '${ingredient.name} — ${ingredient.quantity}',
+                              ),
+                              value: recipe.checkedIngredients[i],
+                              onChanged: (checked) {
+                                setDialogState(() {
+                                  recipe.checkedIngredients[i] = checked ?? false;
+                                });
+                                setState(() {});
+                              },
                             ),
-                            value: recipe.checkedIngredients[i],
-                            onChanged: (checked) {
-                              setDialogState(() {
-                                recipe.checkedIngredients[i] = checked ?? false;
-                              });
-                              setState(() {});
-                            },
                           );
                         }),
                         const SizedBox(height: 16),
@@ -1231,6 +1582,211 @@ class _RecipesTabState extends State<RecipesTab> {
                 ),
               ),
             ),
+    );
+  }
+}
+
+/// Read-only browse screen for community-contributed recipes. Nutrition is
+/// computed on load (not hardcoded) by running each ingredient through the
+/// same food-matching + calculation pipeline the add-recipe dialog uses.
+class CommunityTab extends ConsumerStatefulWidget {
+  const CommunityTab({super.key});
+
+  @override
+  ConsumerState<CommunityTab> createState() => _CommunityTabState();
+}
+
+class _CommunityTabState extends ConsumerState<CommunityTab> {
+  List<Recipe>? _recipes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecipes();
+  }
+
+  Future<void> _loadRecipes() async {
+    final foodRepository = ref.read(foodRepositoryProvider);
+    final matcher = FoodMatcher(foodRepository);
+    final computed = <Recipe>[];
+    for (final recipe in communityBreakfastRecipes()) {
+      computed.add(await _withComputedNutrition(foodRepository, matcher, recipe));
+    }
+    if (!mounted) return;
+    setState(() => _recipes = computed);
+  }
+
+  void _showIngredientNutrition(Ingredient ingredient) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(
+          ingredient.quantity.isEmpty
+              ? ingredient.name
+              : '${ingredient.name} (${ingredient.quantity})',
+        ),
+        content: ingredient.calories != null &&
+                ingredient.protein != null &&
+                ingredient.carbs != null &&
+                ingredient.fat != null &&
+                ingredient.fiber != null
+            ? Text(
+                '${l10n.caloriesKcalChip(ingredient.calories!.round())} • '
+                '${l10n.proteinGChip(ingredient.protein!.round())} • '
+                '${l10n.carbsGChip(ingredient.carbs!.round())} • '
+                '${l10n.fatGChip(ingredient.fat!.round())} • '
+                '${l10n.fiberGChip(ingredient.fiber!.round())}',
+              )
+            : Text(
+                ingredient.needsConfirmation
+                    ? l10n.ingredientNeedsConfirmation
+                    : l10n.ingredientNutritionUnknown,
+              ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancel),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openRecipeDetailsDialog(Recipe recipe) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              title: Text(recipe.name),
+              content: SizedBox(
+                width: 400,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _StatChip(
+                        icon: recipe.mealType.icon,
+                        label: recipe.mealType.label(l10n),
+                        color: AppPalette.tealDark,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.recipeStatsLine(recipe.calories, recipe.protein, recipe.portions),
+                      ),
+                      const SizedBox(height: 16),
+                      if (recipe.ingredients.isNotEmpty) ...[
+                        Text(
+                          l10n.ingredients,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        ...recipe.ingredients.asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final ingredient = entry.value;
+                          return GestureDetector(
+                            onLongPress: () => _showIngredientNutrition(ingredient),
+                            child: CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                ingredient.quantity.isEmpty
+                                    ? ingredient.name
+                                    : '${ingredient.name} — ${ingredient.quantity}',
+                              ),
+                              value: recipe.checkedIngredients[i],
+                              onChanged: (checked) {
+                                setDialogState(() {
+                                  recipe.checkedIngredients[i] = checked ?? false;
+                                });
+                              },
+                            ),
+                          );
+                        }),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(l10n.close),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final recipes = _recipes;
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.communityTitle)),
+      body: recipes == null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(l10n.communityLoadingNutrition),
+                ],
+              ),
+            )
+          : recipes.isEmpty
+              ? _EmptyState(icon: Icons.groups_outlined, message: l10n.communityEmpty)
+              : ListView.builder(
+                  padding: const EdgeInsets.all(12),
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index) {
+                    final recipe = recipes[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      child: ListTile(
+                        title: Text(
+                          recipe.name,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: Wrap(
+                            spacing: 8,
+                            children: [
+                              _StatChip(
+                                icon: recipe.mealType.icon,
+                                label: recipe.mealType.label(l10n),
+                                color: AppPalette.tealDark,
+                              ),
+                              _StatChip(
+                                icon: Icons.local_fire_department,
+                                label: l10n.caloriesKcalChip(recipe.calories),
+                                color: AppPalette.orangeDeep,
+                              ),
+                              _StatChip(
+                                icon: Icons.fitness_center,
+                                label: l10n.proteinGChip(recipe.protein),
+                                color: AppPalette.tealDark,
+                              ),
+                              _StatChip(
+                                icon: Icons.people_outline,
+                                label: l10n.portionsChip(recipe.portions),
+                                color: AppPalette.ink,
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () => _openRecipeDetailsDialog(recipe),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }

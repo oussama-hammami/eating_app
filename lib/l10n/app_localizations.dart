@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Diary'**
   String get navDiary;
 
+  /// No description provided for @navCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get navCommunity;
+
   /// No description provided for @recipesTitle.
   ///
   /// In en, this message translates to:
@@ -133,6 +139,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recipes yet.\nTap + to add one.'**
   String get recipesEmpty;
+
+  /// No description provided for @communityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🌍  Community Recipes'**
+  String get communityTitle;
+
+  /// No description provided for @communityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No community recipes yet.'**
+  String get communityEmpty;
+
+  /// No description provided for @communityLoadingNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating nutrition from ingredients…'**
+  String get communityLoadingNutrition;
 
   /// No description provided for @editRecipe.
   ///
@@ -331,6 +355,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{portions} portion(s)'**
   String portionsChip(int portions);
+
+  /// No description provided for @ingredientNutritionUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition values unavailable for this ingredient'**
+  String get ingredientNutritionUnknown;
+
+  /// No description provided for @ingredientNeedsConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'No confident food match — please confirm which food this is'**
+  String get ingredientNeedsConfirmation;
+
+  /// No description provided for @carbsGChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{carbs} g carbs'**
+  String carbsGChip(int carbs);
+
+  /// No description provided for @fatGChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{fat} g fat'**
+  String fatGChip(int fat);
+
+  /// No description provided for @fiberGChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{fiber} g fiber'**
+  String fiberGChip(int fiber);
 
   /// No description provided for @addToGroceriesCount.
   ///

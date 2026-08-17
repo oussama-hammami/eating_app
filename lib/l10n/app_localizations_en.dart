@@ -21,10 +21,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navDiary => 'Diary';
 
   @override
+  String get navCommunity => 'Community';
+
+  @override
   String get recipesTitle => '🍽️  My Recipes';
 
   @override
   String get recipesEmpty => 'No recipes yet.\nTap + to add one.';
+
+  @override
+  String get communityTitle => '🌍  Community Recipes';
+
+  @override
+  String get communityEmpty => 'No community recipes yet.';
+
+  @override
+  String get communityLoadingNutrition =>
+      'Calculating nutrition from ingredients…';
 
   @override
   String get editRecipe => 'Edit recipe';
@@ -135,6 +148,29 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String portionsChip(int portions) {
     return '$portions portion(s)';
+  }
+
+  @override
+  String get ingredientNutritionUnknown =>
+      'Nutrition values unavailable for this ingredient';
+
+  @override
+  String get ingredientNeedsConfirmation =>
+      'No confident food match — please confirm which food this is';
+
+  @override
+  String carbsGChip(int carbs) {
+    return '$carbs g carbs';
+  }
+
+  @override
+  String fatGChip(int fat) {
+    return '$fat g fat';
+  }
+
+  @override
+  String fiberGChip(int fiber) {
+    return '$fiber g fiber';
   }
 
   @override
