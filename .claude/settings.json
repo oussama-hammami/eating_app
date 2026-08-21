@@ -22,7 +22,22 @@
       "Bash(sudo apt list --installed)",
       "Bash(python3 -c \"import sqlite3; print\\('ok'\\)\")",
       "Bash(python3)",
-      "Bash(timeout 15 grep -c '\"type\":\"testStart\"' test_report.json)"
+      "Bash(timeout 15 grep -c '\"type\":\"testStart\"' test_report.json)",
+      "Bash(flutter doctor *)",
+      "Bash(nohup ./build/linux/x64/debug/bundle/eating_app)",
+      "Bash(disown)",
+      "Bash(dart run *)",
+      "Bash(grep -n \"recipe.providedCalories\\\\|Carbs \\\\${recipe\" lib/dev/community_dev_screen.dart)",
+      "Bash(python3 /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bb6f565d-2f4a-4944-85c0-607d2d859ed5/scratchpad/reformulate.py)",
+      "Bash(python3 /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bb6f565d-2f4a-4944-85c0-607d2d859ed5/scratchpad/reformulate2.py)",
+      "Bash(pkill -f \"flutter_tester\")",
+      "Bash(pkill -f \"dart.*test/dev_screen_smoke_test\")",
+      "Bash(flutter test *)",
+      "Bash(git -C /home/oussama/Downloads/testLab/eating_app diff --stat)",
+      "Bash(git branch *)",
+      "Bash(grep -n \"communityBreakfastRecipes\\\\|itemCount: recipes.length\\\\|^              \\),$\\\\|^    \\);$\" lib/main.dart)",
+      "Bash(git mv *)",
+      "Bash(git add *)"
     ]
   }
 }

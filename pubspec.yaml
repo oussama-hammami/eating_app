@@ -43,11 +43,12 @@ dependencies:
   flutter_riverpod: ^2.6.1
   intl: ^0.20.2
   url_launcher: ^6.3.1
+  sqflite_common_ffi: ^2.3.4+4
+  file_picker: ^8.1.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sqflite_common_ffi: ^2.3.4+4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

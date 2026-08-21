@@ -1,0 +1,1377 @@
+[
+  {
+    "category": "breakfast",
+    "name": "Greek Yogurt Protein Bowl",
+    "ingredients": [
+      "250 g Greek yogurt 0-2%",
+      "20 g vanilla protein powder",
+      "100 g blueberries",
+      "15 g chia seeds",
+      "15 g almonds",
+      "10 g honey"
+    ],
+    "preparation": [
+      "Mix yogurt and protein powder.",
+      "Top with blueberries, chia seeds and almonds.",
+      "Drizzle with honey and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 430,
+      "protein_g": 39,
+      "carbs_g": 39,
+      "fat_g": 12,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Spinach Feta Omelet",
+    "ingredients": [
+      "3 egg",
+      "60 g spinach",
+      "30 g feta cheese",
+      "1 tsp olive oil",
+      "1 slice toast"
+    ],
+    "preparation": [
+      "Heat oil in a nonstick pan and wilt spinach.",
+      "Beat eggs, pour into pan and cook until nearly set.",
+      "Add feta, fold omelet and serve with toast."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 390,
+      "protein_g": 27,
+      "carbs_g": 20,
+      "fat_g": 23,
+      "fiber_g": 4
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Protein Banana Peanut Butter Oats",
+    "ingredients": [
+      "50 g rolled oats",
+      "200 ml milk",
+      "1 banana",
+      "20 g whey protein",
+      "15 g peanut butter",
+      "0.5 tsp cinnamon"
+    ],
+    "preparation": [
+      "Cook oats with milk until creamy.",
+      "Remove from heat and stir in protein powder.",
+      "Top with sliced banana, peanut butter and cinnamon."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 470,
+      "protein_g": 34,
+      "carbs_g": 61,
+      "fat_g": 12,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Cottage Cheese Berry Bowl",
+    "ingredients": [
+      "250 g cottage cheese",
+      "100 g berries",
+      "15 g walnuts",
+      "10 g chia seeds",
+      "1 tsp honey"
+    ],
+    "preparation": [
+      "Add cottage cheese to a bowl.",
+      "Top with berries, walnuts and chia seeds.",
+      "Drizzle with honey."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 350,
+      "protein_g": 33,
+      "carbs_g": 24,
+      "fat_g": 13,
+      "fiber_g": 6
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Smoked Salmon Avocado Eggs",
+    "ingredients": [
+      "2 egg",
+      "70 g smoked salmon",
+      "50 g avocado",
+      "1 slice toast",
+      "30 g tomato",
+      "1 tsp lemon juice"
+    ],
+    "preparation": [
+      "Cook eggs to preference.",
+      "Toast bread and top with avocado and lemon juice.",
+      "Serve with eggs, smoked salmon and tomato."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 420,
+      "protein_g": 28,
+      "carbs_g": 22,
+      "fat_g": 25,
+      "fiber_g": 6
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Chicken Egg Breakfast Wrap",
+    "ingredients": [
+      "1 tortilla",
+      "80 g chicken breast",
+      "2 egg",
+      "40 g bell pepper",
+      "30 g spinach",
+      "20 g Greek yogurt"
+    ],
+    "preparation": [
+      "Scramble eggs with pepper and spinach.",
+      "Add chicken and warm through.",
+      "Fill tortilla, add yogurt and roll tightly."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 455,
+      "protein_g": 45,
+      "carbs_g": 38,
+      "fat_g": 15,
+      "fiber_g": 6
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Protein Berry Pancakes",
+    "ingredients": [
+      "50 g oat flour",
+      "1 egg",
+      "100 g Greek yogurt",
+      "20 g whey protein",
+      "60 ml milk",
+      "80 g berries",
+      "0.5 tsp baking powder"
+    ],
+    "preparation": [
+      "Whisk oat flour, egg, yogurt, protein powder, milk and baking powder.",
+      "Cook small pancakes on a lightly greased nonstick pan.",
+      "Serve with berries and remaining yogurt."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 410,
+      "protein_g": 38,
+      "carbs_g": 43,
+      "fat_g": 10,
+      "fiber_g": 6
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Shakshuka with Whole-Grain Toast",
+    "ingredients": [
+      "2 egg",
+      "150 g tomato",
+      "50 g bell pepper",
+      "40 g onion",
+      "1 tsp olive oil",
+      "0.5 tsp cumin",
+      "1 slice toast"
+    ],
+    "preparation": [
+      "Saute onion and pepper in oil.",
+      "Add tomatoes and cumin and simmer 8-10 minutes.",
+      "Make two wells, add eggs, cover and cook until whites set.",
+      "Serve with toast."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 360,
+      "protein_g": 20,
+      "carbs_g": 35,
+      "fat_g": 16,
+      "fiber_g": 7
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Blueberry Overnight Protein Oats",
+    "ingredients": [
+      "50 g rolled oats",
+      "180 g Greek yogurt",
+      "100 ml milk",
+      "20 g whey protein",
+      "80 g blueberries",
+      "10 g chia seeds"
+    ],
+    "preparation": [
+      "Combine all ingredients in a sealed jar.",
+      "Stir well, cover and refrigerate at least 4 hours or overnight.",
+      "Serve cold."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 410,
+      "protein_g": 39,
+      "carbs_g": 49,
+      "fat_g": 7,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "breakfast",
+    "name": "Turkey Avocado Egg Toast",
+    "ingredients": [
+      "2 slices bread",
+      "2 egg",
+      "60 g turkey breast",
+      "50 g avocado",
+      "30 g tomato"
+    ],
+    "preparation": [
+      "Toast bread.",
+      "Cook eggs to preference.",
+      "Layer avocado, turkey, tomato and eggs on toast."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 450,
+      "protein_g": 35,
+      "carbs_g": 39,
+      "fat_g": 19,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Grilled Chicken Quinoa Bowl",
+    "ingredients": [
+      "150 g chicken breast",
+      "150 g quinoa",
+      "150 g vegetables",
+      "1 tsp olive oil",
+      "30 g Greek yogurt",
+      "1 tsp lemon juice"
+    ],
+    "preparation": [
+      "Season and grill chicken, then slice.",
+      "Combine quinoa and roasted vegetables.",
+      "Top with chicken and yogurt mixed with lemon juice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 560,
+      "protein_g": 53,
+      "carbs_g": 51,
+      "fat_g": 15,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Tuna Chickpea Mediterranean Salad",
+    "ingredients": [
+      "120 g tuna in water",
+      "120 g chickpea",
+      "100 g cucumber",
+      "100 g tomato",
+      "40 g red onion",
+      "30 g feta",
+      "1 tsp olive oil",
+      "1 tbsp lemon juice"
+    ],
+    "preparation": [
+      "Combine tuna, chickpeas and vegetables.",
+      "Add feta.",
+      "Dress with olive oil and lemon juice and toss."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 500,
+      "protein_g": 43,
+      "carbs_g": 45,
+      "fat_g": 16,
+      "fiber_g": 11
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Chicken Shawarma Bowl",
+    "ingredients": [
+      "150 g chicken breast",
+      "150 g brown rice",
+      "100 g cucumber-tomato salad",
+      "40 g hummus",
+      "30 g Greek yogurt",
+      "0.5 tsp cumin",
+      "0.5 tsp paprika"
+    ],
+    "preparation": [
+      "Season chicken with cumin and paprika and grill.",
+      "Add rice to a bowl.",
+      "Top with chicken, salad, hummus and yogurt."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 610,
+      "protein_g": 54,
+      "carbs_g": 63,
+      "fat_g": 17,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Turkey Avocado Whole-Grain Wrap",
+    "ingredients": [
+      "1 tortilla",
+      "120 g turkey breast",
+      "60 g avocado",
+      "50 g lettuce",
+      "80 g tomato",
+      "30 g Greek yogurt",
+      "1 tsp mustard"
+    ],
+    "preparation": [
+      "Spread yogurt and mustard on tortilla.",
+      "Add turkey, avocado and vegetables.",
+      "Roll tightly and slice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 500,
+      "protein_g": 43,
+      "carbs_g": 45,
+      "fat_g": 17,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Salmon Sweet Potato Broccoli Plate",
+    "ingredients": [
+      "150 g salmon",
+      "200 g sweet potato",
+      "150 g broccoli",
+      "1 tsp olive oil",
+      "1 tsp lemon juice"
+    ],
+    "preparation": [
+      "Bake sweet potato until tender.",
+      "Bake salmon at 200 C until cooked through, about 12-15 minutes.",
+      "Steam broccoli and finish with oil and lemon.",
+      "Serve together."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 590,
+      "protein_g": 40,
+      "carbs_g": 48,
+      "fat_g": 25,
+      "fiber_g": 10
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Chicken Pesto Vegetable Pasta",
+    "ingredients": [
+      "140 g chicken breast",
+      "160 g whole-wheat pasta",
+      "120 g zucchini",
+      "120 g cherry tomato",
+      "20 g pesto",
+      "1 tsp olive oil"
+    ],
+    "preparation": [
+      "Cook pasta and drain.",
+      "Saute vegetables in oil.",
+      "Toss pasta with pesto and vegetables and top with sliced chicken."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 610,
+      "protein_g": 52,
+      "carbs_g": 62,
+      "fat_g": 19,
+      "fiber_g": 10
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Beef Vegetable Stir-Fry",
+    "ingredients": [
+      "150 g beef strips",
+      "150 g brown rice",
+      "150 g broccoli peppers",
+      "150 g carrots",
+      "1 tsp sesame oil",
+      "1 tbsp low-sodium soy sauce",
+      "1 tsp ginger"
+    ],
+    "preparation": [
+      "Heat oil in a wok or pan.",
+      "Stir-fry beef until browned, then add vegetables.",
+      "Add soy sauce and ginger and cook until vegetables are crisp-tender.",
+      "Serve over rice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 570,
+      "protein_g": 43,
+      "carbs_g": 51,
+      "fat_g": 20,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Lentil Chicken Power Salad",
+    "ingredients": [
+      "120 g chicken breast",
+      "150 g lentils",
+      "100 g cucumber",
+      "100 g tomato",
+      "50 g spinach",
+      "1 tsp olive oil",
+      "1 tbsp lemon juice"
+    ],
+    "preparation": [
+      "Slice cooked chicken.",
+      "Combine lentils and vegetables with spinach.",
+      "Top with chicken and dress with oil and lemon."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 520,
+      "protein_g": 54,
+      "carbs_g": 46,
+      "fat_g": 12,
+      "fiber_g": 15
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Tuna Avocado Rice Bowl",
+    "ingredients": [
+      "120 g tuna in water",
+      "150 g rice",
+      "60 g avocado",
+      "100 g cucumber",
+      "50 g carrot",
+      "1 tbsp Greek yogurt",
+      "1 tsp lime juice"
+    ],
+    "preparation": [
+      "Combine rice and vegetables in a bowl.",
+      "Add tuna and avocado.",
+      "Mix yogurt with lime juice and drizzle over the bowl."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 520,
+      "protein_g": 39,
+      "carbs_g": 57,
+      "fat_g": 16,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "lunch",
+    "name": "Shrimp Quinoa Mediterranean Bowl",
+    "ingredients": [
+      "180 g shrimp",
+      "150 g quinoa",
+      "100 g cucumber",
+      "100 g tomato",
+      "40 g chickpea",
+      "30 g Greek yogurt",
+      "1 tsp olive oil",
+      "1 tbsp lemon juice"
+    ],
+    "preparation": [
+      "Cook shrimp until opaque.",
+      "Combine quinoa, vegetables and chickpeas.",
+      "Top with shrimp and yogurt mixed with lemon juice and olive oil."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 540,
+      "protein_g": 51,
+      "carbs_g": 52,
+      "fat_g": 13,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Lemon Garlic Chicken with Potatoes",
+    "ingredients": [
+      "170 g chicken breast",
+      "220 g baby potatoes",
+      "150 g broccoli",
+      "1 tsp olive oil",
+      "1 garlic",
+      "1 tbsp lemon juice"
+    ],
+    "preparation": [
+      "Roast potatoes at 200 C for about 25 minutes.",
+      "Season chicken with garlic and lemon and bake or grill until cooked through.",
+      "Steam broccoli.",
+      "Serve with potatoes and broccoli."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 570,
+      "protein_g": 55,
+      "carbs_g": 51,
+      "fat_g": 14,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Baked Salmon Asparagus Quinoa",
+    "ingredients": [
+      "170 g salmon",
+      "150 g quinoa",
+      "150 g asparagus",
+      "1 tsp olive oil",
+      "1 tbsp lemon juice"
+    ],
+    "preparation": [
+      "Place salmon and asparagus on a baking tray.",
+      "Season with lemon and oil.",
+      "Bake at 200 C until salmon is cooked through, about 12-15 minutes.",
+      "Serve with quinoa."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 620,
+      "protein_g": 47,
+      "carbs_g": 38,
+      "fat_g": 29,
+      "fiber_g": 7
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Lean Beef Kofta Couscous",
+    "ingredients": [
+      "170 g ground beef",
+      "150 g whole-wheat couscous",
+      "100 g cucumber-tomato salad",
+      "40 g Greek yogurt",
+      "0.5 tsp cumin",
+      "0.5 tsp paprika",
+      "1 tbsp parsley"
+    ],
+    "preparation": [
+      "Mix beef with cumin, paprika and parsley and shape into small kofta.",
+      "Grill or pan-cook until fully cooked.",
+      "Serve with couscous, salad and yogurt."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 590,
+      "protein_g": 49,
+      "carbs_g": 45,
+      "fat_g": 23,
+      "fiber_g": 7
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Chicken Vegetable Curry",
+    "ingredients": [
+      "170 g chicken breast",
+      "150 g brown rice",
+      "150 g vegetables",
+      "100 ml light coconut milk",
+      "1 tsp curry powder",
+      "1 tsp olive oil"
+    ],
+    "preparation": [
+      "Saute chicken in oil until lightly browned.",
+      "Add vegetables, curry powder and coconut milk.",
+      "Simmer until chicken is cooked and sauce thickens.",
+      "Serve over rice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 610,
+      "protein_g": 55,
+      "carbs_g": 58,
+      "fat_g": 17,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Shrimp Fajitas",
+    "ingredients": [
+      "180 g shrimp",
+      "2 tortilla",
+      "150 g bell peppers",
+      "150 g onion",
+      "50 g avocado",
+      "30 g Greek yogurt",
+      "1 tsp olive oil",
+      "0.5 tsp cumin",
+      "0.5 tsp paprika"
+    ],
+    "preparation": [
+      "Season shrimp with cumin and paprika.",
+      "Cook peppers and onion in oil, then add shrimp and cook until opaque.",
+      "Fill tortillas with shrimp, vegetables, avocado and yogurt."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 570,
+      "protein_g": 50,
+      "carbs_g": 51,
+      "fat_g": 18,
+      "fiber_g": 10
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Turkey Meatballs Whole-Wheat Pasta",
+    "ingredients": [
+      "170 g ground turkey",
+      "160 g whole-wheat pasta",
+      "150 g tomato passata",
+      "30 g onion",
+      "1 garlic",
+      "1 tsp olive oil",
+      "1 tbsp Parmesan"
+    ],
+    "preparation": [
+      "Mix turkey with onion and garlic and form meatballs.",
+      "Brown meatballs in oil, add passata and simmer until cooked.",
+      "Serve over pasta and finish with Parmesan."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 620,
+      "protein_g": 52,
+      "carbs_g": 60,
+      "fat_g": 19,
+      "fiber_g": 11
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Grilled Chicken Hummus Tabbouleh",
+    "ingredients": [
+      "170 g chicken breast",
+      "60 g hummus",
+      "150 g bulgur",
+      "100 g tomato",
+      "80 g cucumber",
+      "30 g parsley",
+      "1 tbsp lemon juice",
+      "1 tsp olive oil"
+    ],
+    "preparation": [
+      "Grill seasoned chicken and slice.",
+      "Mix bulgur with tomato, cucumber, parsley, lemon and oil.",
+      "Serve with chicken and hummus."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 600,
+      "protein_g": 59,
+      "carbs_g": 55,
+      "fat_g": 17,
+      "fiber_g": 11
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Baked Cod Sweet Potato Green Beans",
+    "ingredients": [
+      "200 g cod",
+      "220 g sweet potato",
+      "150 g green beans",
+      "1 tsp olive oil",
+      "1 tbsp lemon juice",
+      "0.5 tsp paprika"
+    ],
+    "preparation": [
+      "Roast sweet potato at 200 C until tender.",
+      "Season cod with paprika and lemon and bake until opaque.",
+      "Steam green beans and toss with oil.",
+      "Serve together."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 500,
+      "protein_g": 49,
+      "carbs_g": 47,
+      "fat_g": 10,
+      "fiber_g": 10
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Beef Brown Rice Vegetable Bowl",
+    "ingredients": [
+      "160 g beef strips",
+      "160 g brown rice",
+      "150 g vegetables",
+      "1 tsp sesame oil",
+      "1 tbsp low-sodium soy sauce"
+    ],
+    "preparation": [
+      "Stir-fry beef in sesame oil.",
+      "Add vegetables and soy sauce and cook until tender-crisp.",
+      "Serve over brown rice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 590,
+      "protein_g": 45,
+      "carbs_g": 53,
+      "fat_g": 20,
+      "fiber_g": 8
+    }
+  },
+  {
+    "category": "dinner",
+    "name": "Moroccan Chicken Vegetable Tagine",
+    "ingredients": [
+      "170 g chicken breast",
+      "150 g couscous",
+      "180 g carrot zucchini",
+      "180 g tomato",
+      "40 g chickpea",
+      "1 tsp olive oil",
+      "0.5 tsp cumin",
+      "0.5 tsp paprika",
+      "0.25 tsp cinnamon"
+    ],
+    "preparation": [
+      "Cut chicken into pieces and brown in oil.",
+      "Add vegetables, chickpeas and spices with a splash of water.",
+      "Cover and simmer until chicken and vegetables are tender.",
+      "Serve with couscous."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 590,
+      "protein_g": 55,
+      "carbs_g": 66,
+      "fat_g": 12,
+      "fiber_g": 12
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Greek Yogurt Berry Cup",
+    "ingredients": [
+      "200 g Greek yogurt",
+      "100 g berries",
+      "10 g chia seeds"
+    ],
+    "preparation": [
+      "Add yogurt to a bowl.",
+      "Top with berries and chia seeds."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 190,
+      "protein_g": 22,
+      "carbs_g": 18,
+      "fat_g": 4,
+      "fiber_g": 5
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Apple Peanut Butter",
+    "ingredients": [
+      "1 apple",
+      "20 g peanut butter"
+    ],
+    "preparation": [
+      "Slice apple.",
+      "Serve with peanut butter for dipping."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 215,
+      "protein_g": 5,
+      "carbs_g": 29,
+      "fat_g": 10,
+      "fiber_g": 5
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Cottage Cheese Cucumber Cup",
+    "ingredients": [
+      "180 g cottage cheese",
+      "100 g cucumber",
+      "1 tbsp herbs",
+      "1 g black pepper"
+    ],
+    "preparation": [
+      "Dice cucumber.",
+      "Mix with cottage cheese and herbs."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 155,
+      "protein_g": 22,
+      "carbs_g": 8,
+      "fat_g": 3,
+      "fiber_g": 1
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Boiled Eggs and Fruit",
+    "ingredients": [
+      "2 egg",
+      "1 orange"
+    ],
+    "preparation": [
+      "Boil eggs until yolks are set, about 9-11 minutes.",
+      "Peel and serve with orange."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 210,
+      "protein_g": 13,
+      "carbs_g": 15,
+      "fat_g": 10,
+      "fiber_g": 3
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Hummus Crunch Plate",
+    "ingredients": [
+      "60 g hummus",
+      "100 g carrots",
+      "100 g cucumber",
+      "50 g bell pepper"
+    ],
+    "preparation": [
+      "Cut vegetables into sticks.",
+      "Serve with hummus."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 210,
+      "protein_g": 6,
+      "carbs_g": 23,
+      "fat_g": 10,
+      "fiber_g": 7
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Berry Protein Smoothie",
+    "ingredients": [
+      "200 ml milk",
+      "100 g berries",
+      "20 g whey protein",
+      "10 g chia seeds"
+    ],
+    "preparation": [
+      "Blend all ingredients until smooth.",
+      "Serve immediately."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 250,
+      "protein_g": 28,
+      "carbs_g": 27,
+      "fat_g": 5,
+      "fiber_g": 6
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Roasted Chickpeas",
+    "ingredients": [
+      "120 g chickpea",
+      "1 tsp olive oil",
+      "0.5 tsp paprika",
+      "0.25 tsp cumin"
+    ],
+    "preparation": [
+      "Pat chickpeas dry and toss with oil and spices.",
+      "Roast at 200 C for 25-30 minutes, shaking once."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 230,
+      "protein_g": 11,
+      "carbs_g": 35,
+      "fat_g": 6,
+      "fiber_g": 9
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Tuna Whole-Grain Crackers",
+    "ingredients": [
+      "80 g tuna in water",
+      "25 g cracker",
+      "20 g Greek yogurt",
+      "1 tsp lemon juice"
+    ],
+    "preparation": [
+      "Mix tuna, yogurt and lemon.",
+      "Serve with crackers."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 220,
+      "protein_g": 24,
+      "carbs_g": 18,
+      "fat_g": 5,
+      "fiber_g": 3
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Almond Yogurt Cup",
+    "ingredients": [
+      "170 g Greek yogurt",
+      "15 g almonds",
+      "1 tsp honey",
+      "0.5 tsp cinnamon"
+    ],
+    "preparation": [
+      "Add yogurt to a bowl.",
+      "Top with almonds, honey and cinnamon."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 220,
+      "protein_g": 20,
+      "carbs_g": 15,
+      "fat_g": 8,
+      "fiber_g": 2
+    }
+  },
+  {
+    "category": "snack",
+    "name": "Banana Cottage Cheese Bowl",
+    "ingredients": [
+      "150 g cottage cheese",
+      "1 banana",
+      "0.5 tsp cinnamon",
+      "10 g walnuts"
+    ],
+    "preparation": [
+      "Slice banana.",
+      "Combine with cottage cheese and top with walnuts and cinnamon."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 260,
+      "protein_g": 20,
+      "carbs_g": 29,
+      "fat_g": 8,
+      "fiber_g": 3
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Lemon Cucumber Mint Water",
+    "ingredients": [
+      "500 ml cold water",
+      "0.5 lemon",
+      "50 g cucumber",
+      "6 mint"
+    ],
+    "preparation": [
+      "Combine all ingredients in a jug.",
+      "Chill for 30 minutes and serve over ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 8,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Ginger Lemon Water",
+    "ingredients": [
+      "500 ml water",
+      "10 g ginger",
+      "0.5 lemon juiced"
+    ],
+    "preparation": [
+      "Steep ginger in hot water for 5-10 minutes.",
+      "Cool slightly, add lemon and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 8,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Strawberry Mint Infused Water",
+    "ingredients": [
+      "500 ml water",
+      "80 g strawberry",
+      "6 mint"
+    ],
+    "preparation": [
+      "Combine ingredients in a jug.",
+      "Chill for 30-60 minutes and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 25,
+      "protein_g": 0,
+      "carbs_g": 6,
+      "fat_g": 0,
+      "fiber_g": 1
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Orange Cucumber Water",
+    "ingredients": [
+      "500 ml water",
+      "3 orange",
+      "50 g cucumber"
+    ],
+    "preparation": [
+      "Add fruit and cucumber to water.",
+      "Chill for 30 minutes and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 12,
+      "protein_g": 0,
+      "carbs_g": 3,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Lime Mint Sparkling Water",
+    "ingredients": [
+      "400 ml water",
+      "1 lime juiced",
+      "8 mint"
+    ],
+    "preparation": [
+      "Muddle mint lightly with lime juice.",
+      "Add sparkling water and ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 8,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Watermelon Basil Water",
+    "ingredients": [
+      "500 ml water",
+      "100 g watermelon",
+      "4 basil"
+    ],
+    "preparation": [
+      "Add watermelon and basil to water.",
+      "Chill for 30 minutes and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 30,
+      "protein_g": 0,
+      "carbs_g": 8,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Ginger Turmeric Lemon Drink",
+    "ingredients": [
+      "300 ml water",
+      "5 g ginger",
+      "0.25 tsp turmeric",
+      "0.5 lemon juiced"
+    ],
+    "preparation": [
+      "Warm water with ginger and turmeric for 5 minutes.",
+      "Strain if desired and add lemon."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 10,
+      "protein_g": 0,
+      "carbs_g": 3,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Iced Green Tea Lemon",
+    "ingredients": [
+      "300 ml green tea",
+      "1 tbsp lemon juice",
+      "Ice"
+    ],
+    "preparation": [
+      "Brew tea and let it cool.",
+      "Add lemon juice and ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 3,
+      "protein_g": 0,
+      "carbs_g": 1,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Hibiscus Lime Iced Tea",
+    "ingredients": [
+      "300 ml hibiscus tea",
+      "1 tbsp lime juice",
+      "Ice"
+    ],
+    "preparation": [
+      "Brew hibiscus tea and cool.",
+      "Add lime juice and ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 4,
+      "protein_g": 0,
+      "carbs_g": 1,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "detox",
+    "name": "Cucumber Lime Ginger Water",
+    "ingredients": [
+      "500 ml water",
+      "70 g cucumber",
+      "0.5 lime",
+      "5 g ginger"
+    ],
+    "preparation": [
+      "Combine ingredients.",
+      "Chill for 30 minutes and serve over ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 8,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Virgin Mojito",
+    "ingredients": [
+      "30 ml lime juice",
+      "8 mint",
+      "200 ml water",
+      "1 tsp honey",
+      "Ice"
+    ],
+    "preparation": [
+      "Muddle mint with lime juice and honey.",
+      "Fill glass with ice and sparkling water.",
+      "Stir gently."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 25,
+      "protein_g": 0,
+      "carbs_g": 7,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Berry Fizz",
+    "ingredients": [
+      "80 g berries",
+      "20 ml lime juice",
+      "200 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Muddle berries with lime juice.",
+      "Add ice and sparkling water.",
+      "Stir and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 45,
+      "protein_g": 1,
+      "carbs_g": 11,
+      "fat_g": 0,
+      "fiber_g": 3
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Pineapple Ginger Cooler",
+    "ingredients": [
+      "100 ml pineapple juice",
+      "10 ml lime juice",
+      "5 g ginger",
+      "150 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Mix pineapple juice and lime juice.",
+      "Add ginger, ice and sparkling water.",
+      "Stir."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 60,
+      "protein_g": 0,
+      "carbs_g": 15,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Cucumber Collins",
+    "ingredients": [
+      "80 g cucumber",
+      "20 ml lemon juice",
+      "200 ml water",
+      "5 mint",
+      "Ice"
+    ],
+    "preparation": [
+      "Blend or muddle cucumber and strain if desired.",
+      "Combine with lemon juice and ice.",
+      "Top with sparkling water."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 15,
+      "protein_g": 0,
+      "carbs_g": 4,
+      "fat_g": 0,
+      "fiber_g": 1
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Passion Fruit Spritz",
+    "ingredients": [
+      "80 g passion fruit",
+      "15 ml lime juice",
+      "200 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Combine passion fruit and lime.",
+      "Add ice and sparkling water.",
+      "Stir gently."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 55,
+      "protein_g": 1,
+      "carbs_g": 13,
+      "fat_g": 0,
+      "fiber_g": 5
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Watermelon Mint Cooler",
+    "ingredients": [
+      "150 g watermelon",
+      "10 ml lime juice",
+      "6 mint",
+      "150 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Blend watermelon with lime.",
+      "Pour over ice, add mint and sparkling water.",
+      "Stir."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 50,
+      "protein_g": 1,
+      "carbs_g": 12,
+      "fat_g": 0,
+      "fiber_g": 1
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Strawberry Basil Smash",
+    "ingredients": [
+      "100 g strawberry",
+      "10 ml lemon juice",
+      "4 basil",
+      "150 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Muddle strawberries, basil and lemon.",
+      "Add ice and sparkling water.",
+      "Stir and serve."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 35,
+      "protein_g": 1,
+      "carbs_g": 8,
+      "fat_g": 0,
+      "fiber_g": 2
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Mango Lime Fizz",
+    "ingredients": [
+      "100 g mango",
+      "15 ml lime juice",
+      "150 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Blend mango with lime juice and a splash of water.",
+      "Pour over ice and top with sparkling water."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 70,
+      "protein_g": 1,
+      "carbs_g": 18,
+      "fat_g": 0,
+      "fiber_g": 2
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Pomegranate Citrus Spritz",
+    "ingredients": [
+      "80 ml pomegranate juice",
+      "30 ml orange juice",
+      "150 ml water",
+      "Ice"
+    ],
+    "preparation": [
+      "Combine juices.",
+      "Add ice and sparkling water.",
+      "Stir gently."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 70,
+      "protein_g": 1,
+      "carbs_g": 17,
+      "fat_g": 0,
+      "fiber_g": 1
+    }
+  },
+  {
+    "category": "cocktail",
+    "name": "Peach Ginger Iced Tea",
+    "ingredients": [
+      "150 ml black tea",
+      "80 g peach",
+      "5 g ginger",
+      "Ice"
+    ],
+    "preparation": [
+      "Blend peach with a little tea.",
+      "Combine with remaining tea and ginger.",
+      "Serve over ice."
+    ],
+    "nutrition_per_serving": {
+      "calories_kcal": 35,
+      "protein_g": 0,
+      "carbs_g": 9,
+      "fat_g": 0,
+      "fiber_g": 1
+    }
+  }
+]

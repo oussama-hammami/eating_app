@@ -80,10 +80,13 @@ Future<GramsConversion> convertIngredientToGrams({
 
   final reference = referenceConversionFor(food);
   if (unit.category == UnitCategory.volume && reference?.gramsPerMl != null) {
-    final ml = amount * unit.mlPerBaseUnit!;
     final density = reference!.gramsPerMl!;
+    final grams = UnitConversionService.convertToGrams(
+      Quantity(amount: amount, unit: unit),
+      ingredientGramsPerUnit: {unit: unit.mlPerBaseUnit! * density},
+    )!;
     return GramsConversion(
-      grams: ml * density,
+      grams: grams,
       method: ConversionMethod.referenceApprox,
       factorUsed: density,
       note: 'reference density approximation (g/ml), not from the food database',
@@ -91,8 +94,12 @@ Future<GramsConversion> convertIngredientToGrams({
   }
   if (unit.category == UnitCategory.count && reference?.pieceGrams != null) {
     final pieceGrams = reference!.pieceGrams!;
+    final grams = UnitConversionService.convertToGrams(
+      Quantity(amount: amount, unit: unit),
+      ingredientGramsPerUnit: {unit: pieceGrams},
+    )!;
     return GramsConversion(
-      grams: amount * pieceGrams,
+      grams: grams,
       method: ConversionMethod.referenceApprox,
       factorUsed: pieceGrams,
       note: 'reference piece-weight approximation, not from the food database',
