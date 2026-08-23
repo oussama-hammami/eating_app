@@ -18,9 +18,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navGroceries => 'Groceries';
 
   @override
-  String get navDiary => 'Diary';
-
-  @override
   String get navCommunity => 'Community';
 
   @override
@@ -28,6 +25,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipesEmpty => 'No recipes yet.\nTap + to add one.';
+
+  @override
+  String get searchRecipesHint => 'Search recipes…';
+
+  @override
+  String get recipesSearchEmpty => 'No recipes match your search.';
+
+  @override
+  String get filtersButton => 'Filters';
+
+  @override
+  String filtersActiveButton(int count) {
+    return 'Filters ($count)';
+  }
+
+  @override
+  String get filterResetButton => 'Reset filters';
+
+  @override
+  String get filterApplyButton => 'Apply filter';
+
+  @override
+  String get filterMinLabel => 'Min';
+
+  @override
+  String get filterMaxLabel => 'Max';
+
+  @override
+  String get filterCarbsLabel => 'Carbs (g)';
+
+  @override
+  String get filterFatLabel => 'Fat (g)';
+
+  @override
+  String get filterFiberLabel => 'Fiber (g)';
+
+  @override
+  String get filterMealTypesLabel => 'Meal types';
+
+  @override
+  String get filterIncludeIngredientsLabel => 'Include ingredients';
+
+  @override
+  String get filterExcludeIngredientsLabel => 'Exclude ingredients';
+
+  @override
+  String get filterIngredientInputHint => 'Type an ingredient and press enter…';
 
   @override
   String get privacyPolicyTitle => 'Privacy Policy';
@@ -49,8 +93,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityEmpty => 'No community recipes yet.';
 
   @override
-  String get communityLoadingNutrition =>
-      'Calculating nutrition from ingredients…';
+  String get addToRecipes => 'Add to my recipes';
+
+  @override
+  String addedToRecipes(String name) {
+    return 'Added \"$name\" to your recipes';
+  }
 
   @override
   String get editRecipe => 'Edit recipe';
@@ -112,9 +160,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String ingredientN(int number) {
     return 'Ingredient $number';
   }
-
-  @override
-  String get quantity => 'Quantity';
 
   @override
   String get mealType => 'Meal type';
@@ -225,29 +270,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset => 'Reset';
 
   @override
-  String get foodDiaryTitle => 'Food Diary';
-
-  @override
   String get searchFoodsHint => 'Search foods…';
-
-  @override
-  String searchErrorLabel(String error) {
-    return 'Search error: $error';
-  }
-
-  @override
-  String get noFoodsLoggedToday => 'No foods logged yet today.';
-
-  @override
-  String errorLabel(String error) {
-    return 'Error: $error';
-  }
-
-  @override
-  String get quantityGrams => 'Quantity (grams)';
-
-  @override
-  String get quantityValidatorMessage => 'Enter a quantity greater than 0';
 
   @override
   String get perHundredGrams => 'per 100g';
@@ -256,29 +279,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String kcalPer100g(int kcal) {
     return '$kcal kcal / 100g';
   }
-
-  @override
-  String mealEntrySubtitle(
-    String amount,
-    int calories,
-    String protein,
-    String carbs,
-    String fat,
-  ) {
-    return '$amount · $calories kcal · P ${protein}g · C ${carbs}g · F ${fat}g';
-  }
-
-  @override
-  String get statCalories => 'Calories';
-
-  @override
-  String get statProtein => 'Protein';
-
-  @override
-  String get statCarbs => 'Carbs';
-
-  @override
-  String get statFat => 'Fat';
 
   @override
   String get unitG => 'g';

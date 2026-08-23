@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../features/groceries/domain/entities/grocery_item.dart';
 import '../features/groceries/presentation/screens/groceries_tab.dart';
-import '../features/meal_log/presentation/screens/food_diary_screen.dart';
 import '../features/recipes/domain/entities/recipe.dart';
 import '../features/recipes/presentation/screens/community_tab.dart';
 import '../features/recipes/presentation/screens/recipes_tab.dart';
@@ -135,8 +134,7 @@ class _RootShellState extends State<RootShell> {
             onChanged: () => setState(() {}),
             onReset: _resetGroceries,
           ),
-          const FoodDiaryScreen(),
-          const CommunityTab(),
+          CommunityTab(onAddToRecipes: _addRecipe),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -150,10 +148,6 @@ class _RootShellState extends State<RootShell> {
           NavigationDestination(
             icon: const Icon(Icons.shopping_cart),
             label: AppLocalizations.of(context)!.navGroceries,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.local_dining),
-            label: AppLocalizations.of(context)!.navDiary,
           ),
           NavigationDestination(
             icon: const Icon(Icons.groups_outlined),

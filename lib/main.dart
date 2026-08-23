@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'My Food This Week',
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       localizationsDelegates: const [
         AppLocalizations.delegate,

@@ -3,18 +3,39 @@
   "appTitle": "My Food This Week",
   "navRecipes": "Recipes",
   "navGroceries": "Groceries",
-  "navDiary": "Diary",
   "navCommunity": "Community",
 
   "recipesTitle": "🍽️  My Recipes",
   "recipesEmpty": "No recipes yet.\nTap + to add one.",
+  "searchRecipesHint": "Search recipes…",
+  "recipesSearchEmpty": "No recipes match your search.",
+  "filtersButton": "Filters",
+  "filtersActiveButton": "Filters ({count})",
+  "@filtersActiveButton": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "filterResetButton": "Reset filters",
+  "filterApplyButton": "Apply filter",
+  "filterMinLabel": "Min",
+  "filterMaxLabel": "Max",
+  "filterCarbsLabel": "Carbs (g)",
+  "filterFatLabel": "Fat (g)",
+  "filterFiberLabel": "Fiber (g)",
+  "filterMealTypesLabel": "Meal types",
+  "filterIncludeIngredientsLabel": "Include ingredients",
+  "filterExcludeIngredientsLabel": "Exclude ingredients",
+  "filterIngredientInputHint": "Type an ingredient and press enter…",
   "privacyPolicyTitle": "Privacy Policy",
   "privacyPolicyBody": "My Food This Week does not collect or share any personal data. Recipes, ingredients, and photos are stored only on your device.",
   "privacyPolicyViewFull": "View full policy",
   "privacyPolicyClose": "Close",
   "communityTitle": "🌍  Community Recipes",
   "communityEmpty": "No community recipes yet.",
-  "communityLoadingNutrition": "Calculating nutrition from ingredients…",
+  "addToRecipes": "Add to my recipes",
+  "addedToRecipes": "Added \"{name}\" to your recipes",
+  "@addedToRecipes": {
+    "placeholders": { "name": { "type": "String" } }
+  },
   "editRecipe": "Edit recipe",
   "deleteRecipe": "Delete recipe",
   "deleteRecipeConfirmTitle": "Delete recipe?",
@@ -40,7 +61,6 @@
   "@ingredientN": {
     "placeholders": { "number": { "type": "int" } }
   },
-  "quantity": "Quantity",
   "mealType": "Meal type",
   "mealTypeBreakfast": "Breakfast",
   "mealTypeLunch": "Lunch",
@@ -100,38 +120,12 @@
   "resetGroceriesConfirmMessage": "This clears the grocery list and unselects all meals in Recipes.",
   "reset": "Reset",
 
-  "foodDiaryTitle": "Food Diary",
   "searchFoodsHint": "Search foods…",
-  "searchErrorLabel": "Search error: {error}",
-  "@searchErrorLabel": {
-    "placeholders": { "error": { "type": "String" } }
-  },
-  "noFoodsLoggedToday": "No foods logged yet today.",
-  "errorLabel": "Error: {error}",
-  "@errorLabel": {
-    "placeholders": { "error": { "type": "String" } }
-  },
-  "quantityGrams": "Quantity (grams)",
-  "quantityValidatorMessage": "Enter a quantity greater than 0",
   "perHundredGrams": "per 100g",
   "kcalPer100g": "{kcal} kcal / 100g",
   "@kcalPer100g": {
     "placeholders": { "kcal": { "type": "int" } }
   },
-  "mealEntrySubtitle": "{amount} · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g",
-  "@mealEntrySubtitle": {
-    "placeholders": {
-      "amount": { "type": "String" },
-      "calories": { "type": "int" },
-      "protein": { "type": "String" },
-      "carbs": { "type": "String" },
-      "fat": { "type": "String" }
-    }
-  },
-  "statCalories": "Calories",
-  "statProtein": "Protein",
-  "statCarbs": "Carbs",
-  "statFat": "Fat",
   "unitG": "g",
   "unitKg": "kg",
   "unitOz": "oz",

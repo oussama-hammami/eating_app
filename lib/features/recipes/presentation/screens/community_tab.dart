@@ -5,41 +5,52 @@ import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../nutrition/domain/usecases/food_matcher.dart';
-import '../../../nutrition/presentation/providers/food_search_provider.dart';
 import '../../domain/entities/ingredient.dart';
 import '../../domain/entities/recipe.dart';
+import '../../domain/entities/recipe_filter.dart';
 import '../../domain/usecases/community_recipes.dart';
-import '../../domain/usecases/compute_nutrition.dart';
+import '../widgets/recipe_filter_panel.dart';
+import '../widgets/recipe_photo.dart';
 
-/// Read-only browse screen for community-contributed recipes. Nutrition is
-/// computed on load (not hardcoded) by running each ingredient through the
-/// same food-matching + calculation pipeline the add-recipe dialog uses.
+/// Read-only browse screen for community-contributed recipes. Nutrition
+/// values come straight from [communityBreakfastRecipes]'s curated source
+/// data — they are NOT recomputed via food matching, since resolving a
+/// recipe's free-text ingredient names against the food database produced
+/// inaccurate totals whenever a name didn't confidently match.
 class CommunityTab extends ConsumerStatefulWidget {
-  const CommunityTab({super.key});
+  const CommunityTab({super.key, required this.onAddToRecipes});
+
+  /// Adds a copy of a community recipe into the user's own Recipes list.
+  final void Function(Recipe recipe) onAddToRecipes;
 
   @override
   ConsumerState<CommunityTab> createState() => _CommunityTabState();
 }
 
 class _CommunityTabState extends ConsumerState<CommunityTab> {
-  List<Recipe>? _recipes;
+  final List<Recipe> _recipes = communityBreakfastRecipes();
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  RecipeFilter _filter = const RecipeFilter();
+  bool _filtersExpanded = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadRecipes();
+  int _activeFilterCount() {
+    var count = 0;
+    if (_filter.calories.isActive) count++;
+    if (_filter.protein.isActive) count++;
+    if (_filter.carbs.isActive) count++;
+    if (_filter.fat.isActive) count++;
+    if (_filter.fiber.isActive) count++;
+    if (_filter.mealTypes.isNotEmpty) count++;
+    if (_filter.includeIngredients.isNotEmpty) count++;
+    if (_filter.excludeIngredients.isNotEmpty) count++;
+    return count;
   }
 
-  Future<void> _loadRecipes() async {
-    final foodRepository = ref.read(foodRepositoryProvider);
-    final matcher = FoodMatcher(foodRepository);
-    final computed = <Recipe>[];
-    for (final recipe in communityBreakfastRecipes()) {
-      computed.add(await computeNutrition(foodRepository, matcher, recipe));
-    }
-    if (!mounted) return;
-    setState(() => _recipes = computed);
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _showIngredientNutrition(Ingredient ingredient) {
@@ -79,6 +90,14 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
     );
   }
 
+  void _addToMyRecipes(Recipe recipe) {
+    widget.onAddToRecipes(recipe.copy());
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.addedToRecipes(recipe.name))),
+    );
+  }
+
   void _openRecipeDetailsDialog(Recipe recipe) {
     final l10n = AppLocalizations.of(context)!;
     showDialog(
@@ -95,6 +114,18 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (recipe.photoPath != null) ...[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: RecipePhoto(
+                            path: recipe.photoPath!,
+                            width: double.infinity,
+                            height: 180,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       StatChip(
                         icon: recipe.mealType.icon,
                         label: recipe.mealType.label(l10n),
@@ -141,6 +172,14 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                   onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(l10n.close),
                 ),
+                FilledButton.icon(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    _addToMyRecipes(recipe);
+                  },
+                  icon: const Icon(Icons.playlist_add),
+                  label: Text(l10n.addToRecipes),
+                ),
               ],
             );
           },
@@ -153,29 +192,85 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final recipes = _recipes;
+    final query = _searchQuery.trim().toLowerCase();
+    final filtered = recipes
+        .where(
+          (r) =>
+              (query.isEmpty || r.name.toLowerCase().contains(query)) &&
+              recipeMatchesFilter(r, _filter),
+        )
+        .toList();
     return Scaffold(
       appBar: AppBar(title: Text(l10n.communityTitle)),
-      body: recipes == null
-          ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+      body: Column(
+        children: [
+          if (recipes.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              child: Row(
                 children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 16),
-                  Text(l10n.communityLoadingNutrition),
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (value) => setState(() => _searchQuery = value),
+                      decoration: InputDecoration(
+                        hintText: l10n.searchRecipesHint,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _searchQuery.isEmpty
+                            ? null
+                            : IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () => setState(() {
+                                  _searchController.clear();
+                                  _searchQuery = '';
+                                }),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilterChip(
+                    label: Text(
+                      _filter.isActive
+                          ? l10n.filtersActiveButton(_activeFilterCount())
+                          : l10n.filtersButton,
+                    ),
+                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
+                    selected: _filtersExpanded,
+                    onSelected: (value) => setState(() => _filtersExpanded = value),
+                  ),
                 ],
               ),
-            )
-          : recipes.isEmpty
-              ? EmptyState(icon: Icons.groups_outlined, message: l10n.communityEmpty)
-              : ListView.builder(
+            ),
+          if (_filtersExpanded)
+            RecipeFilterPanel(
+              filter: _filter,
+              onApply: (updated) => setState(() => _filter = updated),
+            ),
+          Expanded(
+            child: recipes.isEmpty
+                ? EmptyState(icon: Icons.groups_outlined, message: l10n.communityEmpty)
+                : filtered.isEmpty
+                    ? EmptyState(icon: Icons.search_off, message: l10n.recipesSearchEmpty)
+                    : ListView.builder(
                   padding: const EdgeInsets.all(12),
-                  itemCount: recipes.length,
+                  itemCount: filtered.length,
                   itemBuilder: (context, index) {
-                    final recipe = recipes[index];
+                    final recipe = filtered[index];
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 6),
                       child: ListTile(
+                        leading: recipe.photoPath == null
+                            ? null
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: RecipePhoto(
+                                  path: recipe.photoPath!,
+                                  width: 44,
+                                  height: 44,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                         title: Text(
                           recipe.name,
                           style: const TextStyle(fontWeight: FontWeight.w700),
@@ -208,11 +303,20 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                             ],
                           ),
                         ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.playlist_add),
+                          color: AppPalette.tealDark,
+                          tooltip: l10n.addToRecipes,
+                          onPressed: () => _addToMyRecipes(recipe),
+                        ),
                         onTap: () => _openRecipeDetailsDialog(recipe),
                       ),
                     );
                   },
                 ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -13,7 +13,7 @@ import '../../../../core/units/unit.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
+import '../../../nutrition/presentation/widgets/unit_label.dart';
 import '../../../nutrition/domain/entities/food.dart';
 import '../../../nutrition/domain/usecases/nutrition_calculator.dart';
 import '../../../nutrition/presentation/providers/food_search_provider.dart';
@@ -21,6 +21,9 @@ import '../../../nutrition/presentation/widgets/ingredient_food_field.dart';
 import '../../domain/entities/ingredient.dart';
 import '../../domain/entities/meal_type.dart';
 import '../../domain/entities/recipe.dart';
+import '../../domain/entities/recipe_filter.dart';
+import '../widgets/recipe_filter_panel.dart';
+import '../widgets/recipe_photo.dart';
 
 // TODO: Update once the GitHub Pages repo is created and published.
 const String privacyPolicyUrl =
@@ -53,6 +56,10 @@ class RecipesTab extends ConsumerStatefulWidget {
 class _RecipesTabState extends ConsumerState<RecipesTab> {
   final Set<int> _expandedIndexes = {};
   final Set<int> _selectedIndexes = {};
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  RecipeFilter _filter = const RecipeFilter();
+  bool _filtersExpanded = false;
 
   @override
   void didUpdateWidget(covariant RecipesTab oldWidget) {
@@ -62,6 +69,25 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
         _selectedIndexes.clear();
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  int _activeFilterCount() {
+    var count = 0;
+    if (_filter.calories.isActive) count++;
+    if (_filter.protein.isActive) count++;
+    if (_filter.carbs.isActive) count++;
+    if (_filter.fat.isActive) count++;
+    if (_filter.fiber.isActive) count++;
+    if (_filter.mealTypes.isNotEmpty) count++;
+    if (_filter.includeIngredients.isNotEmpty) count++;
+    if (_filter.excludeIngredients.isNotEmpty) count++;
+    return count;
   }
 
   void _addToGroceries() {
@@ -592,8 +618,8 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                       if (recipe.photoPath != null) ...[
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: Image.file(
-                            File(recipe.photoPath!),
+                          child: RecipePhoto(
+                            path: recipe.photoPath!,
                             width: double.infinity,
                             height: 180,
                             fit: BoxFit.cover,
@@ -684,6 +710,13 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final recipes = widget.recipes;
+    final query = _searchQuery.trim().toLowerCase();
+    final filtered = [
+      for (final entry in recipes.asMap().entries)
+        if ((query.isEmpty || entry.value.name.toLowerCase().contains(query)) &&
+            recipeMatchesFilter(entry.value, _filter))
+          entry,
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.recipesTitle),
@@ -695,16 +728,68 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
           ),
         ],
       ),
-      body: recipes.isEmpty
-          ? EmptyState(
-              icon: Icons.restaurant_menu,
-              message: l10n.recipesEmpty,
-            )
-          : ListView.builder(
+      body: Column(
+        children: [
+          if (recipes.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (value) => setState(() => _searchQuery = value),
+                      decoration: InputDecoration(
+                        hintText: l10n.searchRecipesHint,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _searchQuery.isEmpty
+                            ? null
+                            : IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () => setState(() {
+                                  _searchController.clear();
+                                  _searchQuery = '';
+                                }),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilterChip(
+                    label: Text(
+                      _filter.isActive
+                          ? l10n.filtersActiveButton(_activeFilterCount())
+                          : l10n.filtersButton,
+                    ),
+                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
+                    selected: _filtersExpanded,
+                    onSelected: (value) => setState(() => _filtersExpanded = value),
+                  ),
+                ],
+              ),
+            ),
+          if (_filtersExpanded)
+            RecipeFilterPanel(
+              filter: _filter,
+              onApply: (updated) => setState(() => _filter = updated),
+            ),
+          Expanded(
+            child: recipes.isEmpty
+                ? EmptyState(
+                    icon: Icons.restaurant_menu,
+                    message: l10n.recipesEmpty,
+                  )
+                : filtered.isEmpty
+                    ? EmptyState(
+                        icon: Icons.search_off,
+                        message: l10n.recipesSearchEmpty,
+                      )
+                    : ListView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: recipes.length,
-              itemBuilder: (context, index) {
-                final recipe = recipes[index];
+              itemCount: filtered.length,
+              itemBuilder: (context, position) {
+                final index = filtered[position].key;
+                final recipe = filtered[position].value;
                 final isExpanded = _expandedIndexes.contains(index);
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 6),
@@ -729,8 +814,8 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                             if (recipe.photoPath != null)
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  File(recipe.photoPath!),
+                                child: RecipePhoto(
+                                  path: recipe.photoPath!,
                                   width: 44,
                                   height: 44,
                                   fit: BoxFit.cover,
@@ -838,6 +923,9 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                 );
               },
             ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddRecipeDialog,
         child: const Icon(Icons.add),

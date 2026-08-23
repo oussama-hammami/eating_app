@@ -116,12 +116,6 @@ abstract class AppLocalizations {
   /// **'Groceries'**
   String get navGroceries;
 
-  /// No description provided for @navDiary.
-  ///
-  /// In en, this message translates to:
-  /// **'Diary'**
-  String get navDiary;
-
   /// No description provided for @navCommunity.
   ///
   /// In en, this message translates to:
@@ -139,6 +133,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recipes yet.\nTap + to add one.'**
   String get recipesEmpty;
+
+  /// No description provided for @searchRecipesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search recipes…'**
+  String get searchRecipesHint;
+
+  /// No description provided for @recipesSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes match your search.'**
+  String get recipesSearchEmpty;
+
+  /// No description provided for @filtersButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filtersButton;
+
+  /// No description provided for @filtersActiveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters ({count})'**
+  String filtersActiveButton(int count);
+
+  /// No description provided for @filterResetButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get filterResetButton;
+
+  /// No description provided for @filterApplyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply filter'**
+  String get filterApplyButton;
+
+  /// No description provided for @filterMinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Min'**
+  String get filterMinLabel;
+
+  /// No description provided for @filterMaxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max'**
+  String get filterMaxLabel;
+
+  /// No description provided for @filterCarbsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Carbs (g)'**
+  String get filterCarbsLabel;
+
+  /// No description provided for @filterFatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat (g)'**
+  String get filterFatLabel;
+
+  /// No description provided for @filterFiberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fiber (g)'**
+  String get filterFiberLabel;
+
+  /// No description provided for @filterMealTypesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal types'**
+  String get filterMealTypesLabel;
+
+  /// No description provided for @filterIncludeIngredientsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Include ingredients'**
+  String get filterIncludeIngredientsLabel;
+
+  /// No description provided for @filterExcludeIngredientsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclude ingredients'**
+  String get filterExcludeIngredientsLabel;
+
+  /// No description provided for @filterIngredientInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type an ingredient and press enter…'**
+  String get filterIngredientInputHint;
 
   /// No description provided for @privacyPolicyTitle.
   ///
@@ -176,11 +260,17 @@ abstract class AppLocalizations {
   /// **'No community recipes yet.'**
   String get communityEmpty;
 
-  /// No description provided for @communityLoadingNutrition.
+  /// No description provided for @addToRecipes.
   ///
   /// In en, this message translates to:
-  /// **'Calculating nutrition from ingredients…'**
-  String get communityLoadingNutrition;
+  /// **'Add to my recipes'**
+  String get addToRecipes;
+
+  /// No description provided for @addedToRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Added \"{name}\" to your recipes'**
+  String addedToRecipes(String name);
 
   /// No description provided for @editRecipe.
   ///
@@ -295,12 +385,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ingredient {number}'**
   String ingredientN(int number);
-
-  /// No description provided for @quantity.
-  ///
-  /// In en, this message translates to:
-  /// **'Quantity'**
-  String get quantity;
 
   /// No description provided for @mealType.
   ///
@@ -476,47 +560,11 @@ abstract class AppLocalizations {
   /// **'Reset'**
   String get reset;
 
-  /// No description provided for @foodDiaryTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Food Diary'**
-  String get foodDiaryTitle;
-
   /// No description provided for @searchFoodsHint.
   ///
   /// In en, this message translates to:
   /// **'Search foods…'**
   String get searchFoodsHint;
-
-  /// No description provided for @searchErrorLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Search error: {error}'**
-  String searchErrorLabel(String error);
-
-  /// No description provided for @noFoodsLoggedToday.
-  ///
-  /// In en, this message translates to:
-  /// **'No foods logged yet today.'**
-  String get noFoodsLoggedToday;
-
-  /// No description provided for @errorLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Error: {error}'**
-  String errorLabel(String error);
-
-  /// No description provided for @quantityGrams.
-  ///
-  /// In en, this message translates to:
-  /// **'Quantity (grams)'**
-  String get quantityGrams;
-
-  /// No description provided for @quantityValidatorMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a quantity greater than 0'**
-  String get quantityValidatorMessage;
 
   /// No description provided for @perHundredGrams.
   ///
@@ -529,42 +577,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{kcal} kcal / 100g'**
   String kcalPer100g(int kcal);
-
-  /// No description provided for @mealEntrySubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount} · {calories} kcal · P {protein}g · C {carbs}g · F {fat}g'**
-  String mealEntrySubtitle(
-    String amount,
-    int calories,
-    String protein,
-    String carbs,
-    String fat,
-  );
-
-  /// No description provided for @statCalories.
-  ///
-  /// In en, this message translates to:
-  /// **'Calories'**
-  String get statCalories;
-
-  /// No description provided for @statProtein.
-  ///
-  /// In en, this message translates to:
-  /// **'Protein'**
-  String get statProtein;
-
-  /// No description provided for @statCarbs.
-  ///
-  /// In en, this message translates to:
-  /// **'Carbs'**
-  String get statCarbs;
-
-  /// No description provided for @statFat.
-  ///
-  /// In en, this message translates to:
-  /// **'Fat'**
-  String get statFat;
 
   /// No description provided for @unitG.
   ///

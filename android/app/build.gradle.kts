@@ -6,7 +6,9 @@ plugins {
 
 android {
     namespace = "com.ohammami.eatingapp"
-    compileSdk = flutter.compileSdkVersion
+    // Pinned above flutter.compileSdkVersion (34): flutter_plugin_android_lifecycle
+    // (a transitive dep of file_picker) requires compiling against API 36+.
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

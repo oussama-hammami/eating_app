@@ -23,20 +23,6 @@ void main() {
         fiber_g_100g REAL
       )
     ''');
-    await db.execute('''
-      CREATE TABLE meal_entries (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        food_id INTEGER NOT NULL,
-        food_name TEXT NOT NULL,
-        grams REAL NOT NULL,
-        calories REAL NOT NULL,
-        protein REAL NOT NULL,
-        carbs REAL NOT NULL,
-        fat REAL NOT NULL,
-        logged_at TEXT NOT NULL,
-        log_date TEXT NOT NULL
-      )
-    ''');
 
     await tester.pumpWidget(
       ProviderScope(
@@ -48,7 +34,7 @@ void main() {
 
     expect(find.text('Recipes'), findsOneWidget);
     expect(find.text('Groceries'), findsOneWidget);
-    expect(find.text('Diary'), findsOneWidget);
+    expect(find.text('Community'), findsOneWidget);
 
     await db.close();
   });

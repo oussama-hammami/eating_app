@@ -18,9 +18,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navGroceries => 'Courses';
 
   @override
-  String get navDiary => 'Journal';
-
-  @override
   String get navCommunity => 'Communauté';
 
   @override
@@ -29,6 +26,55 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get recipesEmpty =>
       'Aucune recette pour le moment.\nAppuyez sur + pour en ajouter une.';
+
+  @override
+  String get searchRecipesHint => 'Rechercher des recettes…';
+
+  @override
+  String get recipesSearchEmpty =>
+      'Aucune recette ne correspond à votre recherche.';
+
+  @override
+  String get filtersButton => 'Filtres';
+
+  @override
+  String filtersActiveButton(int count) {
+    return 'Filtres ($count)';
+  }
+
+  @override
+  String get filterResetButton => 'Réinitialiser les filtres';
+
+  @override
+  String get filterApplyButton => 'Appliquer le filtre';
+
+  @override
+  String get filterMinLabel => 'Min';
+
+  @override
+  String get filterMaxLabel => 'Max';
+
+  @override
+  String get filterCarbsLabel => 'Glucides (g)';
+
+  @override
+  String get filterFatLabel => 'Lipides (g)';
+
+  @override
+  String get filterFiberLabel => 'Fibres (g)';
+
+  @override
+  String get filterMealTypesLabel => 'Types de repas';
+
+  @override
+  String get filterIncludeIngredientsLabel => 'Inclure des ingrédients';
+
+  @override
+  String get filterExcludeIngredientsLabel => 'Exclure des ingrédients';
+
+  @override
+  String get filterIngredientInputHint =>
+      'Tapez un ingrédient et appuyez sur entrée…';
 
   @override
   String get privacyPolicyTitle => 'Politique de confidentialité';
@@ -51,8 +97,12 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucune recette de la communauté pour le moment.';
 
   @override
-  String get communityLoadingNutrition =>
-      'Calcul des valeurs nutritionnelles à partir des ingrédients…';
+  String get addToRecipes => 'Ajouter à mes recettes';
+
+  @override
+  String addedToRecipes(String name) {
+    return '« $name » a été ajoutée à vos recettes';
+  }
 
   @override
   String get editRecipe => 'Modifier la recette';
@@ -114,9 +164,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String ingredientN(int number) {
     return 'Ingrédient $number';
   }
-
-  @override
-  String get quantity => 'Quantité';
 
   @override
   String get mealType => 'Type de repas';
@@ -227,30 +274,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reset => 'Réinitialiser';
 
   @override
-  String get foodDiaryTitle => 'Journal alimentaire';
-
-  @override
   String get searchFoodsHint => 'Rechercher des aliments…';
-
-  @override
-  String searchErrorLabel(String error) {
-    return 'Erreur de recherche : $error';
-  }
-
-  @override
-  String get noFoodsLoggedToday => 'Aucun aliment enregistré aujourd\'hui.';
-
-  @override
-  String errorLabel(String error) {
-    return 'Erreur : $error';
-  }
-
-  @override
-  String get quantityGrams => 'Quantité (grammes)';
-
-  @override
-  String get quantityValidatorMessage =>
-      'Saisissez une quantité supérieure à 0';
 
   @override
   String get perHundredGrams => 'pour 100g';
@@ -259,29 +283,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String kcalPer100g(int kcal) {
     return '$kcal kcal / 100g';
   }
-
-  @override
-  String mealEntrySubtitle(
-    String amount,
-    int calories,
-    String protein,
-    String carbs,
-    String fat,
-  ) {
-    return '$amount · $calories kcal · P ${protein}g · G ${carbs}g · L ${fat}g';
-  }
-
-  @override
-  String get statCalories => 'Calories';
-
-  @override
-  String get statProtein => 'Protéines';
-
-  @override
-  String get statCarbs => 'Glucides';
-
-  @override
-  String get statFat => 'Lipides';
 
   @override
   String get unitG => 'g';

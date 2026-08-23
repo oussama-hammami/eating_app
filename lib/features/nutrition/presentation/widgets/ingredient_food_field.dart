@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/units/ingredient_text_parser.dart';
 import '../../../../core/units/unit.dart';
-import '../../../meal_log/presentation/widgets/quantity_dialog.dart' show unitLabel;
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/food.dart';
 import '../../domain/usecases/food_matcher.dart';
 import '../providers/food_search_provider.dart';
+import 'unit_label.dart';
 
 /// The amount/unit/food resolved from an [IngredientFoodField]'s current
 /// text, e.g. "1 tablespoon of olive oil" -> `(1, tbsp, <olive oil Food>)`.
@@ -22,8 +22,7 @@ typedef IngredientMatch = ({double? amount, Unit unit, Food? food});
 /// suggestions for the remaining text in a floating overlay (200ms
 /// debounced), and reports the resolved (amount, unit, food) via
 /// [onMatchChanged] — for use in contexts (like the recipe ingredient list)
-/// that aren't part of the Riverpod-driven Food Diary screen and so can't
-/// share its single global search provider.
+/// that need their own search state rather than a single shared provider.
 class IngredientFoodField extends ConsumerStatefulWidget {
   const IngredientFoodField({
     super.key,

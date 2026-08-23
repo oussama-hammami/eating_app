@@ -37,7 +37,21 @@
       "Bash(git branch *)",
       "Bash(grep -n \"communityBreakfastRecipes\\\\|itemCount: recipes.length\\\\|^              \\),$\\\\|^    \\);$\" lib/main.dart)",
       "Bash(git mv *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(echo \"---exit $?---\")",
+      "Bash(grep -n \"itemBuilder: \\(context, i\\) {\" lib/features/recipes/presentation/screens/recipes_tab.dart)",
+      "Bash(grep -n \"name: '\" /tmp/community_recipes_generated.dart | grep -iE \"quantity: ''.*\\\\d|piece.*small|,.*piece\" ; echo ---; sed -n '/mealType: MealType.drink/,/^  \\),/p' /tmp/community_recipes_generated.dart | head -60)",
+      "Bash(python3 -c \"import PIL; print\\(PIL.__version__\\)\")",
+      "Bash(mkdir -p *)",
+      "Bash(identify assets/images/community_thumbnails/skyr_chocolate_mousse.jpg)",
+      "Bash(identify meal_images/Skyr_Chocolate_Mousse.jpeg)",
+      "Bash(convert \"meal_images/Skyr_Chocolate_Mousse.jpeg\" -auto-orient -strip -resize '480x480^' -gravity center -extent 480x480 -quality 80 /tmp/test_thumb.jpg)",
+      "Bash(identify -verbose /tmp/test_thumb.jpg)",
+      "Bash(python3 /tmp/gen_community_recipes2.py)"
+    ],
+    "additionalDirectories": [
+      "/tmp",
+      "/home/oussama/Downloads/testLab/eating_app/assets/images"
     ]
   }
 }
