@@ -254,6 +254,50 @@ class AppLocalizationsFr extends AppLocalizations {
   String get generate => 'Générer';
 
   @override
+  String shareRecipesCount(int count) {
+    return 'Partager ($count)';
+  }
+
+  @override
+  String get shareRecipesTitle => 'Partager les recettes';
+
+  @override
+  String shareRecipesInstructions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ces recettes',
+      one: 'cette recette',
+    );
+    return 'Scannez ce code QR avec l\'application sur un autre appareil pour partager $_temp0.';
+  }
+
+  @override
+  String get shareRecipesLinkButton => 'Partager sous forme de lien';
+
+  @override
+  String get scanRecipesTitle => 'Scanner pour importer';
+
+  @override
+  String get importRecipesTitle => 'Choisir les recettes à ajouter';
+
+  @override
+  String importRecipesAddButton(int count) {
+    return 'Ajouter à mes recettes ($count)';
+  }
+
+  @override
+  String importRecipesSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recettes ajoutées',
+      one: '1 recette ajoutée',
+    );
+    return '$_temp0 à votre liste.';
+  }
+
+  @override
   String get groceriesTitle => '🛒  Courses';
 
   @override

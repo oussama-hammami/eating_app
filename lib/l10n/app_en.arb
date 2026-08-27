@@ -113,6 +113,27 @@
   "generateGroceriesConfirmMessage": "This will replace the current grocery list with a fresh one built only from the selected meals.",
   "generate": "Generate",
 
+  "shareRecipesCount": "Share ({count})",
+  "@shareRecipesCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "shareRecipesTitle": "Share recipes",
+  "shareRecipesInstructions": "Scan this QR code with another device's app to share {count, plural, one {this recipe} other {these recipes}}.",
+  "@shareRecipesInstructions": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "shareRecipesLinkButton": "Share as link instead",
+  "scanRecipesTitle": "Scan to import",
+  "importRecipesTitle": "Choose recipes to add",
+  "importRecipesAddButton": "Add to my recipes ({count})",
+  "@importRecipesAddButton": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "importRecipesSuccess": "{count, plural, one {1 recipe} other {{count} recipes}} added to your list.",
+  "@importRecipesSuccess": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
   "groceriesTitle": "🛒  Groceries",
   "groceriesEmpty": "No groceries yet.\nSelect meals in Recipes and generate a list.",
   "resetGroceries": "Reset groceries",

@@ -24,6 +24,8 @@ import '../../domain/entities/recipe.dart';
 import '../../domain/entities/recipe_filter.dart';
 import '../widgets/recipe_filter_panel.dart';
 import '../widgets/recipe_photo.dart';
+import '../../../sharing/presentation/screens/scan_recipes_screen.dart';
+import '../../../sharing/presentation/screens/share_recipes_screen.dart';
 
 // TODO: Update once the GitHub Pages repo is created and published.
 const String privacyPolicyUrl =
@@ -124,6 +126,31 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
     setState(() {
       _selectedIndexes.clear();
     });
+  }
+
+  void _shareRecipes() {
+    final selectedRecipes = _selectedIndexes.map((i) => widget.recipes[i]).toList();
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => ShareRecipesScreen(recipes: selectedRecipes)),
+    );
+    setState(() {
+      _selectedIndexes.clear();
+    });
+  }
+
+  Future<void> _scanToImport() async {
+    final selected = await Navigator.of(context).push<List<Recipe>>(
+      MaterialPageRoute(builder: (_) => const ScanRecipesScreen()),
+    );
+    if (selected == null) return;
+    for (final recipe in selected) {
+      widget.onAddRecipe(recipe);
+    }
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.importRecipesSuccess(selected.length))),
+    );
   }
 
   Future<void> _deleteRecipe(int index) async {
@@ -722,6 +749,11 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
         title: Text(l10n.recipesTitle),
         actions: [
           IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            tooltip: l10n.scanRecipesTitle,
+            onPressed: _scanToImport,
+          ),
+          IconButton(
             icon: const Icon(Icons.info_outline),
             tooltip: l10n.privacyPolicyTitle,
             onPressed: () => _showPrivacyPolicyDialog(context, l10n),
@@ -935,21 +967,35 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
           : SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: Row(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _addToGroceries,
-                        icon: const Icon(Icons.add_shopping_cart),
-                        label: Text(l10n.addToGroceriesCount(_selectedIndexes.length)),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: _addToGroceries,
+                            icon: const Icon(Icons.add_shopping_cart),
+                            label: Text(l10n.addToGroceriesCount(_selectedIndexes.length)),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: FilledButton.icon(
+                            onPressed: _generateGroceries,
+                            icon: const Icon(Icons.auto_awesome),
+                            label: Text(l10n.generateGroceries),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: FilledButton.icon(
-                        onPressed: _generateGroceries,
-                        icon: const Icon(Icons.auto_awesome),
-                        label: Text(l10n.generateGroceries),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: _shareRecipes,
+                        icon: const Icon(Icons.ios_share),
+                        label: Text(l10n.shareRecipesCount(_selectedIndexes.length)),
                       ),
                     ),
                   ],

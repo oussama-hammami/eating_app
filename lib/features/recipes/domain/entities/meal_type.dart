@@ -27,4 +27,7 @@ enum MealType {
         return l10n.mealTypeDrink;
     }
   }
+
+  static MealType fromName(String name) =>
+      MealType.values.firstWhere((v) => v.name == name, orElse: () => MealType.snack);
 }

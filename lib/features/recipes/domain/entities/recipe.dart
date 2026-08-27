@@ -47,4 +47,34 @@ class Recipe {
         carbs: carbs,
         fat: fat,
       );
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'calories': calories,
+        'protein': protein,
+        'portions': portions,
+        'ingredients': ingredients.map((i) => i.toJson()).toList(),
+        'description': description,
+        'mealType': mealType.name,
+        'photoPath': photoPath,
+        'carbs': carbs,
+        'fat': fat,
+      };
+
+  factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
+        name: json['name'] as String,
+        calories: json['calories'] as int,
+        protein: json['protein'] as int,
+        portions: json['portions'] as int,
+        ingredients: (json['ingredients'] as List)
+            .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        description: json['description'] as String,
+        mealType: MealType.fromName(json['mealType'] as String),
+        // A shared recipe's photo path points to the sender's local
+        // filesystem, so it can't resolve on the receiving device.
+        photoPath: null,
+        carbs: json['carbs'] as int?,
+        fat: json['fat'] as int?,
+      );
 }

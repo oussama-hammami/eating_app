@@ -30,4 +30,28 @@ class Ingredient {
   /// nutrition fields are null in that case; a human should confirm which
   /// food was meant instead of trusting a silent guess.
   final bool needsConfirmation;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'quantity': quantity,
+        'calories': calories,
+        'protein': protein,
+        'carbs': carbs,
+        'fat': fat,
+        'fiber': fiber,
+        'matchConfidence': matchConfidence,
+        'needsConfirmation': needsConfirmation,
+      };
+
+  factory Ingredient.fromJson(Map<String, dynamic> json) => Ingredient(
+        name: json['name'] as String,
+        quantity: json['quantity'] as String,
+        calories: (json['calories'] as num?)?.toDouble(),
+        protein: (json['protein'] as num?)?.toDouble(),
+        carbs: (json['carbs'] as num?)?.toDouble(),
+        fat: (json['fat'] as num?)?.toDouble(),
+        fiber: (json['fiber'] as num?)?.toDouble(),
+        matchConfidence: (json['matchConfidence'] as num?)?.toDouble(),
+        needsConfirmation: json['needsConfirmation'] as bool? ?? false,
+      );
 }

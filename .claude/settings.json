@@ -47,7 +47,10 @@
       "Bash(identify meal_images/Skyr_Chocolate_Mousse.jpeg)",
       "Bash(convert \"meal_images/Skyr_Chocolate_Mousse.jpeg\" -auto-orient -strip -resize '480x480^' -gravity center -extent 480x480 -quality 80 /tmp/test_thumb.jpg)",
       "Bash(identify -verbose /tmp/test_thumb.jpg)",
-      "Bash(python3 /tmp/gen_community_recipes2.py)"
+      "Bash(python3 /tmp/gen_community_recipes2.py)",
+      "Bash(python3 -c \"import qrcode\")",
+      "Bash(python3 -c \"import qrcode; print\\('ok'\\)\")",
+      "Bash(grep -c \"Recipe\\($\" lib/features/recipes/domain/usecases/community_recipes.dart)"
     ],
     "additionalDirectories": [
       "/tmp",

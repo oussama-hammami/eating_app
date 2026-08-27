@@ -524,6 +524,54 @@ abstract class AppLocalizations {
   /// **'Generate'**
   String get generate;
 
+  /// No description provided for @shareRecipesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Share ({count})'**
+  String shareRecipesCount(int count);
+
+  /// No description provided for @shareRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share recipes'**
+  String get shareRecipesTitle;
+
+  /// No description provided for @shareRecipesInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code with another device\'s app to share {count, plural, one {this recipe} other {these recipes}}.'**
+  String shareRecipesInstructions(int count);
+
+  /// No description provided for @shareRecipesLinkButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as link instead'**
+  String get shareRecipesLinkButton;
+
+  /// No description provided for @scanRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to import'**
+  String get scanRecipesTitle;
+
+  /// No description provided for @importRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose recipes to add'**
+  String get importRecipesTitle;
+
+  /// No description provided for @importRecipesAddButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my recipes ({count})'**
+  String importRecipesAddButton(int count);
+
+  /// No description provided for @importRecipesSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 recipe} other {{count} recipes}} added to your list.'**
+  String importRecipesSuccess(int count);
+
   /// No description provided for @groceriesTitle.
   ///
   /// In en, this message translates to:

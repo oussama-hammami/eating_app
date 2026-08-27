@@ -73,6 +73,15 @@
   "generateGroceriesConfirmMessage": "Cela remplacera la liste de courses actuelle par une nouvelle liste basée uniquement sur les repas sélectionnés.",
   "generate": "Générer",
 
+  "shareRecipesCount": "Partager ({count})",
+  "shareRecipesTitle": "Partager les recettes",
+  "shareRecipesInstructions": "Scannez ce code QR avec l'application sur un autre appareil pour partager {count, plural, one {cette recette} other {ces recettes}}.",
+  "shareRecipesLinkButton": "Partager sous forme de lien",
+  "scanRecipesTitle": "Scanner pour importer",
+  "importRecipesTitle": "Choisir les recettes à ajouter",
+  "importRecipesAddButton": "Ajouter à mes recettes ({count})",
+  "importRecipesSuccess": "{count, plural, one {1 recette ajoutée} other {{count} recettes ajoutées}} à votre liste.",
+
   "groceriesTitle": "🛒  Courses",
   "groceriesEmpty": "Aucun article pour le moment.\nSélectionnez des repas dans Recettes et générez une liste.",
   "resetGroceries": "Réinitialiser les courses",
