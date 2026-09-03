@@ -1,0 +1,2106 @@
+[
+  {
+    "name": "Zucchini, Carrot & Cheese Tortilla",
+    "calories": 500,
+    "protein": 31,
+    "carbs": 39,
+    "fat": 24,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/zucchini_carrot_cheese_tortilla.jpg",
+    "description": "Slice zucchini thinly and grate carrot. Sauté zucchini in olive oil for 3–4 minutes. Beat eggs with carrot, salt, pepper and herbs. Pour over zucchini and cook until nearly set. Add cheese and place tortilla over the top. Fold in half and toast both sides until golden.",
+    "ingredients": [
+      {
+        "name": "whole-wheat tortilla",
+        "quantity": "50 g"
+      },
+      {
+        "name": "eggs",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "zucchini",
+        "quantity": "150 g"
+      },
+      {
+        "name": "carrot",
+        "quantity": "60 g"
+      },
+      {
+        "name": "grated mozzarella",
+        "quantity": "40 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "salt",
+        "quantity": ""
+      },
+      {
+        "name": "black pepper",
+        "quantity": ""
+      },
+      {
+        "name": "herbes de provence",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "High-Protein French Crêpes with Skyr & Berries",
+    "calories": 450,
+    "protein": 35,
+    "carbs": 55,
+    "fat": 8,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/high_protein_french_crepes_with_skyr_berries.jpg",
+    "description": "Whisk flour, egg, egg whites and milk. Rest batter for 10 minutes. Cook thin crêpes in a non-stick pan. Fill with skyr and berries. Drizzle with honey.",
+    "ingredients": [
+      {
+        "name": "flour",
+        "quantity": "50 g"
+      },
+      {
+        "name": "egg",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "egg whites",
+        "quantity": "100 g"
+      },
+      {
+        "name": "semi-skimmed milk",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "plain skyr",
+        "quantity": "150 g"
+      },
+      {
+        "name": "strawberries or raspberries",
+        "quantity": "100 g"
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Croque-Madame with Turkey",
+    "calories": 520,
+    "protein": 45,
+    "carbs": 39,
+    "fat": 21,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/croque_madame_with_turkey.jpg",
+    "description": "Make a light béchamel with butter, flour and milk. Spread mustard on bread and add turkey and half the cheese. Close sandwich and spread béchamel on top. Add remaining Gruyère and bake at 200°C until golden. Fry egg and place on top.",
+    "ingredients": [
+      {
+        "name": "slices whole-grain bread",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "sliced turkey breast",
+        "quantity": "80 g"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "30 g"
+      },
+      {
+        "name": "egg",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "milk",
+        "quantity": "50 ml"
+      },
+      {
+        "name": "flour",
+        "quantity": "10 g"
+      },
+      {
+        "name": "butter",
+        "quantity": "5 g"
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      },
+      {
+        "name": "pepper",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Savory Breton Galette with Chicken & Egg",
+    "calories": 500,
+    "protein": 49,
+    "carbs": 38,
+    "fat": 17,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/savory_breton_galette_with_chicken_egg.jpg",
+    "description": "Mix buckwheat flour and water. Cook a thin galette. Add chicken, mushrooms and spinach. Crack egg into center. Add Gruyère. Fold four sides inward and cook until egg is set.",
+    "ingredients": [
+      {
+        "name": "buckwheat flour",
+        "quantity": "50 g"
+      },
+      {
+        "name": "water",
+        "quantity": "120 ml"
+      },
+      {
+        "name": "cooked chicken breast",
+        "quantity": "100 g"
+      },
+      {
+        "name": "egg",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "30 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "50 g"
+      },
+      {
+        "name": "spinach",
+        "quantity": "30 g"
+      },
+      {
+        "name": "pepper",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Skyr, Apple & Walnut French Breakfast Bowl",
+    "calories": 430,
+    "protein": 30,
+    "carbs": 48,
+    "fat": 14,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/skyr_apple_walnut_french_breakfast_bowl.jpg",
+    "description": "Dice apple. Toast oats and walnuts lightly. Put skyr in bowl. Add apple, oats and walnuts. Finish with cinnamon and honey.",
+    "ingredients": [
+      {
+        "name": "plain skyr",
+        "quantity": "250 g"
+      },
+      {
+        "name": "apple",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "walnuts",
+        "quantity": "20 g"
+      },
+      {
+        "name": "oats",
+        "quantity": "20 g"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Omelette Provençale",
+    "calories": 420,
+    "protein": 38,
+    "carbs": 13,
+    "fat": 24,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/omelette_provencale.jpg",
+    "description": "Sauté mushrooms and tomatoes. Add spinach until wilted. Beat eggs and egg whites. Pour into pan. Add vegetables and goat cheese. Fold and cook until set.",
+    "ingredients": [
+      {
+        "name": "eggs",
+        "quantity": "3 piece"
+      },
+      {
+        "name": "egg whites",
+        "quantity": "100 g"
+      },
+      {
+        "name": "tomatoes",
+        "quantity": "100 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "50 g"
+      },
+      {
+        "name": "spinach",
+        "quantity": "50 g"
+      },
+      {
+        "name": "goat cheese",
+        "quantity": "20 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "herbes de provence",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "French Toast with Skyr & Strawberries",
+    "calories": 450,
+    "protein": 29,
+    "carbs": 53,
+    "fat": 12,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/french_toast_with_skyr_strawberries.jpg",
+    "description": "Whisk eggs, milk, cinnamon and vanilla. Soak bread briefly. Cook until golden. Serve with skyr and strawberries. Add honey.",
+    "ingredients": [
+      {
+        "name": "thick slices whole-grain bread",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "eggs",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "milk",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "skyr",
+        "quantity": "100 g"
+      },
+      {
+        "name": "strawberries",
+        "quantity": "100 g"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Smoked Salmon & Cottage Cheese Tartine",
+    "calories": 410,
+    "protein": 37,
+    "carbs": 34,
+    "fat": 15,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/smoked_salmon_cottage_cheese_tartine.jpg",
+    "description": "Toast bread. Spread cottage cheese. Add smoked salmon. Top with cucumber, dill and lemon. Finish with pepper.",
+    "ingredients": [
+      {
+        "name": "slices rye or whole-grain bread",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "smoked salmon",
+        "quantity": "100 g"
+      },
+      {
+        "name": "cottage cheese",
+        "quantity": "120 g"
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "dill",
+        "quantity": ""
+      },
+      {
+        "name": "black pepper",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Protein-Rich French Yogurt Parfait",
+    "calories": 390,
+    "protein": 31,
+    "carbs": 42,
+    "fat": 10,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/protein_rich_french_yogurt_parfait.jpg",
+    "description": "Layer skyr, berries, oats and almonds. Repeat layers. Finish with berries and honey.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "250 g"
+      },
+      {
+        "name": "berries",
+        "quantity": "100 g"
+      },
+      {
+        "name": "oats",
+        "quantity": "25 g"
+      },
+      {
+        "name": "almonds",
+        "quantity": "15 g"
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chicken & Vegetable Breakfast Frittata",
+    "calories": 470,
+    "protein": 50,
+    "carbs": 15,
+    "fat": 21,
+    "portions": 1,
+    "meal_type": "breakfast",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chicken_vegetable_breakfast_frittata.jpg",
+    "description": "Sauté vegetables. Add diced chicken. Pour over beaten eggs and egg whites. Add cheese. Cook gently and finish under grill until golden.",
+    "ingredients": [
+      {
+        "name": "eggs",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "egg whites",
+        "quantity": "120 g"
+      },
+      {
+        "name": "cooked chicken breast",
+        "quantity": "100 g"
+      },
+      {
+        "name": "zucchini",
+        "quantity": "100 g"
+      },
+      {
+        "name": "red pepper",
+        "quantity": "50 g"
+      },
+      {
+        "name": "cheese",
+        "quantity": "30 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "herbs",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Salade Niçoise with Tuna & Eggs",
+    "calories": 600,
+    "protein": 55,
+    "carbs": 45,
+    "fat": 24,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/salade_nicoise_with_tuna_eggs.jpg",
+    "description": "Boil potatoes and green beans. Boil eggs. Arrange lettuce, tomatoes, beans, potatoes, tuna, eggs and olives. Dress with olive oil, lemon and mustard.",
+    "ingredients": [
+      {
+        "name": "tuna in water",
+        "quantity": "150 g"
+      },
+      {
+        "name": "eggs",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "150 g"
+      },
+      {
+        "name": "green beans",
+        "quantity": "100 g"
+      },
+      {
+        "name": "tomatoes",
+        "quantity": "100 g"
+      },
+      {
+        "name": "lettuce",
+        "quantity": ""
+      },
+      {
+        "name": "olives",
+        "quantity": "30 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chicken Ratatouille Bowl",
+    "calories": 560,
+    "protein": 58,
+    "carbs": 45,
+    "fat": 17,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chicken_ratatouille_bowl.jpg",
+    "description": "Brown chicken. Cook onion, zucchini and eggplant. Add tomatoes and garlic. Simmer 15–20 minutes. Add cooked lentils. Serve sliced chicken on top.",
+    "ingredients": [
+      {
+        "name": "chicken breast",
+        "quantity": "180 g"
+      },
+      {
+        "name": "zucchini",
+        "quantity": "150 g"
+      },
+      {
+        "name": "eggplant",
+        "quantity": "100 g"
+      },
+      {
+        "name": "tomatoes",
+        "quantity": "120 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "50 g"
+      },
+      {
+        "name": "cooked lentils",
+        "quantity": "100 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "herbes de provence",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "High-Protein Quiche Lorraine with Turkey",
+    "calories": 500,
+    "protein": 43,
+    "carbs": 35,
+    "fat": 22,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/high_protein_quiche_lorraine_with_turkey.jpg",
+    "description": "Place pastry in tart tin. Add chopped turkey. Whisk eggs, egg whites, milk and cottage cheese. Pour over turkey. Add Gruyère. Bake at 180°C for 35–40 minutes.",
+    "ingredients": [
+      {
+        "name": "whole-grain pie crust",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "eggs",
+        "quantity": "4 piece"
+      },
+      {
+        "name": "egg whites",
+        "quantity": "200 g"
+      },
+      {
+        "name": "turkey breast",
+        "quantity": "120 g"
+      },
+      {
+        "name": "cottage cheese",
+        "quantity": "80 g"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "50 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "nutmeg",
+        "quantity": ""
+      },
+      {
+        "name": "pepper",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Blanquette-Style Chicken with Mushrooms",
+    "calories": 520,
+    "protein": 60,
+    "carbs": 30,
+    "fat": 16,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/blanquette_style_chicken_with_mushrooms.jpg",
+    "description": "Cook chicken and vegetables gently. Make light sauce with flour and milk. Add mushrooms. Remove from heat and stir in Greek yogurt. Finish with lemon and parsley.",
+    "ingredients": [
+      {
+        "name": "chicken breast",
+        "quantity": "200 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "150 g"
+      },
+      {
+        "name": "carrots",
+        "quantity": "100 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "80 g"
+      },
+      {
+        "name": "low-fat milk",
+        "quantity": "150 ml"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "80 g"
+      },
+      {
+        "name": "flour",
+        "quantity": "10 g"
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "parsley",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Tuna Pan Bagnat",
+    "calories": 590,
+    "protein": 50,
+    "carbs": 58,
+    "fat": 19,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/tuna_pan_bagnat.jpg",
+    "description": "Mix tuna with lemon and olive oil. Fill bread with tuna, egg, tomato, cucumber, lettuce and olives. Press firmly before serving.",
+    "ingredients": [
+      {
+        "name": "whole-grain round bread",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "tuna",
+        "quantity": "150 g"
+      },
+      {
+        "name": "egg",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "tomato",
+        "quantity": ""
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "lettuce",
+        "quantity": ""
+      },
+      {
+        "name": "olives",
+        "quantity": "20 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Turkey Croque-Monsieur with Side Salad",
+    "calories": 560,
+    "protein": 48,
+    "carbs": 48,
+    "fat": 22,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/turkey_croque_monsieur_with_side_salad.jpg",
+    "description": "Build sandwich with mustard, turkey and cheese. Cover with béchamel and extra cheese. Bake until golden. Serve with dressed salad.",
+    "ingredients": [
+      {
+        "name": "slices whole-grain bread",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "turkey",
+        "quantity": "120 g"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "40 g"
+      },
+      {
+        "name": "light béchamel",
+        "quantity": "60 ml"
+      },
+      {
+        "name": "green salad",
+        "quantity": ""
+      },
+      {
+        "name": "tomato",
+        "quantity": ""
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Lentil & Salmon French Bistro Salad",
+    "calories": 570,
+    "protein": 47,
+    "carbs": 43,
+    "fat": 24,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/lentil_salmon_french_bistro_salad.jpg",
+    "description": "Cook salmon and let cool slightly. Combine lentils and vegetables. Make yogurt-Dijon dressing. Add salmon and herbs.",
+    "ingredients": [
+      {
+        "name": "cooked green lentils",
+        "quantity": "150 g"
+      },
+      {
+        "name": "cooked salmon",
+        "quantity": "150 g"
+      },
+      {
+        "name": "carrot",
+        "quantity": "100 g"
+      },
+      {
+        "name": "cucumber",
+        "quantity": "50 g"
+      },
+      {
+        "name": "mixed greens",
+        "quantity": ""
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "50 g"
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "dill",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Beef Bourguignon — Alcohol-Free",
+    "calories": 650,
+    "protein": 50,
+    "carbs": 52,
+    "fat": 25,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/beef_bourguignon_alcohol_free.jpg",
+    "description": "Brown beef well. Add onion and carrot. Add tomato and stock. Add mushrooms, garlic, thyme and bay. Simmer 1½–2 hours. Serve with boiled potatoes.",
+    "ingredients": [
+      {
+        "name": "lean beef",
+        "quantity": "180 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "150 g"
+      },
+      {
+        "name": "carrots",
+        "quantity": "100 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "100 g"
+      },
+      {
+        "name": "beef stock",
+        "quantity": "150 ml"
+      },
+      {
+        "name": "tomato passata",
+        "quantity": "100 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "150 g"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      },
+      {
+        "name": "bay leaf",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "High-Protein Hachis Parmentier",
+    "calories": 580,
+    "protein": 49,
+    "carbs": 48,
+    "fat": 23,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/high_protein_hachis_parmentier.jpg",
+    "description": "Cook beef with onion and carrot. Boil potato and cauliflower. Mash with Greek yogurt. Layer beef and mash in baking dish. Add cheese. Bake until golden.",
+    "ingredients": [
+      {
+        "name": "lean minced beef",
+        "quantity": "180 g"
+      },
+      {
+        "name": "potato",
+        "quantity": "150 g"
+      },
+      {
+        "name": "cauliflower",
+        "quantity": "100 g"
+      },
+      {
+        "name": "carrot",
+        "quantity": "80 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "50 g"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "50 g"
+      },
+      {
+        "name": "grated cheese",
+        "quantity": "25 g"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Bouillabaisse-Style High-Protein Fish Stew",
+    "calories": 520,
+    "protein": 58,
+    "carbs": 38,
+    "fat": 12,
+    "portions": 1,
+    "meal_type": "lunch",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/bouillabaisse_style_high_protein_fish_stew.jpg",
+    "description": "Cook onion, fennel and garlic. Add tomatoes, stock and saffron. Add potatoes and simmer. Add cod, prawns and mussels near the end. Cook until seafood is just done.",
+    "ingredients": [
+      {
+        "name": "cod",
+        "quantity": "120 g"
+      },
+      {
+        "name": "prawns",
+        "quantity": "100 g"
+      },
+      {
+        "name": "mussels",
+        "quantity": "100 g"
+      },
+      {
+        "name": "tomatoes",
+        "quantity": "150 g"
+      },
+      {
+        "name": "fennel",
+        "quantity": "100 g"
+      },
+      {
+        "name": "potato",
+        "quantity": "80 g"
+      },
+      {
+        "name": "onion",
+        "quantity": ""
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "saffron",
+        "quantity": ""
+      },
+      {
+        "name": "fish stock",
+        "quantity": ""
+      },
+      {
+        "name": "parsley",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chicken Coq-au-Vin Style — No Alcohol",
+    "calories": 600,
+    "protein": 55,
+    "carbs": 38,
+    "fat": 24,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chicken_coq_au_vin_style_no_alcohol.jpg",
+    "description": "Brown chicken. Add vegetables and tomato paste. Add stock and diluted grape juice. Add herbs. Simmer 35–45 minutes until tender.",
+    "ingredients": [
+      {
+        "name": "chicken thighs, skinless",
+        "quantity": "220 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "150 g"
+      },
+      {
+        "name": "carrots",
+        "quantity": "100 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "100 g"
+      },
+      {
+        "name": "chicken stock",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "grape juice",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "water",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "tomato paste",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      },
+      {
+        "name": "bay leaf",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Lean Beef Bourguignon with Cauliflower Mash",
+    "calories": 590,
+    "protein": 58,
+    "carbs": 25,
+    "fat": 27,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/lean_beef_bourguignon_with_cauliflower_mash.jpg",
+    "description": "Cook beef slowly with vegetables, stock and herbs until tender. Steam cauliflower. Mash cauliflower with Greek yogurt. Serve beef over mash.",
+    "ingredients": [
+      {
+        "name": "lean beef",
+        "quantity": "200 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "200 g"
+      },
+      {
+        "name": "carrot",
+        "quantity": ""
+      },
+      {
+        "name": "onion",
+        "quantity": ""
+      },
+      {
+        "name": "beef stock",
+        "quantity": ""
+      },
+      {
+        "name": "tomato paste",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      },
+      {
+        "name": "cauliflower",
+        "quantity": "250 g"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "50 g"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chicken Chasseur",
+    "calories": 610,
+    "protein": 62,
+    "carbs": 47,
+    "fat": 18,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chicken_chasseur.jpg",
+    "description": "Brown chicken. Sauté onion and mushrooms. Add tomatoes and stock. Return chicken and simmer until cooked. Serve with potatoes.",
+    "ingredients": [
+      {
+        "name": "chicken breast",
+        "quantity": "220 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "150 g"
+      },
+      {
+        "name": "tomatoes",
+        "quantity": "150 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "100 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "150 g"
+      },
+      {
+        "name": "chicken stock",
+        "quantity": ""
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "parsley",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Turkey Ratatouille with Herbed Potatoes",
+    "calories": 580,
+    "protein": 58,
+    "carbs": 55,
+    "fat": 15,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/turkey_ratatouille_with_herbed_potatoes.jpg",
+    "description": "Cook ratatouille slowly. Roast potatoes with herbs. Grill or pan-cook turkey. Slice and serve over vegetables.",
+    "ingredients": [
+      {
+        "name": "turkey breast",
+        "quantity": "220 g"
+      },
+      {
+        "name": "ratatouille vegetables",
+        "quantity": "250 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "180 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "basil",
+        "quantity": ""
+      },
+      {
+        "name": "herbes de provence",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Salmon Gratin Dauphinois-Style",
+    "calories": 680,
+    "protein": 47,
+    "carbs": 45,
+    "fat": 34,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/salmon_gratin_dauphinois_style.jpg",
+    "description": "Slice potatoes thinly. Layer with spinach. Mix milk and yogurt with garlic and nutmeg. Add salmon and cheese. Bake at 180°C until potatoes are tender.",
+    "ingredients": [
+      {
+        "name": "salmon",
+        "quantity": "180 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "200 g"
+      },
+      {
+        "name": "spinach",
+        "quantity": "100 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "50 g"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "30 g"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "nutmeg",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "High-Protein Tartiflette with Chicken",
+    "calories": 690,
+    "protein": 54,
+    "carbs": 55,
+    "fat": 31,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/high_protein_tartiflette_with_chicken.jpg",
+    "description": "Cook potatoes. Sauté onion and mushrooms. Add chicken. Layer potatoes, chicken and vegetables. Add yogurt seasoning. Top with Reblochon and bake until bubbling.",
+    "ingredients": [
+      {
+        "name": "chicken breast",
+        "quantity": "180 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "250 g"
+      },
+      {
+        "name": "reblochon",
+        "quantity": "80 g"
+      },
+      {
+        "name": "onion",
+        "quantity": "100 g"
+      },
+      {
+        "name": "mushrooms",
+        "quantity": "100 g"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "50 g"
+      },
+      {
+        "name": "black pepper",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chicken Cassoulet-Style",
+    "calories": 650,
+    "protein": 57,
+    "carbs": 57,
+    "fat": 22,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chicken_cassoulet_style.jpg",
+    "description": "Brown chicken. Cook onion and carrot. Add beans, tomato and stock. Add herbs and chicken. Simmer 30–40 minutes. Finish under grill for a browned top.",
+    "ingredients": [
+      {
+        "name": "chicken thigh",
+        "quantity": "180 g"
+      },
+      {
+        "name": "white beans",
+        "quantity": "180 g"
+      },
+      {
+        "name": "carrot",
+        "quantity": "100 g"
+      },
+      {
+        "name": "tomato",
+        "quantity": "100 g"
+      },
+      {
+        "name": "onion",
+        "quantity": ""
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "thyme",
+        "quantity": ""
+      },
+      {
+        "name": "bay leaf",
+        "quantity": ""
+      },
+      {
+        "name": "chicken stock",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Steak au Poivre with Green Beans",
+    "calories": 650,
+    "protein": 57,
+    "carbs": 43,
+    "fat": 30,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/steak_au_poivre_with_green_beans.jpg",
+    "description": "Season steak with pepper. Sear and rest. Make light mustard-yogurt sauce. Serve with potatoes and green beans.",
+    "ingredients": [
+      {
+        "name": "lean beef steak",
+        "quantity": "200 g"
+      },
+      {
+        "name": "green beans",
+        "quantity": "200 g"
+      },
+      {
+        "name": "potatoes",
+        "quantity": "180 g"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "60 g"
+      },
+      {
+        "name": "crushed black pepper",
+        "quantity": ""
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Turkey Meatballs à la Provençale",
+    "calories": 670,
+    "protein": 62,
+    "carbs": 64,
+    "fat": 18,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/turkey_meatballs_a_la_provencale.jpg",
+    "description": "Mix turkey, egg, oats and herbs. Form meatballs and brown. Add tomato sauce and zucchini. Simmer 15 minutes. Serve over pasta.",
+    "ingredients": [
+      {
+        "name": "lean turkey mince",
+        "quantity": "220 g"
+      },
+      {
+        "name": "egg",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "oats",
+        "quantity": "20 g"
+      },
+      {
+        "name": "tomato passata",
+        "quantity": "200 g"
+      },
+      {
+        "name": "zucchini",
+        "quantity": "100 g"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "basil",
+        "quantity": ""
+      },
+      {
+        "name": "herbes de provence",
+        "quantity": ""
+      },
+      {
+        "name": "cooked whole-grain pasta",
+        "quantity": "150 g"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Garlic-Herb Cod with French Lentils",
+    "calories": 550,
+    "protein": 61,
+    "carbs": 43,
+    "fat": 14,
+    "portions": 1,
+    "meal_type": "dinner",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/garlic_herb_cod_with_french_lentils.jpg",
+    "description": "Cook lentils with carrots and leeks. Season cod with garlic, lemon and parsley. Bake at 200°C for 12–15 minutes. Serve cod over lentils.",
+    "ingredients": [
+      {
+        "name": "cod",
+        "quantity": "220 g"
+      },
+      {
+        "name": "cooked green lentils",
+        "quantity": "180 g"
+      },
+      {
+        "name": "carrots",
+        "quantity": "100 g"
+      },
+      {
+        "name": "leeks",
+        "quantity": "100 g"
+      },
+      {
+        "name": "olive oil",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "garlic",
+        "quantity": ""
+      },
+      {
+        "name": "parsley",
+        "quantity": ""
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Skyr with Strawberries",
+    "calories": 210,
+    "protein": 24,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/skyr_with_strawberries.jpg",
+    "description": "Combine all ingredients in a bowl.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "200 g"
+      },
+      {
+        "name": "strawberries",
+        "quantity": "100 g"
+      },
+      {
+        "name": "almonds",
+        "quantity": "10 g"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Cottage Cheese & Apple",
+    "calories": 300,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/cottage_cheese_apple.jpg",
+    "description": "Dice apple and combine with cottage cheese, cinnamon and walnuts.",
+    "ingredients": [
+      {
+        "name": "cottage cheese",
+        "quantity": "200 g"
+      },
+      {
+        "name": "small apple",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "walnuts",
+        "quantity": "10 g"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Tuna Cucumber Bites",
+    "calories": 190,
+    "protein": 28,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/tuna_cucumber_bites.jpg",
+    "description": "Mix tuna with yogurt and mustard. Spoon onto cucumber slices.",
+    "ingredients": [
+      {
+        "name": "tuna",
+        "quantity": "100 g"
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "60 g"
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "dill",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Boiled Eggs & Crudités",
+    "calories": 280,
+    "protein": 20,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/boiled_eggs_crudites.jpg",
+    "description": "Boil eggs 9–10 minutes. Cut vegetables. Mix yogurt and Dijon as dip.",
+    "ingredients": [
+      {
+        "name": "eggs",
+        "quantity": "2 piece"
+      },
+      {
+        "name": "carrot",
+        "quantity": ""
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "cherry tomatoes",
+        "quantity": ""
+      },
+      {
+        "name": "greek yogurt",
+        "quantity": "40 g"
+      },
+      {
+        "name": "dijon mustard",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Mini Turkey & Gruyère Roll-Ups",
+    "calories": 240,
+    "protein": 29,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/mini_turkey_gruyere_roll_ups.jpg",
+    "description": "Spread mustard. Add cheese and cucumber. Roll tightly and slice.",
+    "ingredients": [
+      {
+        "name": "turkey slices",
+        "quantity": "100 g"
+      },
+      {
+        "name": "gruyère",
+        "quantity": "40 g"
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "mustard",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Skyr Chocolate Mousse",
+    "calories": 220,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/skyr_chocolate_mousse.jpg",
+    "description": "Whisk skyr, cocoa, vanilla and honey. Chill. Shave dark chocolate over top.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "200 g"
+      },
+      {
+        "name": "unsweetened cocoa",
+        "quantity": "10 g"
+      },
+      {
+        "name": "dark chocolate",
+        "quantity": "10 g"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Edamame & Lemon Snack Bowl",
+    "calories": 210,
+    "protein": 18,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/edamame_lemon_snack_bowl.jpg",
+    "description": "Steam edamame. Season with lemon, salt and chili.",
+    "ingredients": [
+      {
+        "name": "edamame",
+        "quantity": "150 g"
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "sea salt",
+        "quantity": ""
+      },
+      {
+        "name": "chili flakes",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Greek Yogurt & Blueberry Bowl",
+    "calories": 250,
+    "protein": 23,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/greek_yogurt_blueberry_bowl.jpg",
+    "description": "Mix or layer ingredients.",
+    "ingredients": [
+      {
+        "name": "greek yogurt",
+        "quantity": "200 g"
+      },
+      {
+        "name": "blueberries",
+        "quantity": "100 g"
+      },
+      {
+        "name": "almonds",
+        "quantity": "15 g"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Smoked Salmon Cucumber Rolls",
+    "calories": 220,
+    "protein": 27,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/smoked_salmon_cucumber_rolls.jpg",
+    "description": "Cut cucumber into long ribbons. Spread cottage cheese. Add salmon and roll.",
+    "ingredients": [
+      {
+        "name": "smoked salmon",
+        "quantity": "80 g"
+      },
+      {
+        "name": "cottage cheese",
+        "quantity": "100 g"
+      },
+      {
+        "name": "cucumber",
+        "quantity": ""
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "dill",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Cottage Cheese Chocolate Berry Cup",
+    "calories": 240,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "snack",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/cottage_cheese_chocolate_berry_cup.jpg",
+    "description": "Blend cottage cheese with cocoa and vanilla. Top with raspberries and chocolate.",
+    "ingredients": [
+      {
+        "name": "cottage cheese",
+        "quantity": "180 g"
+      },
+      {
+        "name": "raspberries",
+        "quantity": "80 g"
+      },
+      {
+        "name": "cocoa",
+        "quantity": "5 g"
+      },
+      {
+        "name": "dark chocolate",
+        "quantity": "10 g"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Strawberry Skyr Smoothie",
+    "calories": 250,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/strawberry_skyr_smoothie.jpg",
+    "description": "Blend everything until smooth.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "150 g"
+      },
+      {
+        "name": "semi-skimmed milk",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "strawberries",
+        "quantity": "150 g"
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Café Latte with Extra Milk",
+    "calories": 160,
+    "protein": 12,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/cafe_latte_with_extra_milk.jpg",
+    "description": "Steam or heat milk. Combine with espresso. Dust with cinnamon.",
+    "ingredients": [
+      {
+        "name": "semi-skimmed milk",
+        "quantity": "250 ml"
+      },
+      {
+        "name": "espresso",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Vanilla Banana Skyr Shake",
+    "calories": 300,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/vanilla_banana_skyr_shake.jpg",
+    "description": "Blend until completely smooth.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "150 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "small banana",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Raspberry Yogurt Lassi",
+    "calories": 250,
+    "protein": 21,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/raspberry_yogurt_lassi.jpg",
+    "description": "Blend until smooth and slightly frothy.",
+    "ingredients": [
+      {
+        "name": "greek yogurt",
+        "quantity": "200 g"
+      },
+      {
+        "name": "raspberries",
+        "quantity": "150 g"
+      },
+      {
+        "name": "water",
+        "quantity": "150 ml"
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      },
+      {
+        "name": "lemon",
+        "quantity": ""
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Chocolate Skyr Milkshake",
+    "calories": 300,
+    "protein": 25,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/chocolate_skyr_milkshake.jpg",
+    "description": "Blend until thick and smooth.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "150 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "cocoa",
+        "quantity": "10 g"
+      },
+      {
+        "name": "small banana",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Apple-Cinnamon Yogurt Smoothie",
+    "calories": 270,
+    "protein": 23,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/apple_cinnamon_yogurt_smoothie.jpg",
+    "description": "Blend everything until smooth.",
+    "ingredients": [
+      {
+        "name": "greek yogurt",
+        "quantity": "170 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "small apple",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Coffee-Banana Skyr Smoothie",
+    "calories": 280,
+    "protein": 24,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/coffee_banana_skyr_smoothie.jpg",
+    "description": "Blend all ingredients until smooth and cold.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "150 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "150 ml"
+      },
+      {
+        "name": "cold espresso",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "small banana",
+        "quantity": "1 piece"
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Blueberry Almond Yogurt Drink",
+    "calories": 330,
+    "protein": 24,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/blueberry_almond_yogurt_drink.jpg",
+    "description": "Blend until creamy.",
+    "ingredients": [
+      {
+        "name": "greek yogurt",
+        "quantity": "200 g"
+      },
+      {
+        "name": "blueberries",
+        "quantity": "150 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "100 ml"
+      },
+      {
+        "name": "almond butter",
+        "quantity": "10 g"
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Peach Skyr Smoothie",
+    "calories": 250,
+    "protein": 24,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/peach_skyr_smoothie.jpg",
+    "description": "Blend until silky smooth.",
+    "ingredients": [
+      {
+        "name": "skyr",
+        "quantity": "180 g"
+      },
+      {
+        "name": "peach",
+        "quantity": "150 g"
+      },
+      {
+        "name": "milk",
+        "quantity": "150 ml"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "ice",
+        "quantity": ""
+      }
+    ],
+    "is_community": true
+  },
+  {
+    "name": "Hot Vanilla Milk & Skyr Drink",
+    "calories": 210,
+    "protein": 18,
+    "carbs": null,
+    "fat": null,
+    "portions": 1,
+    "meal_type": "drink",
+    "photo_path": "https://bipjodhqsldkyjoecrix.supabase.co/storage/v1/object/public/recipe-photos/hot_vanilla_milk_skyr_drink.jpg",
+    "description": "Warm milk without boiling. Whisk skyr separately. Let milk cool slightly. Whisk in skyr, vanilla, cinnamon and honey. Serve warm.",
+    "ingredients": [
+      {
+        "name": "semi-skimmed milk",
+        "quantity": "200 ml"
+      },
+      {
+        "name": "skyr",
+        "quantity": "100 g"
+      },
+      {
+        "name": "vanilla",
+        "quantity": ""
+      },
+      {
+        "name": "cinnamon",
+        "quantity": ""
+      },
+      {
+        "name": "honey",
+        "quantity": "1 tsp"
+      }
+    ],
+    "is_community": true
+  }
+]

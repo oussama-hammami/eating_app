@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_palette.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/meal_type.dart';
 import '../../domain/entities/recipe_filter.dart';
@@ -92,6 +91,7 @@ class _RecipeFilterPanelState extends State<RecipeFilterPanel> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final filter = _draft;
 
     return Card(
@@ -145,17 +145,6 @@ class _RecipeFilterPanelState extends State<RecipeFilterPanel> {
               maxLabel: l10n.filterMaxLabel,
               onCommitted: (r) => _update((f) => f.copyWith(fat: r)),
             ),
-            _NutrientRangeRow(
-              key: ValueKey('fiber-$_resetSignal'),
-              label: l10n.filterFiberLabel,
-              initial: filter.fiber,
-              lowerBound: 0,
-              upperBound: 50,
-              step: 5,
-              minLabel: l10n.filterMinLabel,
-              maxLabel: l10n.filterMaxLabel,
-              onCommitted: (r) => _update((f) => f.copyWith(fiber: r)),
-            ),
             const SizedBox(height: 12),
             Text(l10n.filterMealTypesLabel, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
@@ -168,7 +157,7 @@ class _RecipeFilterPanelState extends State<RecipeFilterPanel> {
                   label: Text(type.label(l10n)),
                   avatar: Icon(type.icon, size: 16),
                   selected: selected,
-                  selectedColor: AppPalette.tealDark.withValues(alpha: 0.2),
+                  selectedColor: colorScheme.primary.withValues(alpha: 0.2),
                   onSelected: (isSelected) => _update((f) {
                     final updated = {...f.mealTypes};
                     if (isSelected) {
@@ -294,6 +283,7 @@ class _NutrientRangeRowState extends State<_NutrientRangeRow> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
@@ -317,7 +307,7 @@ class _NutrientRangeRowState extends State<_NutrientRangeRow> {
                   min: widget.lowerBound,
                   max: widget.upperBound,
                   divisions: ((widget.upperBound - widget.lowerBound) / widget.step).round(),
-                  activeColor: AppPalette.tealDark,
+                  activeColor: colorScheme.primary,
                   labels: RangeLabels(
                     _formatNum(_liveValues.start),
                     _formatNum(_liveValues.end),

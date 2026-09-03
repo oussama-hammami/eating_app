@@ -1,41 +1,14 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:eating_app/core/database/database_provider.dart';
 import 'package:eating_app/main.dart';
 
 void main() {
-  sqfliteFfiInit();
-
   testWidgets('App boots and shows the three main tabs', (tester) async {
-    final db = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
-    await db.execute('''
-      CREATE TABLE foods (
-        id INTEGER PRIMARY KEY,
-        food_name TEXT NOT NULL,
-        search_name TEXT NOT NULL,
-        alim_nom_fr_no_comma TEXT NOT NULL DEFAULT '',
-        calories_kcal_100g REAL,
-        protein_g_100g REAL,
-        carbs_g_100g REAL,
-        fat_g_100g REAL,
-        fiber_g_100g REAL
-      )
-    ''');
-
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [databaseProvider.overrideWithValue(db)],
-        child: const MyApp(),
-      ),
-    );
+    await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
     expect(find.text('Recipes'), findsOneWidget);
     expect(find.text('Groceries'), findsOneWidget);
     expect(find.text('Community'), findsOneWidget);
-
-    await db.close();
   });
 }

@@ -50,11 +50,32 @@
       "Bash(python3 /tmp/gen_community_recipes2.py)",
       "Bash(python3 -c \"import qrcode\")",
       "Bash(python3 -c \"import qrcode; print\\('ok'\\)\")",
-      "Bash(grep -c \"Recipe\\($\" lib/features/recipes/domain/usecases/community_recipes.dart)"
+      "Bash(grep -c \"Recipe\\($\" lib/features/recipes/domain/usecases/community_recipes.dart)",
+      "Bash(git -C /home/oussama/Downloads/testLab/eating_app status --short)",
+      "Bash(mkdir -p /home/oussama/Downloads/testLab/eating_app/supabase/seed && ls /home/oussama/Downloads/testLab/eating_app/supabase 2>/dev/null; echo done)",
+      "Bash(git check-ignore *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(echo \"tracked exit: $?\")",
+      "Bash(git update-index *)",
+      "Bash(curl -s 'https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=*&limit=3' -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9')",
+      "Bash(curl -s https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=id -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Prefer: count=exact' -I)",
+      "Bash(curl -s -D - -o /dev/null 'https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=id&limit=1' -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Prefer: count=exact')",
+      "Bash(curl -s 'https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=id&limit=1' -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Prefer: count=exact')",
+      "Bash(curl -s https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/ -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9')",
+      "Bash(curl -s 'https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=id&limit=1' -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9')",
+      "Bash(curl -s 'https://bipjodhqsldkyjoecrix.supabase.co/rest/v1/comminutyDishPropositions?select=name&limit=5' -H 'apikey: sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9' -H 'Authorization: Bearer sb_publishable_GpFy3g4gLuWDs-epM-v6Eg_Rpu3jAV9')",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(awk '{print $2}')",
+      "Bash(grep -E '\\\\.venv/|__pycache__|/build/|\\\\.dart_tool/|\\\\.idea/|\\\\.iml$|\\\\.DS_Store$')",
+      "Bash(xargs -0 du -b)",
+      "Bash(awk '{printf \"%.2fMB\\\\t%s\\\\n\", $1/1048576, $2}')",
+      "Bash(grep -Ei '\\\\.bak$|_old\\\\.|_copy\\\\.|\\\\.orig$')"
     ],
     "additionalDirectories": [
       "/tmp",
-      "/home/oussama/Downloads/testLab/eating_app/assets/images"
+      "/home/oussama/Downloads/testLab/eating_app/assets/images",
+      "/home/oussama/Downloads/testLab/eating_app/supabase"
     ]
   }
 }

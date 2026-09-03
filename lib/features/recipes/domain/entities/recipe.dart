@@ -77,4 +77,21 @@ class Recipe {
         carbs: json['carbs'] as int?,
         fat: json['fat'] as int?,
       );
+
+  /// Builds a [Recipe] from a `community_recipies` Supabase row (snake_case
+  /// columns, `ingredients` as jsonb).
+  factory Recipe.fromSupabaseRow(Map<String, dynamic> row) => Recipe(
+        name: row['name'] as String,
+        calories: row['calories'] as int,
+        protein: row['protein'] as int,
+        portions: row['portions'] as int,
+        ingredients: (row['ingredients'] as List)
+            .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        description: row['description'] as String,
+        mealType: MealType.fromName(row['meal_type'] as String),
+        photoPath: row['photo_path'] as String?,
+        carbs: row['carbs'] as int?,
+        fat: row['fat'] as int?,
+      );
 }

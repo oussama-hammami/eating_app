@@ -1,38 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../domain/entities/ingredient.dart';
+import '../../data/community_recipes_remote_data_source.dart';
 import '../../domain/entities/recipe.dart';
 import '../../domain/entities/recipe_filter.dart';
-import '../../domain/usecases/community_recipes.dart';
 import '../widgets/recipe_filter_panel.dart';
 import '../widgets/recipe_photo.dart';
 
-/// Read-only browse screen for community-contributed recipes. Nutrition
-/// values come straight from [communityBreakfastRecipes]'s curated source
-/// data — they are NOT recomputed via food matching, since resolving a
-/// recipe's free-text ingredient names against the food database produced
-/// inaccurate totals whenever a name didn't confidently match.
-class CommunityTab extends ConsumerStatefulWidget {
+/// Read-only browse screen for community-contributed recipes, fetched from
+/// the `community_recipies` table on Supabase. Nutrition values come
+/// straight from that curated source data — they are NOT recomputed via
+/// food matching, since resolving a recipe's free-text ingredient names
+/// against the food database produced inaccurate totals whenever a name
+/// didn't confidently match.
+class CommunityTab extends StatefulWidget {
   const CommunityTab({super.key, required this.onAddToRecipes});
 
   /// Adds a copy of a community recipe into the user's own Recipes list.
   final void Function(Recipe recipe) onAddToRecipes;
 
   @override
-  ConsumerState<CommunityTab> createState() => _CommunityTabState();
+  State<CommunityTab> createState() => _CommunityTabState();
 }
 
-class _CommunityTabState extends ConsumerState<CommunityTab> {
-  final List<Recipe> _recipes = communityBreakfastRecipes();
+class _CommunityTabState extends State<CommunityTab> {
+  List<Recipe> _recipes = [];
+  bool _loading = true;
+  Object? _error;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   RecipeFilter _filter = const RecipeFilter();
   bool _filtersExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecipes();
+  }
+
+  Future<void> _loadRecipes() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final recipes = await fetchCommunityRecipes();
+      if (!mounted) return;
+      setState(() {
+        _recipes = recipes;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e;
+        _loading = false;
+      });
+    }
+  }
 
   int _activeFilterCount() {
     var count = 0;
@@ -40,7 +67,6 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
     if (_filter.protein.isActive) count++;
     if (_filter.carbs.isActive) count++;
     if (_filter.fat.isActive) count++;
-    if (_filter.fiber.isActive) count++;
     if (_filter.mealTypes.isNotEmpty) count++;
     if (_filter.includeIngredients.isNotEmpty) count++;
     if (_filter.excludeIngredients.isNotEmpty) count++;
@@ -53,43 +79,6 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
     super.dispose();
   }
 
-  void _showIngredientNutrition(Ingredient ingredient) {
-    final l10n = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(
-          ingredient.quantity.isEmpty
-              ? ingredient.name
-              : '${ingredient.name} (${ingredient.quantity})',
-        ),
-        content: ingredient.calories != null &&
-                ingredient.protein != null &&
-                ingredient.carbs != null &&
-                ingredient.fat != null &&
-                ingredient.fiber != null
-            ? Text(
-                '${l10n.caloriesKcalChip(ingredient.calories!.round())} • '
-                '${l10n.proteinGChip(ingredient.protein!.round())} • '
-                '${l10n.carbsGChip(ingredient.carbs!.round())} • '
-                '${l10n.fatGChip(ingredient.fat!.round())} • '
-                '${l10n.fiberGChip(ingredient.fiber!.round())}',
-              )
-            : Text(
-                ingredient.needsConfirmation
-                    ? l10n.ingredientNeedsConfirmation
-                    : l10n.ingredientNutritionUnknown,
-              ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(l10n.cancel),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _addToMyRecipes(Recipe recipe) {
     widget.onAddToRecipes(recipe.copy());
     final l10n = AppLocalizations.of(context)!;
@@ -100,6 +89,7 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
 
   void _openRecipeDetailsDialog(Recipe recipe) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -129,7 +119,7 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                       StatChip(
                         icon: recipe.mealType.icon,
                         label: recipe.mealType.label(l10n),
-                        color: AppPalette.tealDark,
+                        color: colorScheme.primary,
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -144,9 +134,7 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                         ...recipe.ingredients.asMap().entries.map((entry) {
                           final i = entry.key;
                           final ingredient = entry.value;
-                          return GestureDetector(
-                            onLongPress: () => _showIngredientNutrition(ingredient),
-                            child: CheckboxListTile(
+                          return CheckboxListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
                                 ingredient.quantity.isEmpty
@@ -159,8 +147,7 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                                   recipe.checkedIngredients[i] = checked ?? false;
                                 });
                               },
-                            ),
-                          );
+                            );
                         }),
                       ],
                     ],
@@ -191,6 +178,7 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final recipes = _recipes;
     final query = _searchQuery.trim().toLowerCase();
     final filtered = recipes
@@ -248,7 +236,11 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
               onApply: (updated) => setState(() => _filter = updated),
             ),
           Expanded(
-            child: recipes.isEmpty
+            child: _loading
+                ? const Center(child: CircularProgressIndicator())
+                : _error != null
+                ? EmptyState(icon: Icons.error_outline, message: '$_error')
+                : recipes.isEmpty
                 ? EmptyState(icon: Icons.groups_outlined, message: l10n.communityEmpty)
                 : filtered.isEmpty
                     ? EmptyState(icon: Icons.search_off, message: l10n.recipesSearchEmpty)
@@ -283,29 +275,29 @@ class _CommunityTabState extends ConsumerState<CommunityTab> {
                               StatChip(
                                 icon: recipe.mealType.icon,
                                 label: recipe.mealType.label(l10n),
-                                color: AppPalette.tealDark,
+                                color: colorScheme.primary,
                               ),
                               StatChip(
                                 icon: Icons.local_fire_department,
                                 label: l10n.caloriesKcalChip(recipe.calories),
-                                color: AppPalette.orangeDeep,
+                                color: colorScheme.secondary,
                               ),
                               StatChip(
                                 icon: Icons.fitness_center,
                                 label: l10n.proteinGChip(recipe.protein),
-                                color: AppPalette.tealDark,
+                                color: colorScheme.primary,
                               ),
                               StatChip(
                                 icon: Icons.people_outline,
                                 label: l10n.portionsChip(recipe.portions),
-                                color: AppPalette.ink,
+                                color: colorScheme.onSurface,
                               ),
                             ],
                           ),
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.playlist_add),
-                          color: AppPalette.tealDark,
+                          color: colorScheme.primary,
                           tooltip: l10n.addToRecipes,
                           onPressed: () => _addToMyRecipes(recipe),
                         ),

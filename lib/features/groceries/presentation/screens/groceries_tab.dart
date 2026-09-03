@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/grocery_item.dart';
@@ -45,6 +44,7 @@ class GroceriesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.groceriesTitle),
@@ -77,18 +77,18 @@ class GroceriesTab extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         decoration: item.checked ? TextDecoration.lineThrough : null,
                         color: item.checked
-                            ? AppPalette.ink.withValues(alpha: 0.4)
-                            : AppPalette.ink,
+                            ? colorScheme.onSurfaceVariant
+                            : colorScheme.onSurface,
                       ),
                     ),
                     subtitle: item.displayQuantity.isEmpty
                         ? null
                         : Text(
                             item.displayQuantity,
-                            style: const TextStyle(color: AppPalette.tealDark),
+                            style: TextStyle(color: colorScheme.primary),
                           ),
                     value: item.checked,
-                    activeColor: AppPalette.tealDark,
+                    activeColor: colorScheme.primary,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (checked) {
                       item.checked = checked ?? false;

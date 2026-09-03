@@ -2,22 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/theme/app_palette.dart';
-import '../../../../core/units/ingredient_text_parser.dart';
-import '../../../../core/units/legacy_quantity_parser.dart';
-import '../../../../core/units/unit.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../nutrition/presentation/widgets/unit_label.dart';
-import '../../../nutrition/domain/entities/food.dart';
-import '../../../nutrition/domain/usecases/nutrition_calculator.dart';
-import '../../../nutrition/presentation/providers/food_search_provider.dart';
-import '../../../nutrition/presentation/widgets/ingredient_food_field.dart';
 import '../../domain/entities/ingredient.dart';
 import '../../domain/entities/meal_type.dart';
 import '../../domain/entities/recipe.dart';
@@ -31,7 +21,7 @@ import '../../../sharing/presentation/screens/share_recipes_screen.dart';
 const String privacyPolicyUrl =
     'https://ohammami.github.io/my-food-this-week/privacy-policy.html';
 
-class RecipesTab extends ConsumerStatefulWidget {
+class RecipesTab extends StatefulWidget {
   const RecipesTab({
     super.key,
     required this.recipes,
@@ -52,10 +42,10 @@ class RecipesTab extends ConsumerStatefulWidget {
   final int groceryResetSignal;
 
   @override
-  ConsumerState<RecipesTab> createState() => _RecipesTabState();
+  State<RecipesTab> createState() => _RecipesTabState();
 }
 
-class _RecipesTabState extends ConsumerState<RecipesTab> {
+class _RecipesTabState extends State<RecipesTab> {
   final Set<int> _expandedIndexes = {};
   final Set<int> _selectedIndexes = {};
   final TextEditingController _searchController = TextEditingController();
@@ -85,7 +75,6 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
     if (_filter.protein.isActive) count++;
     if (_filter.carbs.isActive) count++;
     if (_filter.fat.isActive) count++;
-    if (_filter.fiber.isActive) count++;
     if (_filter.mealTypes.isNotEmpty) count++;
     if (_filter.includeIngredients.isNotEmpty) count++;
     if (_filter.excludeIngredients.isNotEmpty) count++;
@@ -184,6 +173,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
 
   Future<String?> _pickRecipePhoto(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       backgroundColor: Colors.white,
@@ -194,12 +184,12 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
         child: Wrap(
           children: [
             ListTile(
-              leading: const Icon(Icons.photo_camera_outlined, color: AppPalette.tealDark),
+              leading: Icon(Icons.photo_camera_outlined, color: colorScheme.primary),
               title: Text(l10n.takeAPhoto),
               onTap: () => Navigator.of(sheetContext).pop(ImageSource.camera),
             ),
             ListTile(
-              leading: const Icon(Icons.photo_library_outlined, color: AppPalette.tealDark),
+              leading: Icon(Icons.photo_library_outlined, color: colorScheme.primary),
               title: Text(l10n.chooseFromLibrary),
               onTap: () => Navigator.of(sheetContext).pop(ImageSource.gallery),
             ),
@@ -216,6 +206,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
 
   Future<void> _openAddRecipeDialog({int? editIndex}) async {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final existing = editIndex != null ? widget.recipes[editIndex] : null;
     final nameController = TextEditingController(text: existing?.name ?? '');
     final caloriesController =
@@ -227,62 +218,14 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
     final descriptionController = TextEditingController(text: existing?.description ?? '');
     String? photoPath = existing?.photoPath;
     MealType mealType = existing?.mealType ?? MealType.breakfast;
-    // Each row is a single free-text description ("1 tablespoon of olive
-    // oil"), parsed live by IngredientFoodField into amount/unit/name and
-    // matched against the food DB. ingredientAmounts/Units/Foods track that
-    // parsed state per row, kept in sync via onMatchChanged.
+    // Each ingredient row is a plain name + quantity pair of text fields —
+    // there is no more food-database matching or nutrition calculation.
     final ingredientNameControllers = existing != null && existing.ingredients.isNotEmpty
-        ? existing.ingredients.map((i) {
-            final (amountText, unit) = parseLegacyQuantity(i.quantity);
-            final prefix = amountText.isEmpty ? '' : '$amountText ${unitLabel(l10n, unit)} ';
-            return TextEditingController(text: '$prefix${i.name}');
-          }).toList()
+        ? existing.ingredients.map((i) => TextEditingController(text: i.name)).toList()
         : <TextEditingController>[TextEditingController()];
-    final ingredientAmounts = existing != null && existing.ingredients.isNotEmpty
-        ? existing.ingredients
-            .map((i) => double.tryParse(parseLegacyQuantity(i.quantity).$1))
-            .toList()
-        : <double?>[null];
-    final ingredientUnits = existing != null && existing.ingredients.isNotEmpty
-        ? existing.ingredients.map((i) => parseLegacyQuantity(i.quantity).$2).toList()
-        : <Unit>[Unit.g];
-    final ingredientFoods =
-        List<Food?>.filled(ingredientNameControllers.length, null, growable: true);
-    // Cached per-row calculation, refreshed by recalculateNutrition whenever
-    // a row's food/amount/unit changes. The save handler reads straight from
-    // this cache instead of recomputing (which would need to be async).
-    final ingredientNutritionCache =
-        List<IngredientNutrition?>.filled(ingredientNameControllers.length, null, growable: true);
-    final foodRepository = ref.read(foodRepositoryProvider);
-
-    Future<void> recalculateNutrition(StateSetter setDialogState) async {
-      final previews = List<IngredientNutrition?>.filled(ingredientFoods.length, null);
-      var totalCalories = 0.0;
-      var totalProtein = 0.0;
-      for (var i = 0; i < ingredientFoods.length; i++) {
-        final food = ingredientFoods[i];
-        final amount = ingredientAmounts[i];
-        if (food == null || amount == null) continue;
-        final unit = ingredientUnits[i];
-
-        final nutrition = await calculateKnownIngredientNutrition(
-          repository: foodRepository,
-          food: food,
-          amount: amount,
-          unit: unit,
-        );
-        previews[i] = nutrition;
-        if (nutrition.calories != null) totalCalories += nutrition.calories!;
-        if (nutrition.protein != null) totalProtein += nutrition.protein!;
-      }
-      setDialogState(() {
-        ingredientNutritionCache
-          ..clear()
-          ..addAll(previews);
-        caloriesController.text = totalCalories.round().toString();
-        proteinController.text = totalProtein.round().toString();
-      });
-    }
+    final ingredientQuantityControllers = existing != null && existing.ingredients.isNotEmpty
+        ? existing.ingredients.map((i) => TextEditingController(text: i.quantity)).toList()
+        : <TextEditingController>[TextEditingController()];
 
     await showDialog(
       context: context,
@@ -310,9 +253,9 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                             width: 120,
                             height: 120,
                             decoration: BoxDecoration(
-                              color: AppPalette.beige,
+                              color: colorScheme.surface,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: AppPalette.beigeDeep, width: 1.5),
+                              border: Border.all(color: colorScheme.outlineVariant, width: 1.5),
                               image: photoPath != null
                                   ? DecorationImage(
                                       image: FileImage(File(photoPath!)),
@@ -321,10 +264,10 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                                   : null,
                             ),
                             child: photoPath == null
-                                ? const Icon(
+                                ? Icon(
                                     Icons.add_a_photo_outlined,
                                     size: 32,
-                                    color: AppPalette.tealDark,
+                                    color: colorScheme.primary,
                                   )
                                 : Align(
                                     alignment: Alignment.topRight,
@@ -332,13 +275,13 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                                       padding: const EdgeInsets.all(4),
                                       child: GestureDetector(
                                         onTap: () => setDialogState(() => photoPath = null),
-                                        child: const CircleAvatar(
+                                        child: CircleAvatar(
                                           radius: 12,
                                           backgroundColor: Colors.white,
                                           child: Icon(
                                             Icons.close,
                                             size: 16,
-                                            color: AppPalette.ink,
+                                            color: colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -367,7 +310,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(type.icon, size: 18, color: AppPalette.tealDark),
+                                Icon(type.icon, size: 18, color: colorScheme.primary),
                                 const SizedBox(width: 8),
                                 Text(type.label(l10n)),
                               ],
@@ -382,47 +325,26 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                       Text(l10n.ingredients, style: const TextStyle(fontWeight: FontWeight.bold)),
                       ...ingredientNameControllers.asMap().entries.map((entry) {
                         final index = entry.key;
-                        final descriptionController = entry.value;
-                        final matchedFood = ingredientFoods[index];
-                        final nutrition = ingredientNutritionCache[index];
-                        final languageCode = Localizations.localeOf(dialogContext).languageCode;
+                        final nameFieldController = entry.value;
+                        final quantityFieldController = ingredientQuantityControllers[index];
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    IngredientFoodField(
-                                      controller: descriptionController,
-                                      label: l10n.ingredientN(index + 1),
-                                      onMatchChanged: (match) {
-                                        setDialogState(() {
-                                          ingredientAmounts[index] = match.amount;
-                                          ingredientUnits[index] = match.unit;
-                                          ingredientFoods[index] = match.food;
-                                        });
-                                        recalculateNutrition(setDialogState);
-                                      },
-                                    ),
-                                    if (matchedFood != null)
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 4, left: 4),
-                                        child: Text(
-                                          nutrition?.calories != null && nutrition?.protein != null
-                                              ? '${matchedFood.displayName(languageCode)} • '
-                                                  '${l10n.caloriesKcalChip(nutrition!.calories!.round())} • '
-                                                  '${l10n.proteinGChip(nutrition.protein!.round())}'
-                                              : l10n.ingredientNutritionUnknown,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: AppPalette.tealDark,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
+                                flex: 3,
+                                child: TextField(
+                                  controller: nameFieldController,
+                                  decoration: InputDecoration(labelText: l10n.ingredientN(index + 1)),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: TextField(
+                                  controller: quantityFieldController,
+                                  decoration: const InputDecoration(labelText: 'Quantity'),
                                 ),
                               ),
                               IconButton(
@@ -431,11 +353,8 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                                     ? () {
                                         setDialogState(() {
                                           ingredientNameControllers.removeAt(index);
-                                          ingredientAmounts.removeAt(index);
-                                          ingredientUnits.removeAt(index);
-                                          ingredientFoods.removeAt(index);
+                                          ingredientQuantityControllers.removeAt(index);
                                         });
-                                        recalculateNutrition(setDialogState);
                                       }
                                     : null,
                               ),
@@ -449,10 +368,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                           onPressed: () {
                             setDialogState(() {
                               ingredientNameControllers.add(TextEditingController());
-                              ingredientAmounts.add(null);
-                              ingredientUnits.add(Unit.g);
-                              ingredientFoods.add(null);
-                              ingredientNutritionCache.add(null);
+                              ingredientQuantityControllers.add(TextEditingController());
                             });
                           },
                           icon: const Icon(Icons.add),
@@ -516,26 +432,10 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
 
                     final ingredients = <Ingredient>[];
                     for (var i = 0; i < ingredientNameControllers.length; i++) {
-                      final rawText = ingredientNameControllers[i].text.trim();
-                      if (rawText.isEmpty) continue;
-                      final parsed = parseIngredientText(rawText);
-                      if (parsed.name.isEmpty) continue;
-                      final unit = ingredientUnits[i];
-                      final amount = ingredientAmounts[i];
-                      final nutrition = ingredientNutritionCache[i];
-                      ingredients.add(
-                        Ingredient(
-                          name: parsed.name,
-                          quantity: amount == null
-                              ? ''
-                              : '${formatIngredientAmount(amount)} ${unitLabel(l10n, unit)}',
-                          calories: nutrition?.calories,
-                          protein: nutrition?.protein,
-                          carbs: nutrition?.carbs,
-                          fat: nutrition?.fat,
-                          fiber: nutrition?.fiber,
-                        ),
-                      );
+                      final ingredientName = ingredientNameControllers[i].text.trim();
+                      if (ingredientName.isEmpty) continue;
+                      final quantity = ingredientQuantityControllers[i].text.trim();
+                      ingredients.add(Ingredient(name: ingredientName, quantity: quantity));
                     }
 
                     final recipe = Recipe(
@@ -566,45 +466,9 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
     );
   }
 
-  void _showIngredientNutrition(Ingredient ingredient) {
-    final l10n = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(
-          ingredient.quantity.isEmpty
-              ? ingredient.name
-              : '${ingredient.name} (${ingredient.quantity})',
-        ),
-        content: ingredient.calories != null &&
-                ingredient.protein != null &&
-                ingredient.carbs != null &&
-                ingredient.fat != null &&
-                ingredient.fiber != null
-            ? Text(
-                '${l10n.caloriesKcalChip(ingredient.calories!.round())} • '
-                '${l10n.proteinGChip(ingredient.protein!.round())} • '
-                '${l10n.carbsGChip(ingredient.carbs!.round())} • '
-                '${l10n.fatGChip(ingredient.fat!.round())} • '
-                '${l10n.fiberGChip(ingredient.fiber!.round())}',
-              )
-            : Text(
-                ingredient.needsConfirmation
-                    ? l10n.ingredientNeedsConfirmation
-                    : l10n.ingredientNutritionUnknown,
-              ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(l10n.cancel),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _openRecipeDetailsDialog(Recipe recipe, int index) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -617,7 +481,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                   Expanded(child: Text(recipe.name)),
                   IconButton(
                     icon: const Icon(Icons.edit_outlined),
-                    color: AppPalette.tealDark,
+                    color: colorScheme.primary,
                     tooltip: l10n.editRecipe,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
@@ -626,7 +490,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete_outline),
-                    color: AppPalette.orangeDeep,
+                    color: colorScheme.secondary,
                     tooltip: l10n.deleteRecipe,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
@@ -657,7 +521,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                       StatChip(
                         icon: recipe.mealType.icon,
                         label: recipe.mealType.label(l10n),
-                        color: AppPalette.tealDark,
+                        color: colorScheme.primary,
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -669,9 +533,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                         ...recipe.ingredients.asMap().entries.map((entry) {
                           final i = entry.key;
                           final ingredient = entry.value;
-                          return GestureDetector(
-                            onLongPress: () => _showIngredientNutrition(ingredient),
-                            child: CheckboxListTile(
+                          return CheckboxListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
                                 ingredient.quantity.isEmpty
@@ -685,8 +547,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                                 });
                                 setState(() {});
                               },
-                            ),
-                          );
+                            );
                         }),
                         const SizedBox(height: 16),
                       ],
@@ -736,6 +597,7 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final recipes = widget.recipes;
     final query = _searchQuery.trim().toLowerCase();
     final filtered = [
@@ -867,22 +729,22 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                               StatChip(
                                 icon: recipe.mealType.icon,
                                 label: recipe.mealType.label(l10n),
-                                color: AppPalette.tealDark,
+                                color: colorScheme.primary,
                               ),
                               StatChip(
                                 icon: Icons.local_fire_department,
                                 label: l10n.caloriesKcalChip(recipe.calories),
-                                color: AppPalette.orangeDeep,
+                                color: colorScheme.secondary,
                               ),
                               StatChip(
                                 icon: Icons.fitness_center,
                                 label: l10n.proteinGChip(recipe.protein),
-                                color: AppPalette.tealDark,
+                                color: colorScheme.primary,
                               ),
                               StatChip(
                                 icon: Icons.people_outline,
                                 label: l10n.portionsChip(recipe.portions),
-                                color: AppPalette.ink,
+                                color: colorScheme.onSurface,
                               ),
                             ],
                           ),
@@ -893,13 +755,13 @@ class _RecipesTabState extends ConsumerState<RecipesTab> {
                           children: [
                             IconButton(
                               icon: const Icon(Icons.edit_outlined),
-                              color: AppPalette.tealDark,
+                              color: colorScheme.primary,
                               tooltip: l10n.editRecipe,
                               onPressed: () => _openAddRecipeDialog(editIndex: index),
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete_outline),
-                              color: AppPalette.orangeDeep,
+                              color: colorScheme.secondary,
                               tooltip: l10n.deleteRecipe,
                               onPressed: () => _deleteRecipe(index),
                             ),

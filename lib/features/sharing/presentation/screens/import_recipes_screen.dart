@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/recipe.dart';
@@ -22,6 +21,7 @@ class _ImportRecipesScreenState extends State<ImportRecipesScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.importRecipesTitle)),
       body: SafeArea(
@@ -52,17 +52,17 @@ class _ImportRecipesScreenState extends State<ImportRecipesScreen> {
                       StatChip(
                         icon: recipe.mealType.icon,
                         label: recipe.mealType.label(l10n),
-                        color: AppPalette.tealDark,
+                        color: colorScheme.primary,
                       ),
                       StatChip(
                         icon: Icons.local_fire_department,
                         label: l10n.caloriesKcalChip(recipe.calories),
-                        color: AppPalette.orangeDeep,
+                        color: colorScheme.secondary,
                       ),
                       StatChip(
                         icon: Icons.people_outline,
                         label: l10n.portionsChip(recipe.portions),
-                        color: AppPalette.ink,
+                        color: colorScheme.onSurface,
                       ),
                     ],
                   ),
