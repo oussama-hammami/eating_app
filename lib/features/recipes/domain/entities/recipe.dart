@@ -23,7 +23,7 @@ class Recipe {
   final String description;
   final MealType mealType;
   final String? photoPath;
-  final List<bool> checkedIngredients;
+  List<bool> checkedIngredients;
 
   /// Recipe-level carbs/fat totals, when known upfront (e.g. from a curated
   /// dataset) rather than derived by summing ingredient-level nutrition.
@@ -59,24 +59,42 @@ class Recipe {
         'photoPath': photoPath,
         'carbs': carbs,
         'fat': fat,
+        'checkedIngredients': checkedIngredients,
       };
 
-  factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
-        name: json['name'] as String,
-        calories: json['calories'] as int,
-        protein: json['protein'] as int,
-        portions: json['portions'] as int,
-        ingredients: (json['ingredients'] as List)
-            .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        description: json['description'] as String,
-        mealType: MealType.fromName(json['mealType'] as String),
+  factory Recipe.fromJson(Map<String, dynamic> json) => _fromJson(
+        json,
         // A shared recipe's photo path points to the sender's local
         // filesystem, so it can't resolve on the receiving device.
         photoPath: null,
-        carbs: json['carbs'] as int?,
-        fat: json['fat'] as int?,
       );
+
+  /// Like [fromJson], but keeps [photoPath] — for recipes persisted and
+  /// reloaded on the same device, where the local path is still valid.
+  factory Recipe.fromLocalJson(Map<String, dynamic> json) =>
+      _fromJson(json, photoPath: json['photoPath'] as String?);
+
+  static Recipe _fromJson(Map<String, dynamic> json, {required String? photoPath}) {
+    final recipe = Recipe(
+      name: json['name'] as String,
+      calories: json['calories'] as int,
+      protein: json['protein'] as int,
+      portions: json['portions'] as int,
+      ingredients: (json['ingredients'] as List)
+          .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String,
+      mealType: MealType.fromName(json['mealType'] as String),
+      photoPath: photoPath,
+      carbs: json['carbs'] as int?,
+      fat: json['fat'] as int?,
+    );
+    final checked = json['checkedIngredients'] as List?;
+    if (checked != null && checked.length == recipe.checkedIngredients.length) {
+      recipe.checkedIngredients = checked.cast<bool>();
+    }
+    return recipe;
+  }
 
   /// Builds a [Recipe] from a `community_recipies` Supabase row (snake_case
   /// columns, `ingredients` as jsonb).

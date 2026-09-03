@@ -70,7 +70,10 @@
       "Bash(grep -E '\\\\.venv/|__pycache__|/build/|\\\\.dart_tool/|\\\\.idea/|\\\\.iml$|\\\\.DS_Store$')",
       "Bash(xargs -0 du -b)",
       "Bash(awk '{printf \"%.2fMB\\\\t%s\\\\n\", $1/1048576, $2}')",
-      "Bash(grep -Ei '\\\\.bak$|_old\\\\.|_copy\\\\.|\\\\.orig$')"
+      "Bash(grep -Ei '\\\\.bak$|_old\\\\.|_copy\\\\.|\\\\.orig$')",
+      "Bash(git rm *)",
+      "Bash(python3 -c \"import json;print\\(len\\(json.load\\(open\\('supabase/seed/community_recipes.json'\\)\\)\\)\\)\")",
+      "Bash(git checkout *)"
     ],
     "additionalDirectories": [
       "/tmp",

@@ -1,0 +1,49 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../features/groceries/domain/entities/grocery_item.dart';
+import '../features/recipes/domain/entities/recipe.dart';
+
+/// Persists the user's recipes and grocery list locally so they survive
+/// app restarts, instead of living only in [RootShell]'s in-memory state.
+class LocalStorage {
+  static const _recipesKey = 'recipes';
+  static const _groceriesKey = 'groceries';
+
+  Future<List<Recipe>> loadRecipes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_recipesKey);
+    if (raw == null) return [];
+    final list = jsonDecode(raw) as List;
+    return list
+        .map((e) => Recipe.fromLocalJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<void> saveRecipes(List<Recipe> recipes) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _recipesKey,
+      jsonEncode(recipes.map((r) => r.toJson()).toList()),
+    );
+  }
+
+  Future<List<GroceryItem>> loadGroceries() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_groceriesKey);
+    if (raw == null) return [];
+    final list = jsonDecode(raw) as List;
+    return list
+        .map((e) => GroceryItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<void> saveGroceries(List<GroceryItem> groceries) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _groceriesKey,
+      jsonEncode(groceries.map((g) => g.toJson()).toList()),
+    );
+  }
+}

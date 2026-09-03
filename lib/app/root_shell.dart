@@ -6,6 +6,7 @@ import '../features/recipes/domain/entities/recipe.dart';
 import '../features/recipes/presentation/screens/community_tab.dart';
 import '../features/recipes/presentation/screens/recipes_tab.dart';
 import '../l10n/app_localizations.dart';
+import 'local_storage.dart';
 
 class RootShell extends StatefulWidget {
   const RootShell({super.key});
@@ -15,28 +16,49 @@ class RootShell extends StatefulWidget {
 }
 
 class _RootShellState extends State<RootShell> {
+  final _storage = LocalStorage();
+
   int _tabIndex = 0;
   final List<Recipe> _recipes = [];
   final List<GroceryItem> _groceries = [];
 
   int _groceryResetSignal = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadPersistedState();
+  }
+
+  Future<void> _loadPersistedState() async {
+    final recipes = await _storage.loadRecipes();
+    final groceries = await _storage.loadGroceries();
+    if (!mounted) return;
+    setState(() {
+      _recipes.addAll(recipes);
+      _groceries.addAll(groceries);
+    });
+  }
+
   void _addRecipe(Recipe recipe) {
     setState(() {
       _recipes.add(recipe);
     });
+    _storage.saveRecipes(_recipes);
   }
 
   void _updateRecipe(int index, Recipe recipe) {
     setState(() {
       _recipes[index] = recipe;
     });
+    _storage.saveRecipes(_recipes);
   }
 
   void _deleteRecipe(int index) {
     setState(() {
       _recipes.removeAt(index);
     });
+    _storage.saveRecipes(_recipes);
   }
 
   void _resetGroceries() {
@@ -44,6 +66,7 @@ class _RootShellState extends State<RootShell> {
       _groceries.clear();
       _groceryResetSignal++;
     });
+    _storage.saveGroceries(_groceries);
   }
 
   void _addToGroceries(List<Recipe> selectedRecipes) {
@@ -84,6 +107,7 @@ class _RootShellState extends State<RootShell> {
         }));
       _tabIndex = 1;
     });
+    _storage.saveGroceries(_groceries);
   }
 
   void _generateGroceries(List<Recipe> selectedRecipes) {
@@ -112,6 +136,7 @@ class _RootShellState extends State<RootShell> {
         }));
       _tabIndex = 1;
     });
+    _storage.saveGroceries(_groceries);
   }
 
   @override
@@ -131,7 +156,10 @@ class _RootShellState extends State<RootShell> {
           ),
           GroceriesTab(
             items: _groceries,
-            onChanged: () => setState(() {}),
+            onChanged: () {
+              setState(() {});
+              _storage.saveGroceries(_groceries);
+            },
             onReset: _resetGroceries,
           ),
           CommunityTab(onAddToRecipes: _addRecipe),
