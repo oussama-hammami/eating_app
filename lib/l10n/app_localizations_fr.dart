@@ -97,6 +97,17 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucune recette de la communauté pour le moment.';
 
   @override
+  String get communityLoadError =>
+      'Impossible de charger les recettes de la communauté. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get communityOfflineCached =>
+      'Vous êtes hors ligne — affichage des recettes de la dernière synchronisation.';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
   String get addToRecipes => 'Ajouter à mes recettes';
 
   @override

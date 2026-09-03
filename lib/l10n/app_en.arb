@@ -31,6 +31,9 @@
   "privacyPolicyClose": "Close",
   "communityTitle": "🌍  Community Recipes",
   "communityEmpty": "No community recipes yet.",
+  "communityLoadError": "Couldn't load community recipes. Check your connection and try again.",
+  "communityOfflineCached": "You're offline — showing recipes from the last sync.",
+  "retry": "Retry",
   "addToRecipes": "Add to my recipes",
   "addedToRecipes": "Added \"{name}\" to your recipes",
   "@addedToRecipes": {

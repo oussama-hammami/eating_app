@@ -10,6 +10,7 @@ import '../features/recipes/domain/entities/recipe.dart';
 class LocalStorage {
   static const _recipesKey = 'recipes';
   static const _groceriesKey = 'groceries';
+  static const _communityRecipesCacheKey = 'community_recipes_cache';
 
   Future<List<Recipe>> loadRecipes() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,6 +45,26 @@ class LocalStorage {
     await prefs.setString(
       _groceriesKey,
       jsonEncode(groceries.map((g) => g.toJson()).toList()),
+    );
+  }
+
+  /// Last successfully fetched batch of community recipes — used as an
+  /// offline fallback when a fresh fetch fails.
+  Future<List<Recipe>> loadCachedCommunityRecipes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_communityRecipesCacheKey);
+    if (raw == null) return [];
+    final list = jsonDecode(raw) as List;
+    return list
+        .map((e) => Recipe.fromLocalJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<void> cacheCommunityRecipes(List<Recipe> recipes) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _communityRecipesCacheKey,
+      jsonEncode(recipes.map((r) => r.toJson()).toList()),
     );
   }
 }

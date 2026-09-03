@@ -260,6 +260,24 @@ abstract class AppLocalizations {
   /// **'No community recipes yet.'**
   String get communityEmpty;
 
+  /// No description provided for @communityLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load community recipes. Check your connection and try again.'**
+  String get communityLoadError;
+
+  /// No description provided for @communityOfflineCached.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline — showing recipes from the last sync.'**
+  String get communityOfflineCached;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
   /// No description provided for @addToRecipes.
   ///
   /// In en, this message translates to:

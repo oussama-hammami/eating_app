@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../../../app/local_storage.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -26,9 +29,14 @@ class CommunityTab extends StatefulWidget {
 }
 
 class _CommunityTabState extends State<CommunityTab> {
+  final _storage = LocalStorage();
+
   List<Recipe> _recipes = [];
   bool _loading = true;
-  Object? _error;
+  // True once a fetch has failed and the list below is stale cached data
+  // rather than a fresh one, or empty because there's no cache either.
+  bool _showingCachedData = false;
+  bool _hasError = false;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   RecipeFilter _filter = const RecipeFilter();
@@ -43,20 +51,27 @@ class _CommunityTabState extends State<CommunityTab> {
   Future<void> _loadRecipes() async {
     setState(() {
       _loading = true;
-      _error = null;
+      _hasError = false;
+      _showingCachedData = false;
     });
     try {
       final recipes = await fetchCommunityRecipes();
+      unawaited(_storage.cacheCommunityRecipes(recipes));
       if (!mounted) return;
       setState(() {
         _recipes = recipes;
         _loading = false;
       });
-    } catch (e) {
+    } catch (_) {
+      // Network failures shouldn't surface raw exception text to users —
+      // fall back to the last cache we have, or a friendly retry message.
+      final cached = await _storage.loadCachedCommunityRecipes();
       if (!mounted) return;
       setState(() {
-        _error = e;
+        _recipes = cached;
         _loading = false;
+        _hasError = true;
+        _showingCachedData = cached.isNotEmpty;
       });
     }
   }
@@ -235,11 +250,24 @@ class _CommunityTabState extends State<CommunityTab> {
               filter: _filter,
               onApply: (updated) => setState(() => _filter = updated),
             ),
+          if (_showingCachedData)
+            MaterialBanner(
+              content: Text(l10n.communityOfflineCached),
+              leading: const Icon(Icons.cloud_off),
+              actions: [
+                TextButton(onPressed: _loadRecipes, child: Text(l10n.retry)),
+              ],
+            ),
           Expanded(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
-                : _error != null
-                ? EmptyState(icon: Icons.error_outline, message: '$_error')
+                : _hasError && recipes.isEmpty
+                ? EmptyState(
+                    icon: Icons.cloud_off,
+                    message: l10n.communityLoadError,
+                    actionLabel: l10n.retry,
+                    onAction: _loadRecipes,
+                  )
                 : recipes.isEmpty
                 ? EmptyState(icon: Icons.groups_outlined, message: l10n.communityEmpty)
                 : filtered.isEmpty

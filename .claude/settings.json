@@ -73,7 +73,9 @@
       "Bash(grep -Ei '\\\\.bak$|_old\\\\.|_copy\\\\.|\\\\.orig$')",
       "Bash(git rm *)",
       "Bash(python3 -c \"import json;print\\(len\\(json.load\\(open\\('supabase/seed/community_recipes.json'\\)\\)\\)\\)\")",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(code --version)",
+      "Bash(env)"
     ],
     "additionalDirectories": [
       "/tmp",

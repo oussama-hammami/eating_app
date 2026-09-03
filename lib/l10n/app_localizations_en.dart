@@ -93,6 +93,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityEmpty => 'No community recipes yet.';
 
   @override
+  String get communityLoadError =>
+      'Couldn\'t load community recipes. Check your connection and try again.';
+
+  @override
+  String get communityOfflineCached =>
+      'You\'re offline — showing recipes from the last sync.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
   String get addToRecipes => 'Add to my recipes';
 
   @override
