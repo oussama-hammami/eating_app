@@ -506,18 +506,16 @@ class _RecipesTabState extends State<RecipesTab> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (recipe.photoPath != null) ...[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: RecipePhoto(
-                            path: recipe.photoPath!,
-                            width: double.infinity,
-                            height: 180,
-                            fit: BoxFit.cover,
-                          ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: RecipePhoto(
+                          path: recipe.photoPath,
+                          width: double.infinity,
+                          height: 180,
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(height: 16),
-                      ],
+                      ),
+                      const SizedBox(height: 16),
                       StatChip(
                         icon: recipe.mealType.icon,
                         label: recipe.mealType.label(l10n),
