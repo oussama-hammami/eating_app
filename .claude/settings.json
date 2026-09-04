@@ -84,7 +84,14 @@
       "Bash(timeout 240 bash -c 'until grep -qi '\\\\''error\\\\|exception\\\\|Application finished\\\\|Lost connection'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run2.log'\\\\'' || pgrep -f '\\\\''flutter_tools.snapshot'\\\\'' -a | grep -q run; do sleep 5; [ -s \"$LOG\" ] && grep -qi '\\\\''D/FlutterJNI'\\\\'' \"$LOG\" && break; done')",
       "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run2.log'\\\\''; do sleep 4; done')",
       "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run3.log'\\\\''; do sleep 4; done')",
-      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run4.log'\\\\''; do sleep 4; done')"
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run4.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run5.log'\\\\''; do sleep 4; done')",
+      "Bash(groups; ls *)",
+      "Read(//dev/bus/usb/**)",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run6.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run7.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run8.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run9.log'\\\\''; do sleep 4; done')"
     ],
     "additionalDirectories": [
       "/tmp",

@@ -428,6 +428,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset => 'Reset';
 
   @override
+  String get addArticle => 'Add article';
+
+  @override
+  String get addArticleTitle => 'Add article';
+
+  @override
+  String get articleNameLabel => 'Item name';
+
+  @override
+  String get articleQuantityLabel => 'Quantity (optional)';
+
+  @override
+  String get shareGroceries => 'Share list';
+
+  @override
+  String get shareGroceriesTitle => 'Grocery list';
+
+  @override
+  String get groceriesRecipes => 'Recipes';
+
+  @override
+  String get groceriesRecipesTitle => 'Recipes in this list';
+
+  @override
   String get searchFoodsHint => 'Search foods…';
 
   @override

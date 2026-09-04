@@ -13,6 +13,7 @@ class LocalStorage {
   static const _groceriesKey = 'groceries';
   static const _communityRecipesCacheKey = 'community_recipes_cache';
   static const _mealPlanKey = 'meal_plan_entries';
+  static const _groceriesSourceRecipeIdsKey = 'groceries_source_recipe_ids';
 
   Future<List<Recipe>> loadRecipes() async {
     final prefs = await SharedPreferences.getInstance();
@@ -86,5 +87,20 @@ class LocalStorage {
       _mealPlanKey,
       jsonEncode(entries.map((e) => e.toJson()).toList()),
     );
+  }
+
+  /// Ids of the recipes ([Recipe.id]) whose ingredients contributed to the
+  /// current grocery list — so "Recipes" on the Groceries tab can show what
+  /// generated it.
+  Future<List<String>> loadGroceriesSourceRecipeIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_groceriesSourceRecipeIdsKey);
+    if (raw == null) return [];
+    return (jsonDecode(raw) as List).cast<String>();
+  }
+
+  Future<void> saveGroceriesSourceRecipeIds(List<String> recipeIds) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_groceriesSourceRecipeIdsKey, jsonEncode(recipeIds));
   }
 }

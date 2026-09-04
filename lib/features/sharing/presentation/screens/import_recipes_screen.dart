@@ -62,7 +62,7 @@ class _ImportRecipesScreenState extends State<ImportRecipesScreen> {
                       StatChip(
                         icon: Icons.people_outline,
                         label: l10n.portionsChip(recipe.portions),
-                        color: colorScheme.onSurface,
+                        color: const Color(0xFF92003A),
                       ),
                     ],
                   ),

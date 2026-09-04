@@ -788,6 +788,54 @@ abstract class AppLocalizations {
   /// **'Reset'**
   String get reset;
 
+  /// No description provided for @addArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add article'**
+  String get addArticle;
+
+  /// No description provided for @addArticleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add article'**
+  String get addArticleTitle;
+
+  /// No description provided for @articleNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Item name'**
+  String get articleNameLabel;
+
+  /// No description provided for @articleQuantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity (optional)'**
+  String get articleQuantityLabel;
+
+  /// No description provided for @shareGroceries.
+  ///
+  /// In en, this message translates to:
+  /// **'Share list'**
+  String get shareGroceries;
+
+  /// No description provided for @shareGroceriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grocery list'**
+  String get shareGroceriesTitle;
+
+  /// No description provided for @groceriesRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get groceriesRecipes;
+
+  /// No description provided for @groceriesRecipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes in this list'**
+  String get groceriesRecipesTitle;
+
   /// No description provided for @searchFoodsHint.
   ///
   /// In en, this message translates to:

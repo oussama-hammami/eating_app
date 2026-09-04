@@ -738,12 +738,12 @@ class _RecipesTabState extends State<RecipesTab> {
                               StatChip(
                                 icon: Icons.fitness_center,
                                 label: l10n.proteinGChip(recipe.protein),
-                                color: colorScheme.primary,
+                                color: const Color(0xFF2A835F),
                               ),
                               StatChip(
                                 icon: Icons.people_outline,
                                 label: l10n.portionsChip(recipe.portions),
-                                color: colorScheme.onSurface,
+                                color: const Color(0xFF92003A),
                               ),
                             ],
                           ),

@@ -434,6 +434,30 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reset => 'Réinitialiser';
 
   @override
+  String get addArticle => 'Ajouter un article';
+
+  @override
+  String get addArticleTitle => 'Ajouter un article';
+
+  @override
+  String get articleNameLabel => 'Nom de l\'article';
+
+  @override
+  String get articleQuantityLabel => 'Quantité (optionnel)';
+
+  @override
+  String get shareGroceries => 'Partager la liste';
+
+  @override
+  String get shareGroceriesTitle => 'Liste de courses';
+
+  @override
+  String get groceriesRecipes => 'Recettes';
+
+  @override
+  String get groceriesRecipesTitle => 'Recettes de cette liste';
+
+  @override
   String get searchFoodsHint => 'Rechercher des aliments…';
 
   @override

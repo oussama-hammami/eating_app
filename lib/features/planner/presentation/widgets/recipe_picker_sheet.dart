@@ -47,7 +47,7 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
                   StatChip(
                     icon: Icons.people_outline,
                     label: l10n.portionsChip(recipe.portions),
-                    color: colorScheme.onSurface,
+                    color: const Color(0xFF92003A),
                   ),
                 ],
               ),

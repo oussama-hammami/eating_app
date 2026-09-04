@@ -26,6 +26,10 @@ class _RootShellState extends State<RootShell> {
   final List<GroceryItem> _groceries = [];
   final List<MealPlanEntry> _mealPlan = [];
 
+  /// Ids of the recipes whose ingredients contributed to the current
+  /// grocery list — shown via the Groceries tab's "Recipes" button.
+  final List<String> _groceriesSourceRecipeIds = [];
+
   int _groceryResetSignal = 0;
 
   @override
@@ -38,11 +42,13 @@ class _RootShellState extends State<RootShell> {
     final recipes = await _storage.loadRecipes();
     final groceries = await _storage.loadGroceries();
     final mealPlan = await _storage.loadMealPlan();
+    final groceriesSourceRecipeIds = await _storage.loadGroceriesSourceRecipeIds();
     if (!mounted) return;
     setState(() {
       _recipes.addAll(recipes);
       _groceries.addAll(groceries);
       _mealPlan.addAll(mealPlan);
+      _groceriesSourceRecipeIds.addAll(groceriesSourceRecipeIds);
     });
   }
 
@@ -70,9 +76,24 @@ class _RootShellState extends State<RootShell> {
   void _resetGroceries() {
     setState(() {
       _groceries.clear();
+      _groceriesSourceRecipeIds.clear();
       _groceryResetSignal++;
     });
     _storage.saveGroceries(_groceries);
+    _storage.saveGroceriesSourceRecipeIds(_groceriesSourceRecipeIds);
+  }
+
+  /// Adds [recipeIds] to the set of recipes credited with the current
+  /// grocery list (order-preserving, no duplicates).
+  void _addGroceriesSourceRecipeIds(Iterable<String> recipeIds) {
+    setState(() {
+      for (final id in recipeIds) {
+        if (!_groceriesSourceRecipeIds.contains(id)) {
+          _groceriesSourceRecipeIds.add(id);
+        }
+      }
+    });
+    _storage.saveGroceriesSourceRecipeIds(_groceriesSourceRecipeIds);
   }
 
   /// Merges (name, quantity) pairs into `_groceries`, combining quantities
@@ -118,12 +139,17 @@ class _RootShellState extends State<RootShell> {
     _storage.saveGroceries(_groceries);
   }
 
+  void _addGroceryItem(String name, String quantity) {
+    _mergeIntoGroceries([MapEntry(name, quantity)]);
+  }
+
   void _addToGroceries(List<Recipe> selectedRecipes) {
     _mergeIntoGroceries(
       selectedRecipes.expand(
         (recipe) => recipe.ingredients.map((i) => MapEntry(i.name, i.quantity)),
       ),
     );
+    _addGroceriesSourceRecipeIds(selectedRecipes.map((r) => r.id));
   }
 
   void _generateGroceries(List<Recipe> selectedRecipes) {
@@ -150,9 +176,13 @@ class _RootShellState extends State<RootShell> {
             rawQuantities: rawQuantitiesByKey[key]!,
           );
         }));
+      _groceriesSourceRecipeIds
+        ..clear()
+        ..addAll(selectedRecipes.map((r) => r.id));
       _tabIndex = 2;
     });
     _storage.saveGroceries(_groceries);
+    _storage.saveGroceriesSourceRecipeIds(_groceriesSourceRecipeIds);
   }
 
   Recipe? _findRecipe(String recipeId) {
@@ -202,16 +232,24 @@ class _RootShellState extends State<RootShell> {
 
   void _generateGroceriesFromMealPlan(List<MealPlanEntry> weekEntries) {
     final ingredients = <MapEntry<String, String>>[];
+    final recipeIds = <String>{};
     for (final entry in weekEntries) {
       final recipe = _findRecipe(entry.recipeId);
       if (recipe == null || recipe.portions <= 0) continue;
+      recipeIds.add(recipe.id);
       final factor = entry.servings / recipe.portions;
       for (final ingredient in recipe.ingredients) {
         ingredients.add(MapEntry(ingredient.name, scaleQuantity(ingredient.quantity, factor)));
       }
     }
     _mergeIntoGroceries(ingredients);
+    _addGroceriesSourceRecipeIds(recipeIds);
   }
+
+  List<Recipe> get _groceriesSourceRecipes => _groceriesSourceRecipeIds
+      .map(_findRecipe)
+      .whereType<Recipe>()
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -244,6 +282,8 @@ class _RootShellState extends State<RootShell> {
               _storage.saveGroceries(_groceries);
             },
             onReset: _resetGroceries,
+            onAddItem: _addGroceryItem,
+            sourceRecipes: _groceriesSourceRecipes,
           ),
           CommunityTab(onAddToRecipes: _addRecipe),
         ],

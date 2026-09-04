@@ -6,7 +6,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/meal_type.dart';
 import '../../../recipes/domain/entities/recipe.dart';
 import '../../domain/entities/meal_plan_entry.dart';
-import '../widgets/assigned_meal_card.dart';
+import '../widgets/meal_slot_section.dart';
 import '../widgets/planner_day_sidebar.dart';
 import '../widgets/recipe_picker_sheet.dart';
 import 'scan_meal_plan_screen.dart';
@@ -158,6 +158,21 @@ class _PlannerTabState extends State<PlannerTab> {
     ));
   }
 
+  /// Nudges an entry's servings by [delta], keeping its id (and slot) so the
+  /// change is an in-place update rather than a brand new entry.
+  void _adjustServings(MealPlanEntry entry, int delta) {
+    final newServings = entry.servings + delta;
+    if (newServings <= 0) return;
+    widget.onRemoveEntry(entry.id);
+    widget.onAddEntry(MealPlanEntry(
+      id: entry.id,
+      date: entry.date,
+      mealType: entry.mealType,
+      recipeId: entry.recipeId,
+      servings: newServings,
+    ));
+  }
+
   Future<void> _confirmGenerateGroceries() async {
     final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
@@ -217,11 +232,22 @@ class _PlannerTabState extends State<PlannerTab> {
     final selectedDateKey = _dateKey(weekDays[_selectedDayIndex]);
     final dayEntries = widget.entries.where((e) => e.date == selectedDateKey).toList();
     final dayTotals = _totalsForDate(selectedDateKey);
+    final weekIsEmpty = _weekEntries.isEmpty;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.plannerTitle),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined),
+            tooltip: l10n.plannerGenerateGroceries,
+            onPressed: weekIsEmpty ? null : _confirmGenerateGroceries,
+          ),
+          IconButton(
+            icon: const Icon(Icons.ios_share),
+            tooltip: l10n.plannerShareWeek,
+            onPressed: weekIsEmpty ? null : _openShareWeek,
+          ),
           IconButton(
             icon: const Icon(Icons.qr_code_scanner),
             tooltip: l10n.plannerScanTitle,
@@ -245,12 +271,13 @@ class _PlannerTabState extends State<PlannerTab> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                    padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
                     child: Row(
                       children: [
                         IconButton(
                           icon: const Icon(Icons.chevron_left),
                           tooltip: l10n.plannerPreviousWeek,
+                          visualDensity: VisualDensity.compact,
                           onPressed: () => _shiftWeek(-1),
                         ),
                         Expanded(
@@ -266,13 +293,14 @@ class _PlannerTabState extends State<PlannerTab> {
                         IconButton(
                           icon: const Icon(Icons.chevron_right),
                           tooltip: l10n.plannerNextWeek,
+                          visualDensity: VisualDensity.compact,
                           onPressed: () => _shiftWeek(1),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
                     child: Wrap(
                       spacing: 8,
                       runSpacing: 6,
@@ -285,7 +313,7 @@ class _PlannerTabState extends State<PlannerTab> {
                         StatChip(
                           icon: Icons.bolt,
                           label: l10n.proteinGChip(dayTotals.protein),
-                          color: colorScheme.primary,
+                          color: const Color(0xFF2A835F),
                         ),
                         StatChip(
                           icon: Icons.grain,
@@ -300,97 +328,24 @@ class _PlannerTabState extends State<PlannerTab> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: _weekEntries.isEmpty ? null : _confirmGenerateGroceries,
-                            icon: const Icon(Icons.shopping_cart_outlined),
-                            label: Text(l10n.plannerGenerateGroceries),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: FilledButton.icon(
-                            onPressed: _weekEntries.isEmpty ? null : _openShareWeek,
-                            icon: const Icon(Icons.ios_share),
-                            label: Text(l10n.plannerShareWeek),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const Divider(height: 1),
                   Expanded(
-                    child: Padding(
+                    child: ListView(
                       padding: const EdgeInsets.all(12),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 1.05,
-                        children: _plannerMealTypes.map((mealType) {
-                          final slotEntries =
-                              dayEntries.where((e) => e.mealType == mealType).toList();
-                          return Card(
-                            margin: EdgeInsets.zero,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(mealType.icon, color: colorScheme.primary, size: 18),
-                                      const SizedBox(width: 6),
-                                      Expanded(
-                                        child: Text(
-                                          mealType.label(l10n),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(fontWeight: FontWeight.w700),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(Icons.add_circle_outline, size: 20),
-                                        tooltip: l10n.plannerAddMeal,
-                                        visualDensity: VisualDensity.compact,
-                                        onPressed: () => _openRecipePickerFlow(mealType: mealType),
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: slotEntries.isEmpty
-                                        ? Center(
-                                            child: Text(
-                                              l10n.plannerEmptySlot,
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  TextStyle(color: colorScheme.onSurfaceVariant),
-                                            ),
-                                          )
-                                        : ListView(
-                                            padding: EdgeInsets.zero,
-                                            children: slotEntries.map((entry) {
-                                              return AssignedMealCard(
-                                                entry: entry,
-                                                recipe: _recipeById(entry.recipeId),
-                                                onRemove: () => widget.onRemoveEntry(entry.id),
-                                                onReplace: () => _openRecipePickerFlow(
-                                                  mealType: mealType,
-                                                  replacing: entry,
-                                                ),
-                                              );
-                                            }).toList(),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
+                      children: _plannerMealTypes.map((mealType) {
+                        final slotEntries =
+                            dayEntries.where((e) => e.mealType == mealType).toList();
+                        return MealSlotSection(
+                          mealType: mealType,
+                          entries: slotEntries,
+                          recipeById: _recipeById,
+                          onAdd: () => _openRecipePickerFlow(mealType: mealType),
+                          onRemove: (entry) => widget.onRemoveEntry(entry.id),
+                          onReplace: (entry) =>
+                              _openRecipePickerFlow(mealType: mealType, replacing: entry),
+                          onAdjustServings: _adjustServings,
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
