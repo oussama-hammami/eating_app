@@ -75,7 +75,12 @@
       "Bash(python3 -c \"import json;print\\(len\\(json.load\\(open\\('supabase/seed/community_recipes.json'\\)\\)\\)\\)\")",
       "Bash(git checkout *)",
       "Bash(code --version)",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(timeout 240 bash -c 'until grep -q '\\\\''A Dart VM Service\\\\|Exception\\\\|error:'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run.log'\\\\''; do sleep 3; done')",
+      "Bash(adb -s 2405CRPFDG shell screencap -p /sdcard/screenshot.png)",
+      "Bash(adb -s 2405CRPFDG pull /sdcard/screenshot.png /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/recipes_tab.png)",
+      "Bash(~/Android/Sdk/platform-tools/adb devices *)",
+      "Bash(pkill -f \"flutter run -d 2405CRPFDG\")"
     ],
     "additionalDirectories": [
       "/tmp",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 import 'app_palette.dart';
@@ -71,24 +72,39 @@ class AppTheme {
     required ColorScheme colorScheme,
     required AppSemanticColors semanticColors,
   }) {
+    // Fraunces (a warm, editorial serif) for headings/titles; Inter (a clean,
+    // highly-legible sans) for body text — replaces the plain 'Georgia'
+    // fontFamily, which silently fell back to the platform default on
+    // Android since Georgia isn't bundled there.
+    final baseTextTheme = GoogleFonts.interTextTheme(
+      ThemeData(brightness: brightness).textTheme,
+    ).apply(bodyColor: colorScheme.onSurface, displayColor: colorScheme.onSurface);
+
+    TextStyle heading({required double fontSize, required FontWeight fontWeight}) =>
+        GoogleFonts.fraunces(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: colorScheme.onSurface,
+        );
+
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
-      fontFamily: 'Georgia',
       extensions: [semanticColors],
+      textTheme: baseTextTheme.copyWith(
+        titleLarge: heading(fontSize: 22, fontWeight: FontWeight.w600),
+        titleMedium: heading(fontSize: 18, fontWeight: FontWeight.w700),
+        headlineSmall: heading(fontSize: 24, fontWeight: FontWeight.w600),
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: background,
         foregroundColor: colorScheme.onSurface,
         centerTitle: true,
         elevation: 0,
-        titleTextStyle: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: colorScheme.onSurface,
-          letterSpacing: 0.5,
-        ),
+        titleTextStyle: heading(fontSize: 22, fontWeight: FontWeight.w600)
+            .copyWith(letterSpacing: 0.5),
       ),
       cardTheme: CardThemeData(
         color: colorScheme.surface,
@@ -166,11 +182,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        titleTextStyle: TextStyle(
-          color: colorScheme.onSurface,
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-        ),
+        titleTextStyle: heading(fontSize: 20, fontWeight: FontWeight.w700),
         contentTextStyle:
             TextStyle(color: colorScheme.onSurface, fontSize: 15),
       ),
@@ -192,14 +204,6 @@ class AppTheme {
             color: selected ? colorScheme.primary : colorScheme.onSurfaceVariant,
           );
         }),
-      ),
-      textTheme: TextTheme(
-        bodyLarge: TextStyle(color: colorScheme.onSurface),
-        bodyMedium: TextStyle(color: colorScheme.onSurface),
-        titleMedium: TextStyle(
-          color: colorScheme.onSurface,
-          fontWeight: FontWeight.w700,
-        ),
       ),
     );
   }
