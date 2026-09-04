@@ -21,6 +21,111 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navCommunity => 'Communauté';
 
   @override
+  String get navPlanner => 'Planning';
+
+  @override
+  String get plannerTitle => '🗓️  Planning hebdomadaire';
+
+  @override
+  String get plannerPreviousWeek => 'Semaine précédente';
+
+  @override
+  String get plannerNextWeek => 'Semaine suivante';
+
+  @override
+  String get plannerAddMeal => 'Ajouter un repas';
+
+  @override
+  String get plannerEmptySlot => 'Aucun repas prévu.';
+
+  @override
+  String get plannerEmptyDay =>
+      'Aucun repas prévu pour ce jour pour le moment.';
+
+  @override
+  String get plannerDailyTotals => 'Totaux du jour';
+
+  @override
+  String get plannerServings => 'Portions';
+
+  @override
+  String get plannerGenerateGroceries => 'Générer les courses';
+
+  @override
+  String get plannerGenerateGroceriesConfirmTitle =>
+      'Ajouter la semaine aux courses ?';
+
+  @override
+  String get plannerGenerateGroceriesConfirmMessage =>
+      'Cela ajoute chaque ingrédient des repas planifiés cette semaine — proportionné aux portions — à votre liste de courses.';
+
+  @override
+  String get plannerShareWeek => 'Partager la semaine';
+
+  @override
+  String get plannerShareWeekTitle => 'Partager cette semaine';
+
+  @override
+  String plannerShareWeekInstructions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ces $count repas',
+      one: 'ce repas',
+    );
+    return 'Scannez ce QR code avec l\'application d\'un autre appareil pour importer $_temp0.';
+  }
+
+  @override
+  String get plannerScanTitle => 'Scanner pour importer';
+
+  @override
+  String get plannerImportTitle => 'Importer le planning';
+
+  @override
+  String plannerImportConfirmButton(int count) {
+    return 'Ajouter à mon planning ($count)';
+  }
+
+  @override
+  String plannerImportSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count repas ajoutés',
+      one: '1 repas ajouté',
+    );
+    return '$_temp0 à votre planning.';
+  }
+
+  @override
+  String get plannerPickRecipeTitle => 'Choisir une recette';
+
+  @override
+  String get plannerMyRecipesSection => 'Mes recettes';
+
+  @override
+  String get plannerCommunitySection => 'Communauté';
+
+  @override
+  String get plannerCommunityUnavailable =>
+      'Recettes de la communauté indisponibles pour le moment.';
+
+  @override
+  String get plannerServingsDialogTitle => 'Combien de portions ?';
+
+  @override
+  String get plannerReplaceMeal => 'Remplacer';
+
+  @override
+  String get plannerRemoveMeal => 'Retirer';
+
+  @override
+  String plannerWeekRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
   String get recipesTitle => '🍽️  Mes recettes';
 
   @override

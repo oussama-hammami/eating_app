@@ -4,6 +4,46 @@
   "navRecipes": "Recipes",
   "navGroceries": "Groceries",
   "navCommunity": "Community",
+  "navPlanner": "Planner",
+
+  "plannerTitle": "🗓️  Weekly Planner",
+  "plannerPreviousWeek": "Previous week",
+  "plannerNextWeek": "Next week",
+  "plannerAddMeal": "Add meal",
+  "plannerEmptySlot": "No meal planned.",
+  "plannerEmptyDay": "No meals planned for this day yet.",
+  "plannerDailyTotals": "Daily totals",
+  "plannerServings": "Servings",
+  "plannerGenerateGroceries": "Generate groceries",
+  "plannerGenerateGroceriesConfirmTitle": "Add week to groceries?",
+  "plannerGenerateGroceriesConfirmMessage": "This adds every ingredient from this week's planned meals — scaled to servings — to your grocery list.",
+  "plannerShareWeek": "Share week",
+  "plannerShareWeekTitle": "Share this week",
+  "plannerShareWeekInstructions": "Scan this QR code with another device's app to import {count, plural, one {this meal} other {these {count} meals}}.",
+  "@plannerShareWeekInstructions": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "plannerScanTitle": "Scan to import",
+  "plannerImportTitle": "Import meal plan",
+  "plannerImportConfirmButton": "Add to my planner ({count})",
+  "@plannerImportConfirmButton": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "plannerImportSuccess": "{count, plural, one {1 meal} other {{count} meals}} added to your planner.",
+  "@plannerImportSuccess": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "plannerPickRecipeTitle": "Choose a recipe",
+  "plannerMyRecipesSection": "My recipes",
+  "plannerCommunitySection": "Community",
+  "plannerCommunityUnavailable": "Community recipes unavailable right now.",
+  "plannerServingsDialogTitle": "How many servings?",
+  "plannerReplaceMeal": "Replace",
+  "plannerRemoveMeal": "Remove",
+  "plannerWeekRange": "{start} – {end}",
+  "@plannerWeekRange": {
+    "placeholders": { "start": { "type": "String" }, "end": { "type": "String" } }
+  },
 
   "recipesTitle": "🍽️  My Recipes",
   "recipesEmpty": "No recipes yet.\nTap + to add one.",

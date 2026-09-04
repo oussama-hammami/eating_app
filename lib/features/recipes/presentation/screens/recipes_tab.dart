@@ -439,6 +439,7 @@ class _RecipesTabState extends State<RecipesTab> {
                     }
 
                     final recipe = Recipe(
+                      id: existing?.id,
                       name: name,
                       calories: int.tryParse(caloriesController.text.trim()) ?? 0,
                       protein: int.tryParse(proteinController.text.trim()) ?? 0,

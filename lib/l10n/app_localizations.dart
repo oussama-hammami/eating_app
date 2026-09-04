@@ -122,6 +122,168 @@ abstract class AppLocalizations {
   /// **'Community'**
   String get navCommunity;
 
+  /// No description provided for @navPlanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Planner'**
+  String get navPlanner;
+
+  /// No description provided for @plannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🗓️  Weekly Planner'**
+  String get plannerTitle;
+
+  /// No description provided for @plannerPreviousWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous week'**
+  String get plannerPreviousWeek;
+
+  /// No description provided for @plannerNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get plannerNextWeek;
+
+  /// No description provided for @plannerAddMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add meal'**
+  String get plannerAddMeal;
+
+  /// No description provided for @plannerEmptySlot.
+  ///
+  /// In en, this message translates to:
+  /// **'No meal planned.'**
+  String get plannerEmptySlot;
+
+  /// No description provided for @plannerEmptyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'No meals planned for this day yet.'**
+  String get plannerEmptyDay;
+
+  /// No description provided for @plannerDailyTotals.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily totals'**
+  String get plannerDailyTotals;
+
+  /// No description provided for @plannerServings.
+  ///
+  /// In en, this message translates to:
+  /// **'Servings'**
+  String get plannerServings;
+
+  /// No description provided for @plannerGenerateGroceries.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate groceries'**
+  String get plannerGenerateGroceries;
+
+  /// No description provided for @plannerGenerateGroceriesConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add week to groceries?'**
+  String get plannerGenerateGroceriesConfirmTitle;
+
+  /// No description provided for @plannerGenerateGroceriesConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This adds every ingredient from this week\'s planned meals — scaled to servings — to your grocery list.'**
+  String get plannerGenerateGroceriesConfirmMessage;
+
+  /// No description provided for @plannerShareWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Share week'**
+  String get plannerShareWeek;
+
+  /// No description provided for @plannerShareWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this week'**
+  String get plannerShareWeekTitle;
+
+  /// No description provided for @plannerShareWeekInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code with another device\'s app to import {count, plural, one {this meal} other {these {count} meals}}.'**
+  String plannerShareWeekInstructions(int count);
+
+  /// No description provided for @plannerScanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to import'**
+  String get plannerScanTitle;
+
+  /// No description provided for @plannerImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import meal plan'**
+  String get plannerImportTitle;
+
+  /// No description provided for @plannerImportConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to my planner ({count})'**
+  String plannerImportConfirmButton(int count);
+
+  /// No description provided for @plannerImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 meal} other {{count} meals}} added to your planner.'**
+  String plannerImportSuccess(int count);
+
+  /// No description provided for @plannerPickRecipeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a recipe'**
+  String get plannerPickRecipeTitle;
+
+  /// No description provided for @plannerMyRecipesSection.
+  ///
+  /// In en, this message translates to:
+  /// **'My recipes'**
+  String get plannerMyRecipesSection;
+
+  /// No description provided for @plannerCommunitySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get plannerCommunitySection;
+
+  /// No description provided for @plannerCommunityUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Community recipes unavailable right now.'**
+  String get plannerCommunityUnavailable;
+
+  /// No description provided for @plannerServingsDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How many servings?'**
+  String get plannerServingsDialogTitle;
+
+  /// No description provided for @plannerReplaceMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get plannerReplaceMeal;
+
+  /// No description provided for @plannerRemoveMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get plannerRemoveMeal;
+
+  /// No description provided for @plannerWeekRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String plannerWeekRange(String start, String end);
+
   /// No description provided for @recipesTitle.
   ///
   /// In en, this message translates to:

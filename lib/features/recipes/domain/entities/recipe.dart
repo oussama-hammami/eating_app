@@ -1,8 +1,10 @@
+import '../../../../core/utils/id_generator.dart';
 import 'ingredient.dart';
 import 'meal_type.dart';
 
 class Recipe {
   Recipe({
+    String? id,
     required this.name,
     required this.calories,
     required this.protein,
@@ -13,8 +15,14 @@ class Recipe {
     this.photoPath,
     this.carbs,
     this.fat,
-  }) : checkedIngredients = List.filled(ingredients.length, false);
+  })  : id = id ?? generateLocalId(),
+        checkedIngredients = List.filled(ingredients.length, false);
 
+  /// A short, device-generated id — stable across persistence/reload, but
+  /// not guaranteed unique across devices. Good enough to let a
+  /// [MealPlanEntry] reference "this exact recipe" locally (e.g. the Weekly
+  /// Planner), without requiring a backend-assigned id for user recipes.
+  final String id;
   final String name;
   final int calories;
   final int protein;
@@ -49,6 +57,7 @@ class Recipe {
       );
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'name': name,
         'calories': calories,
         'protein': protein,
@@ -76,6 +85,7 @@ class Recipe {
 
   static Recipe _fromJson(Map<String, dynamic> json, {required String? photoPath}) {
     final recipe = Recipe(
+      id: json['id'] as String?,
       name: json['name'] as String,
       calories: json['calories'] as int,
       protein: json['protein'] as int,
@@ -99,6 +109,7 @@ class Recipe {
   /// Builds a [Recipe] from a `community_recipies` Supabase row (snake_case
   /// columns, `ingredients` as jsonb).
   factory Recipe.fromSupabaseRow(Map<String, dynamic> row) => Recipe(
+        id: row['id']?.toString(),
         name: row['name'] as String,
         calories: row['calories'] as int,
         protein: row['protein'] as int,

@@ -21,6 +21,109 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navCommunity => 'Community';
 
   @override
+  String get navPlanner => 'Planner';
+
+  @override
+  String get plannerTitle => '🗓️  Weekly Planner';
+
+  @override
+  String get plannerPreviousWeek => 'Previous week';
+
+  @override
+  String get plannerNextWeek => 'Next week';
+
+  @override
+  String get plannerAddMeal => 'Add meal';
+
+  @override
+  String get plannerEmptySlot => 'No meal planned.';
+
+  @override
+  String get plannerEmptyDay => 'No meals planned for this day yet.';
+
+  @override
+  String get plannerDailyTotals => 'Daily totals';
+
+  @override
+  String get plannerServings => 'Servings';
+
+  @override
+  String get plannerGenerateGroceries => 'Generate groceries';
+
+  @override
+  String get plannerGenerateGroceriesConfirmTitle => 'Add week to groceries?';
+
+  @override
+  String get plannerGenerateGroceriesConfirmMessage =>
+      'This adds every ingredient from this week\'s planned meals — scaled to servings — to your grocery list.';
+
+  @override
+  String get plannerShareWeek => 'Share week';
+
+  @override
+  String get plannerShareWeekTitle => 'Share this week';
+
+  @override
+  String plannerShareWeekInstructions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'these $count meals',
+      one: 'this meal',
+    );
+    return 'Scan this QR code with another device\'s app to import $_temp0.';
+  }
+
+  @override
+  String get plannerScanTitle => 'Scan to import';
+
+  @override
+  String get plannerImportTitle => 'Import meal plan';
+
+  @override
+  String plannerImportConfirmButton(int count) {
+    return 'Add to my planner ($count)';
+  }
+
+  @override
+  String plannerImportSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meals',
+      one: '1 meal',
+    );
+    return '$_temp0 added to your planner.';
+  }
+
+  @override
+  String get plannerPickRecipeTitle => 'Choose a recipe';
+
+  @override
+  String get plannerMyRecipesSection => 'My recipes';
+
+  @override
+  String get plannerCommunitySection => 'Community';
+
+  @override
+  String get plannerCommunityUnavailable =>
+      'Community recipes unavailable right now.';
+
+  @override
+  String get plannerServingsDialogTitle => 'How many servings?';
+
+  @override
+  String get plannerReplaceMeal => 'Replace';
+
+  @override
+  String get plannerRemoveMeal => 'Remove';
+
+  @override
+  String plannerWeekRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
   String get recipesTitle => '🍽️  My Recipes';
 
   @override
