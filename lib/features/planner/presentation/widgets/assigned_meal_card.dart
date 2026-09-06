@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/recipe.dart';
 import '../../../recipes/presentation/widgets/recipe_photo.dart';
 import '../../domain/entities/meal_plan_entry.dart';
 
 /// One recipe assigned to a meal slot — a compact, shrink-wrapped card: a
-/// photo thumbnail, name, a calorie badge, an inline servings stepper
-/// (-/+), and "replace"/"remove" actions.
+/// photo thumbnail, name, bare icon+value calorie/protein indicators, an
+/// inline servings stepper (-/+), and "replace"/"remove" actions.
 class AssignedMealCard extends StatelessWidget {
   const AssignedMealCard({
     super.key,
@@ -34,6 +33,7 @@ class AssignedMealCard extends StatelessWidget {
     final recipe = this.recipe;
     final factor = recipe == null || recipe.portions <= 0 ? 0.0 : entry.servings / recipe.portions;
     final calories = recipe == null ? 0 : (recipe.calories * factor).round();
+    final protein = recipe == null ? 0 : (recipe.protein * factor).round();
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 3),
@@ -60,12 +60,18 @@ class AssignedMealCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      StatChip(
+                      _IconValue(
                         icon: Icons.local_fire_department,
-                        label: l10n.caloriesKcalChip(calories),
+                        value: calories,
                         color: colorScheme.secondary,
                       ),
-                      const Spacer(),
+                      const SizedBox(width: 10),
+                      _IconValue(
+                        icon: Icons.bolt,
+                        value: protein,
+                        color: const Color(0xFF2A835F),
+                      ),
+                      const SizedBox(width: 10),
                       _ServingsStepper(
                         servings: entry.servings,
                         onAdjust: onAdjustServings,
@@ -93,6 +99,38 @@ class AssignedMealCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// A bare icon + numeric value on a tinted color box, no unit text — e.g.
+/// 🔥500 instead of a full "500 kcal" chip.
+class _IconValue extends StatelessWidget {
+  const _IconValue({required this.icon, required this.value, required this.color});
+
+  final IconData icon;
+  final int value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 3),
+          Text(
+            '$value',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color),
+          ),
+        ],
       ),
     );
   }

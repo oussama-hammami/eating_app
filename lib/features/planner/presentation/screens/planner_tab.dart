@@ -108,7 +108,9 @@ class _PlannerTabState extends State<PlannerTab> {
   Future<void> _openRecipePickerFlow({required MealType mealType, MealPlanEntry? replacing}) async {
     final l10n = AppLocalizations.of(context)!;
     final recipe = await Navigator.of(context).push<Recipe>(
-      MaterialPageRoute(builder: (_) => RecipePickerSheet(myRecipes: widget.recipes)),
+      MaterialPageRoute(
+        builder: (_) => RecipePickerSheet(myRecipes: widget.recipes, mealType: mealType),
+      ),
     );
     if (recipe == null || !mounted) return;
 

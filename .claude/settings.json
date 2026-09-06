@@ -91,12 +91,36 @@
       "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run6.log'\\\\''; do sleep 4; done')",
       "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run7.log'\\\\''; do sleep 4; done')",
       "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run8.log'\\\\''; do sleep 4; done')",
-      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run9.log'\\\\''; do sleep 4; done')"
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run9.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run10.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run11.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run12.log'\\\\''; do sleep 4; done')",
+      "Bash(timeout 180 bash -c 'until grep -q '\\\\''FlutterJNI'\\\\'' '\\\\''/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/bea70e55-ee56-49e8-82a5-ddf677e0ec17/scratchpad/flutter_run13.log'\\\\''; do sleep 4; done')",
+      "Bash(lsof -ti:8765 -sTCP:LISTEN)",
+      "Bash(find / -maxdepth 6 -iname \"adb\" -type f)",
+      "Bash(timeout 90 bash -c 'until grep -q \"Flutter run key commands\" /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/scratchpad/flutter_run.log 2>/dev/null; do sleep 3; done')",
+      "Bash(timeout 120 bash -c 'until grep -q \"Flutter run key commands\\\\|Error\\\\|error:\" /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/scratchpad/flutter_run.log 2>/dev/null; do sleep 3; done')",
+      "Bash(timeout 90 bash -c 'until grep -q \"Flutter run key commands\" /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/tasks/b2wahi09b.output 2>/dev/null; do sleep 3; done')",
+      "Bash(apt list *)",
+      "Bash(sudo -n apt-get install -y xdotool)",
+      "Bash(python3 -c \"import playwright; print\\('ok'\\)\")",
+      "Bash(pip3 show *)",
+      "Bash(pip3 install *)",
+      "Bash(python3 -m venv /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/scratchpad/pwvenv)",
+      "Bash(/tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/scratchpad/pwvenv/bin/pip install *)",
+      "Bash(timeout 60 bash -c 'until curl -sf http://localhost:8765 >/dev/null; do sleep 2; done')",
+      "Bash(timeout 90 bash -c 'until grep -q \"Flutter run key commands\" /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/661fcf26-f114-4f12-87ba-c0068979e4b9/tasks/bg0oeak4h.output 2>/dev/null; do sleep 3; done')",
+      "Bash(xargs -I{} cat -n {})",
+      "Bash(xargs -I{} echo {})",
+      "Bash(mkdir -p /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe)",
+      "Bash(cp /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/16081629-947b-4bf7-89d5-555ff2f71728/scratchpad/codec_probe_test.dart /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe/codec_probe_test.dart)",
+      "Bash(rm -rf /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe)"
     ],
     "additionalDirectories": [
       "/tmp",
       "/home/oussama/Downloads/testLab/eating_app/assets/images",
-      "/home/oussama/Downloads/testLab/eating_app/supabase"
+      "/home/oussama/Downloads/testLab/eating_app/supabase",
+      "/home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe"
     ]
   }
 }
