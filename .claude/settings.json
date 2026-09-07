@@ -114,13 +114,17 @@
       "Bash(xargs -I{} echo {})",
       "Bash(mkdir -p /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe)",
       "Bash(cp /tmp/claude-1000/-home-oussama-Downloads-testLab-eating-app/16081629-947b-4bf7-89d5-555ff2f71728/scratchpad/codec_probe_test.dart /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe/codec_probe_test.dart)",
-      "Bash(rm -rf /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe)"
+      "Bash(rm -rf /home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe)",
+      "Bash(awk '{print $1}')",
+      "Bash(mkdir -p /home/oussama/Downloads/testLab/eating_app/.github/workflows *)",
+      "Bash(dart format *)"
     ],
     "additionalDirectories": [
       "/tmp",
       "/home/oussama/Downloads/testLab/eating_app/assets/images",
       "/home/oussama/Downloads/testLab/eating_app/supabase",
-      "/home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe"
+      "/home/oussama/Downloads/testLab/eating_app/test/features/sharing/_probe",
+      "/home/oussama/Downloads/testLab/eating_app/.github"
     ]
   }
 }

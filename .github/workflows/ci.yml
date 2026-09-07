@@ -1,0 +1,35 @@
+# Workflow name shown in GitHub's Actions tab
+name: CI
+
+# events that trigger this workflow
+on:
+  push:
+    branches: [master] # run on pushes to master
+  pull_request:
+    branches: [master] # run on PRs targeting master
+
+# one or more jobs, run in parallel by default
+jobs:
+  analyze-and-test: # job id
+    name: Analyze & test # job label in the UI
+    runs-on: ubuntu-latest # VM image to run on
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4 # clone the repo onto the runner
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2 # installs Flutter/Dart
+        with:
+          channel: stable
+          flutter-version: 3.44.8 # pinned to match local dev version
+          cache: true # cache the SDK between runs
+
+      - name: Install dependencies
+        run: flutter pub get # fetch packages from pubspec.yaml
+
+      - name: Analyze
+        run: flutter analyze # static analysis / lint check
+
+      - name: Run tests
+        run: flutter test # run everything under test/
