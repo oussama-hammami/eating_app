@@ -9,6 +9,14 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  # flutter_build/ is a separate, unrelated Flutter project checked into
+  # this repo with its own pubspec.yaml — its dependencies aren't resolved
+  # here, so without this exclude the root `flutter analyze` reports
+  # broken imports from that project instead of this app's own code.
+  exclude:
+    - flutter_build/**
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
