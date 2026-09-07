@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../recipes/data/community_recipes_remote_data_source.dart';
+import '../../../recipes/data/community_recipes_repository.dart';
 import '../../../recipes/domain/entities/meal_type.dart';
 import '../../../recipes/domain/entities/recipe.dart';
 import '../../../recipes/domain/entities/recipe_filter.dart';
-import '../../../recipes/presentation/widgets/recipe_filter_panel.dart';
+import '../../../recipes/presentation/widgets/recipe_list_tile.dart';
+import '../../../recipes/presentation/widgets/recipe_search_and_filter_bar.dart';
 
 /// Full-screen recipe picker for the planner's "Add meal" flow — "My
 /// recipes" plus a lazily-fetched "Community" section. Pops with the chosen
 /// [Recipe], or null if cancelled.
 class RecipePickerSheet extends StatefulWidget {
-  const RecipePickerSheet({super.key, required this.myRecipes, required this.mealType});
+  const RecipePickerSheet({
+    super.key,
+    required this.myRecipes,
+    required this.mealType,
+    this.communityRecipesRepository,
+  });
 
   final List<Recipe> myRecipes;
 
@@ -20,28 +25,22 @@ class RecipePickerSheet extends StatefulWidget {
   /// the picker starts scoped to it.
   final MealType mealType;
 
+  /// Defaults to a real Supabase-backed [CommunityRecipesRepository] —
+  /// overridable (e.g. in tests) so this screen doesn't need a live
+  /// network/Supabase setup just to be mounted.
+  final CommunityRecipesRepository? communityRecipesRepository;
+
   @override
   State<RecipePickerSheet> createState() => _RecipePickerSheetState();
 }
 
 class _RecipePickerSheetState extends State<RecipePickerSheet> {
-  late final Future<List<Recipe>> _communityFuture = fetchCommunityRecipes();
+  late final _repository = widget.communityRecipesRepository ?? CommunityRecipesRepository();
+  late final Future<CommunityRecipesResult> _communityFuture = _repository.fetch();
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   late RecipeFilter _filter = RecipeFilter(mealTypes: {widget.mealType});
   bool _filtersExpanded = false;
-
-  int _activeFilterCount() {
-    var count = 0;
-    if (_filter.calories.isActive) count++;
-    if (_filter.protein.isActive) count++;
-    if (_filter.carbs.isActive) count++;
-    if (_filter.fat.isActive) count++;
-    if (_filter.mealTypes.isNotEmpty) count++;
-    if (_filter.includeIngredients.isNotEmpty) count++;
-    if (_filter.excludeIngredients.isNotEmpty) count++;
-    return count;
-  }
 
   @override
   void dispose() {
@@ -67,31 +66,9 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
 
     Widget recipeTile(Recipe recipe) => Card(
           margin: const EdgeInsets.symmetric(vertical: 6),
-          child: ListTile(
-            title: Text(recipe.name, style: const TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Wrap(
-                spacing: 8,
-                children: [
-                  StatChip(
-                    icon: recipe.mealType.icon,
-                    label: recipe.mealType.label(l10n),
-                    color: colorScheme.primary,
-                  ),
-                  StatChip(
-                    icon: Icons.local_fire_department,
-                    label: l10n.caloriesKcalChip(recipe.calories),
-                    color: colorScheme.secondary,
-                  ),
-                  StatChip(
-                    icon: Icons.people_outline,
-                    label: l10n.portionsChip(recipe.portions),
-                    color: const Color(0xFF92003A),
-                  ),
-                ],
-              ),
-            ),
+          child: RecipeListTile(
+            recipe: recipe,
+            showProtein: false,
             onTap: () => Navigator.of(context).pop(recipe),
           ),
         );
@@ -101,48 +78,19 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) => setState(() => _searchQuery = value),
-                      decoration: InputDecoration(
-                        hintText: l10n.searchRecipesHint,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchQuery.isEmpty
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () => setState(() {
-                                  _searchController.clear();
-                                  _searchQuery = '';
-                                }),
-                              ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  FilterChip(
-                    label: Text(
-                      _filter.isActive
-                          ? l10n.filtersActiveButton(_activeFilterCount())
-                          : l10n.filtersButton,
-                    ),
-                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
-                    selected: _filtersExpanded,
-                    onSelected: (value) => setState(() => _filtersExpanded = value),
-                  ),
-                ],
-              ),
+            RecipeSearchAndFilterBar(
+              searchController: _searchController,
+              searchQuery: _searchQuery,
+              onSearchChanged: (value) => setState(() => _searchQuery = value),
+              onSearchCleared: () => setState(() {
+                _searchController.clear();
+                _searchQuery = '';
+              }),
+              filter: _filter,
+              filtersExpanded: _filtersExpanded,
+              onFiltersExpandedChanged: (value) => setState(() => _filtersExpanded = value),
+              onFilterApply: (updated) => setState(() => _filter = updated),
             ),
-            if (_filtersExpanded)
-              RecipeFilterPanel(
-                filter: _filter,
-                onApply: (updated) => setState(() => _filter = updated),
-              ),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(12),
@@ -172,7 +120,7 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
                     l10n.plannerCommunitySection,
                     style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
-                  FutureBuilder<List<Recipe>>(
+                  FutureBuilder<CommunityRecipesResult>(
                     future: _communityFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState != ConnectionState.done) {
@@ -181,7 +129,8 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
                           child: Center(child: CircularProgressIndicator()),
                         );
                       }
-                      if (snapshot.hasError || snapshot.data == null || snapshot.data!.isEmpty) {
+                      final result = snapshot.data;
+                      if (result == null || result.recipes.isEmpty) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
@@ -190,7 +139,7 @@ class _RecipePickerSheetState extends State<RecipePickerSheet> {
                           ),
                         );
                       }
-                      final filtered = _filtered(snapshot.data!);
+                      final filtered = _filtered(result.recipes);
                       if (filtered.isEmpty) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),

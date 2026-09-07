@@ -26,6 +26,13 @@ class _ScanRecipesScreenState extends State<ScanRecipesScreen> {
     super.dispose();
   }
 
+  void _showDecodeError() {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.scanDecodeError)),
+    );
+  }
+
   Future<void> _onDetect(BarcodeCapture capture) async {
     if (_handled) return;
     if (capture.barcodes.isEmpty) return;
@@ -36,6 +43,7 @@ class _ScanRecipesScreenState extends State<ScanRecipesScreen> {
     try {
       recipes = RecipeShareCodec.decode(raw);
     } catch (_) {
+      _showDecodeError();
       return;
     }
     if (recipes.isEmpty) return;

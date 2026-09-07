@@ -12,8 +12,9 @@ import '../../domain/entities/ingredient.dart';
 import '../../domain/entities/meal_type.dart';
 import '../../domain/entities/recipe.dart';
 import '../../domain/entities/recipe_filter.dart';
-import '../widgets/recipe_filter_panel.dart';
+import '../widgets/recipe_list_tile.dart';
 import '../widgets/recipe_photo.dart';
+import '../widgets/recipe_search_and_filter_bar.dart';
 import '../../../sharing/presentation/screens/scan_recipes_screen.dart';
 import '../../../sharing/presentation/screens/share_recipes_screen.dart';
 
@@ -67,18 +68,6 @@ class _RecipesTabState extends State<RecipesTab> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  int _activeFilterCount() {
-    var count = 0;
-    if (_filter.calories.isActive) count++;
-    if (_filter.protein.isActive) count++;
-    if (_filter.carbs.isActive) count++;
-    if (_filter.fat.isActive) count++;
-    if (_filter.mealTypes.isNotEmpty) count++;
-    if (_filter.includeIngredients.isNotEmpty) count++;
-    if (_filter.excludeIngredients.isNotEmpty) count++;
-    return count;
   }
 
   void _addToGroceries() {
@@ -624,47 +613,18 @@ class _RecipesTabState extends State<RecipesTab> {
       body: Column(
         children: [
           if (recipes.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) => setState(() => _searchQuery = value),
-                      decoration: InputDecoration(
-                        hintText: l10n.searchRecipesHint,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchQuery.isEmpty
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () => setState(() {
-                                  _searchController.clear();
-                                  _searchQuery = '';
-                                }),
-                              ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  FilterChip(
-                    label: Text(
-                      _filter.isActive
-                          ? l10n.filtersActiveButton(_activeFilterCount())
-                          : l10n.filtersButton,
-                    ),
-                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
-                    selected: _filtersExpanded,
-                    onSelected: (value) => setState(() => _filtersExpanded = value),
-                  ),
-                ],
-              ),
-            ),
-          if (_filtersExpanded)
-            RecipeFilterPanel(
+            RecipeSearchAndFilterBar(
+              searchController: _searchController,
+              searchQuery: _searchQuery,
+              onSearchChanged: (value) => setState(() => _searchQuery = value),
+              onSearchCleared: () => setState(() {
+                _searchController.clear();
+                _searchQuery = '';
+              }),
               filter: _filter,
-              onApply: (updated) => setState(() => _filter = updated),
+              filtersExpanded: _filtersExpanded,
+              onFiltersExpandedChanged: (value) => setState(() => _filtersExpanded = value),
+              onFilterApply: (updated) => setState(() => _filter = updated),
             ),
           Expanded(
             child: recipes.isEmpty
@@ -688,7 +648,8 @@ class _RecipesTabState extends State<RecipesTab> {
                   margin: const EdgeInsets.symmetric(vertical: 6),
                   child: Column(
                     children: [
-                      ListTile(
+                      RecipeListTile(
+                        recipe: recipe,
                         leading: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -715,38 +676,6 @@ class _RecipesTabState extends State<RecipesTab> {
                                 ),
                               ),
                           ],
-                        ),
-                        title: Text(
-                          recipe.name,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Wrap(
-                            spacing: 8,
-                            children: [
-                              StatChip(
-                                icon: recipe.mealType.icon,
-                                label: recipe.mealType.label(l10n),
-                                color: colorScheme.primary,
-                              ),
-                              StatChip(
-                                icon: Icons.local_fire_department,
-                                label: l10n.caloriesKcalChip(recipe.calories),
-                                color: colorScheme.secondary,
-                              ),
-                              StatChip(
-                                icon: Icons.fitness_center,
-                                label: l10n.proteinGChip(recipe.protein),
-                                color: const Color(0xFF2A835F),
-                              ),
-                              StatChip(
-                                icon: Icons.people_outline,
-                                label: l10n.portionsChip(recipe.portions),
-                                color: const Color(0xFF92003A),
-                              ),
-                            ],
-                          ),
                         ),
                         onTap: () => _openRecipeDetailsDialog(recipe, index),
                         trailing: Row(

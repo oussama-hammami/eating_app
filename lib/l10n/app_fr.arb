@@ -109,6 +109,8 @@
   "shareRecipesInstructions": "Scannez ce code QR avec l'application sur un autre appareil pour partager {count, plural, one {cette recette} other {ces recettes}}.",
   "shareRecipesLinkButton": "Partager sous forme de lien",
   "scanRecipesTitle": "Scanner pour importer",
+  "scanDecodeError": "Ce code QR n'a pas pu être lu. Assurez-vous qu'il a été généré par l'écran de partage de recettes de cette application.",
+  "qrPayloadTooLargeError": "Trop de contenu pour tenir dans un code QR. Essayez de partager moins d'éléments, ou utilisez « Partager sous forme de lien ».",
   "importRecipesTitle": "Choisir les recettes à ajouter",
   "importRecipesAddButton": "Ajouter à mes recettes ({count})",
   "importRecipesSuccess": "{count, plural, one {1 recette ajoutée} other {{count} recettes ajoutées}} à votre liste.",

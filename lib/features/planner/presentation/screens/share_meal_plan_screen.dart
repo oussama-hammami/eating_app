@@ -44,11 +44,22 @@ class ShareMealPlanScreen extends StatelessWidget {
                     data: payload,
                     version: QrVersions.auto,
                     size: 260,
+                    errorStateBuilder: (context, error) => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          l10n.qrPayloadTooLargeError,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: () => Share.share(payload, subject: l10n.plannerShareWeekTitle),
+                  onPressed: () => SharePlus.instance.share(
+                    ShareParams(text: payload, subject: l10n.plannerShareWeekTitle),
+                  ),
                   icon: const Icon(Icons.ios_share),
                   label: Text(l10n.shareRecipesLinkButton),
                 ),

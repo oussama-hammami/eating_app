@@ -25,6 +25,13 @@ class _ScanMealPlanScreenState extends State<ScanMealPlanScreen> {
     super.dispose();
   }
 
+  void _showDecodeError() {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.scanDecodeError)),
+    );
+  }
+
   Future<void> _onDetect(BarcodeCapture capture) async {
     if (_handled) return;
     if (capture.barcodes.isEmpty) return;
@@ -35,6 +42,7 @@ class _ScanMealPlanScreenState extends State<ScanMealPlanScreen> {
     try {
       plan = MealPlanShareCodec.decode(raw);
     } catch (_) {
+      _showDecodeError();
       return;
     }
     if (plan.entries.isEmpty) return;

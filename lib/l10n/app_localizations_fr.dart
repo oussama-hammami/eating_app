@@ -395,6 +395,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scanRecipesTitle => 'Scanner pour importer';
 
   @override
+  String get scanDecodeError =>
+      'Ce code QR n\'a pas pu être lu. Assurez-vous qu\'il a été généré par l\'écran de partage de recettes de cette application.';
+
+  @override
+  String get qrPayloadTooLargeError =>
+      'Trop de contenu pour tenir dans un code QR. Essayez de partager moins d\'éléments, ou utilisez « Partager sous forme de lien ».';
+
+  @override
   String get importRecipesTitle => 'Choisir les recettes à ajouter';
 
   @override

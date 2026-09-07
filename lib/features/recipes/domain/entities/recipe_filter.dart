@@ -91,10 +91,15 @@ class RecipeFilter {
 bool recipeMatchesFilter(Recipe recipe, RecipeFilter filter) {
   if (!filter.calories.matches(recipe.calories.toDouble())) return false;
   if (!filter.protein.matches(recipe.protein.toDouble())) return false;
-  if (filter.carbs.isActive && !filter.carbs.matches((recipe.carbs ?? 0).toDouble())) {
+  // A null carbs/fat means the recipe's nutrition for that field is simply
+  // unknown, not zero — filtering it against an active range would wrongly
+  // exclude it, so only apply the range when a value is actually present.
+  if (filter.carbs.isActive && recipe.carbs != null && !filter.carbs.matches(recipe.carbs!.toDouble())) {
     return false;
   }
-  if (filter.fat.isActive && !filter.fat.matches((recipe.fat ?? 0).toDouble())) return false;
+  if (filter.fat.isActive && recipe.fat != null && !filter.fat.matches(recipe.fat!.toDouble())) {
+    return false;
+  }
 
   if (filter.mealTypes.isNotEmpty && !filter.mealTypes.contains(recipe.mealType)) return false;
 

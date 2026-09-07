@@ -1,16 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import '../../../../app/local_storage.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../data/community_recipes_remote_data_source.dart';
+import '../../data/community_recipes_repository.dart';
 import '../../domain/entities/recipe.dart';
 import '../../domain/entities/recipe_filter.dart';
-import '../widgets/recipe_filter_panel.dart';
+import '../widgets/recipe_list_tile.dart';
 import '../widgets/recipe_photo.dart';
+import '../widgets/recipe_search_and_filter_bar.dart';
 
 /// Read-only browse screen for community-contributed recipes, fetched from
 /// the `community_recipies` table on Supabase. Nutrition values come
@@ -19,17 +17,26 @@ import '../widgets/recipe_photo.dart';
 /// against the food database produced inaccurate totals whenever a name
 /// didn't confidently match.
 class CommunityTab extends StatefulWidget {
-  const CommunityTab({super.key, required this.onAddToRecipes});
+  const CommunityTab({
+    super.key,
+    required this.onAddToRecipes,
+    this.repository,
+  });
 
   /// Adds a copy of a community recipe into the user's own Recipes list.
   final void Function(Recipe recipe) onAddToRecipes;
+
+  /// Defaults to a real Supabase-backed [CommunityRecipesRepository] —
+  /// overridable (e.g. in tests) so this screen doesn't need a live
+  /// network/Supabase setup just to be mounted.
+  final CommunityRecipesRepository? repository;
 
   @override
   State<CommunityTab> createState() => _CommunityTabState();
 }
 
 class _CommunityTabState extends State<CommunityTab> {
-  final _storage = LocalStorage();
+  late final _repository = widget.repository ?? CommunityRecipesRepository();
 
   List<Recipe> _recipes = [];
   bool _loading = true;
@@ -54,38 +61,14 @@ class _CommunityTabState extends State<CommunityTab> {
       _hasError = false;
       _showingCachedData = false;
     });
-    try {
-      final recipes = await fetchCommunityRecipes();
-      unawaited(_storage.cacheCommunityRecipes(recipes));
-      if (!mounted) return;
-      setState(() {
-        _recipes = recipes;
-        _loading = false;
-      });
-    } catch (_) {
-      // Network failures shouldn't surface raw exception text to users —
-      // fall back to the last cache we have, or a friendly retry message.
-      final cached = await _storage.loadCachedCommunityRecipes();
-      if (!mounted) return;
-      setState(() {
-        _recipes = cached;
-        _loading = false;
-        _hasError = true;
-        _showingCachedData = cached.isNotEmpty;
-      });
-    }
-  }
-
-  int _activeFilterCount() {
-    var count = 0;
-    if (_filter.calories.isActive) count++;
-    if (_filter.protein.isActive) count++;
-    if (_filter.carbs.isActive) count++;
-    if (_filter.fat.isActive) count++;
-    if (_filter.mealTypes.isNotEmpty) count++;
-    if (_filter.includeIngredients.isNotEmpty) count++;
-    if (_filter.excludeIngredients.isNotEmpty) count++;
-    return count;
+    final result = await _repository.fetch();
+    if (!mounted) return;
+    setState(() {
+      _recipes = result.recipes;
+      _loading = false;
+      _hasError = result.hasError;
+      _showingCachedData = result.isFromCache;
+    });
   }
 
   @override
@@ -206,47 +189,18 @@ class _CommunityTabState extends State<CommunityTab> {
       body: Column(
         children: [
           if (recipes.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (value) => setState(() => _searchQuery = value),
-                      decoration: InputDecoration(
-                        hintText: l10n.searchRecipesHint,
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: _searchQuery.isEmpty
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () => setState(() {
-                                  _searchController.clear();
-                                  _searchQuery = '';
-                                }),
-                              ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  FilterChip(
-                    label: Text(
-                      _filter.isActive
-                          ? l10n.filtersActiveButton(_activeFilterCount())
-                          : l10n.filtersButton,
-                    ),
-                    avatar: const Icon(Icons.filter_alt_outlined, size: 18),
-                    selected: _filtersExpanded,
-                    onSelected: (value) => setState(() => _filtersExpanded = value),
-                  ),
-                ],
-              ),
-            ),
-          if (_filtersExpanded)
-            RecipeFilterPanel(
+            RecipeSearchAndFilterBar(
+              searchController: _searchController,
+              searchQuery: _searchQuery,
+              onSearchChanged: (value) => setState(() => _searchQuery = value),
+              onSearchCleared: () => setState(() {
+                _searchController.clear();
+                _searchQuery = '';
+              }),
               filter: _filter,
-              onApply: (updated) => setState(() => _filter = updated),
+              filtersExpanded: _filtersExpanded,
+              onFiltersExpandedChanged: (value) => setState(() => _filtersExpanded = value),
+              onFilterApply: (updated) => setState(() => _filter = updated),
             ),
           if (_showingCachedData)
             MaterialBanner(
@@ -277,7 +231,8 @@ class _CommunityTabState extends State<CommunityTab> {
                     final recipe = filtered[index];
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 6),
-                      child: ListTile(
+                      child: RecipeListTile(
+                        recipe: recipe,
                         leading: recipe.photoPath == null
                             ? null
                             : ClipRRect(
@@ -289,38 +244,6 @@ class _CommunityTabState extends State<CommunityTab> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                        title: Text(
-                          recipe.name,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Wrap(
-                            spacing: 8,
-                            children: [
-                              StatChip(
-                                icon: recipe.mealType.icon,
-                                label: recipe.mealType.label(l10n),
-                                color: colorScheme.primary,
-                              ),
-                              StatChip(
-                                icon: Icons.local_fire_department,
-                                label: l10n.caloriesKcalChip(recipe.calories),
-                                color: colorScheme.secondary,
-                              ),
-                              StatChip(
-                                icon: Icons.fitness_center,
-                                label: l10n.proteinGChip(recipe.protein),
-                                color: const Color(0xFF2A835F),
-                              ),
-                              StatChip(
-                                icon: Icons.people_outline,
-                                label: l10n.portionsChip(recipe.portions),
-                                color: const Color(0xFF92003A),
-                              ),
-                            ],
-                          ),
-                        ),
                         trailing: IconButton(
                           icon: const Icon(Icons.playlist_add),
                           color: colorScheme.primary,

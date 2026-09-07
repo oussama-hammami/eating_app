@@ -110,7 +110,7 @@ class GroceriesTab extends StatelessWidget {
       final quantity = item.displayQuantity;
       return quantity.isEmpty ? '$prefix${item.name}' : '$prefix${item.name} — $quantity';
     }).join('\n');
-    Share.share(text, subject: l10n.shareGroceriesTitle);
+    SharePlus.instance.share(ShareParams(text: text, subject: l10n.shareGroceriesTitle));
   }
 
   Widget _actionButton(

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app/root_shell.dart';
 import 'core/supabase/supabase_config.dart';
 import 'core/theme/app_theme.dart';
+import 'features/recipes/data/community_recipes_repository.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -14,7 +15,11 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.communityRecipesRepository});
+
+  /// Forwarded to [RootShell]/[CommunityTab] — overridable (e.g. in tests)
+  /// so mounting the app doesn't require a live Supabase setup.
+  final CommunityRecipesRepository? communityRecipesRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: const RootShell(),
+      home: RootShell(communityRecipesRepository: communityRecipesRepository),
     );
   }
 }
