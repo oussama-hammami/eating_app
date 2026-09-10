@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_palette.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/recipe.dart';
 import '../../../recipes/presentation/widgets/recipe_photo.dart';
+import '../../../../widgets/common/recipe_details_dialog.dart';
 import '../../domain/entities/meal_plan_entry.dart';
 
 /// One recipe assigned to a meal slot — a compact, shrink-wrapped card: a
 /// photo thumbnail, name, bare icon+value calorie/protein indicators, an
-/// inline servings stepper (-/+), and "replace"/"remove" actions.
+/// inline servings stepper (-/+), and "replace"/"remove" actions. Tapping
+/// the card (outside the action buttons) opens a read-only details popup.
 class AssignedMealCard extends StatelessWidget {
   const AssignedMealCard({
     super.key,
@@ -29,75 +32,87 @@ class AssignedMealCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
     final recipe = this.recipe;
-    final factor = recipe == null || recipe.portions <= 0 ? 0.0 : entry.servings / recipe.portions;
+    final factor = recipe == null || recipe.portions <= 0
+        ? 0.0
+        : entry.servings / recipe.portions;
     final calories = recipe == null ? 0 : (recipe.calories * factor).round();
     final protein = recipe == null ? 0 : (recipe.protein * factor).round();
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 3),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: RecipePhoto(path: recipe?.photoPath, width: 44, height: 44, fit: BoxFit.cover),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    recipe?.name ?? entry.recipeId,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      _IconValue(
-                        icon: Icons.local_fire_department,
-                        value: calories,
-                        color: colorScheme.secondary,
-                      ),
-                      const SizedBox(width: 10),
-                      _IconValue(
-                        icon: Icons.bolt,
-                        value: protein,
-                        color: const Color(0xFF2A835F),
-                      ),
-                      const SizedBox(width: 10),
-                      _ServingsStepper(
-                        servings: entry.servings,
-                        onAdjust: onAdjustServings,
-                      ),
-                    ],
-                  ),
-                ],
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: recipe == null
+            ? null
+            : () => RecipeDetailsDialog.show(context, recipe),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: RecipePhoto(
+                  path: recipe?.photoPath,
+                  width: 44,
+                  height: 44,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.swap_horiz, size: 18),
-              tooltip: l10n.plannerReplaceMeal,
-              onPressed: onReplace,
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-            ),
-            IconButton(
-              icon: const Icon(Icons.close, size: 18),
-              tooltip: l10n.plannerRemoveMeal,
-              onPressed: onRemove,
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-            ),
-          ],
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      recipe?.name ?? entry.recipeId,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        _IconValue(
+                          icon: Icons.local_fire_department,
+                          value: calories,
+                          color: AppPalette.calories,
+                        ),
+                        const SizedBox(width: 10),
+                        _IconValue(
+                          icon: Icons.bolt,
+                          value: protein,
+                          color: const Color(0xFF2A835F),
+                        ),
+                        const SizedBox(width: 10),
+                        _ServingsStepper(
+                          servings: entry.servings,
+                          onAdjust: onAdjustServings,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.swap_horiz, size: 18),
+                tooltip: l10n.plannerReplaceMeal,
+                onPressed: onReplace,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close, size: 18),
+                tooltip: l10n.plannerRemoveMeal,
+                onPressed: onRemove,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -107,7 +122,11 @@ class AssignedMealCard extends StatelessWidget {
 /// A bare icon + numeric value on a tinted color box, no unit text — e.g.
 /// 🔥500 instead of a full "500 kcal" chip.
 class _IconValue extends StatelessWidget {
-  const _IconValue({required this.icon, required this.value, required this.color});
+  const _IconValue({
+    required this.icon,
+    required this.value,
+    required this.color,
+  });
 
   final IconData icon;
   final int value;
@@ -128,7 +147,11 @@ class _IconValue extends StatelessWidget {
           const SizedBox(width: 3),
           Text(
             '$value',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: color,
+            ),
           ),
         ],
       ),
@@ -153,7 +176,11 @@ class _ServingsStepper extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _stepperButton(context, icon: Icons.remove, onTap: () => onAdjust(-1)),
+          _stepperButton(
+            context,
+            icon: Icons.remove,
+            onTap: () => onAdjust(-1),
+          ),
           SizedBox(
             width: 20,
             child: Text(
@@ -168,7 +195,11 @@ class _ServingsStepper extends StatelessWidget {
     );
   }
 
-  Widget _stepperButton(BuildContext context, {required IconData icon, required VoidCallback onTap}) {
+  Widget _stepperButton(
+    BuildContext context, {
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
     final colorScheme = Theme.of(context).colorScheme;
     return InkWell(
       borderRadius: BorderRadius.circular(20),

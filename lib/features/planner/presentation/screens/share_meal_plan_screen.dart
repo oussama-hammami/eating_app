@@ -57,9 +57,7 @@ class ShareMealPlanScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: () => SharePlus.instance.share(
-                    ShareParams(text: payload, subject: l10n.plannerShareWeekTitle),
-                  ),
+                  onPressed: () => Share.share(payload, subject: l10n.plannerShareWeekTitle),
                   icon: const Icon(Icons.ios_share),
                   label: Text(l10n.shareRecipesLinkButton),
                 ),

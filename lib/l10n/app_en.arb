@@ -5,6 +5,8 @@
   "navGroceries": "Groceries",
   "navCommunity": "Community",
   "navPlanner": "Planner",
+  "menuTooltip": "Menu",
+  "privacyLocalStorageBadge": "100% Local Storage",
 
   "plannerTitle": "🗓️  Weekly Planner",
   "plannerPreviousWeek": "Previous week",
@@ -18,6 +20,12 @@
   "plannerGenerateGroceriesConfirmTitle": "Add week to groceries?",
   "plannerGenerateGroceriesConfirmMessage": "This adds every ingredient from this week's planned meals — scaled to servings — to your grocery list.",
   "plannerShareWeek": "Share week",
+  "plannerExportPdf": "Export PDF",
+  "plannerExportPdfTitle": "Weekly meal plan — {start} – {end}",
+  "@plannerExportPdfTitle": {
+    "placeholders": { "start": { "type": "String" }, "end": { "type": "String" } }
+  },
+  "plannerExportPdfNoMeals": "No meals planned",
   "plannerShareWeekTitle": "Share this week",
   "plannerShareWeekInstructions": "Scan this QR code with another device's app to import {count, plural, one {this meal} other {these {count} meals}}.",
   "@plannerShareWeekInstructions": {

@@ -53,9 +53,7 @@ class ShareRecipesScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: () => SharePlus.instance.share(
-                    ShareParams(text: payload, subject: l10n.shareRecipesTitle),
-                  ),
+                  onPressed: () => Share.share(payload, subject: l10n.shareRecipesTitle),
                   icon: const Icon(Icons.ios_share),
                   label: Text(l10n.shareRecipesLinkButton),
                 ),

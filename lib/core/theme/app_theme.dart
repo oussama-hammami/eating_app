@@ -4,13 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 import 'app_palette.dart';
 
-/// Centralized theme for "My Food This Week".
+/// Centralized theme for "PlanA table".
 ///
-/// Visual direction: modern, minimal, warm — deep plum as the one
-/// recognizable brand color, warm apricot used sparingly as an accent, and a
-/// calm cream/ivory neutral base everywhere else (roughly 80% neutral / 15%
-/// primary / 5% accent). The interface is deliberately quiet so that recipe
-/// photos and food provide the color, not the chrome around them.
+/// Visual direction: "French Culinary Editorial" — warm linen as the neutral
+/// base, terracotta as the one recognizable brand/action color, sage green
+/// used for success/organic/Nutri-Score meaning, and slate for text. The
+/// interface is deliberately quiet so that recipe photos and food provide
+/// the color, not the chrome around them.
 ///
 /// Do not read [AppPalette] hex values directly from widgets — use
 /// `Theme.of(context).colorScheme` (and `context.semanticColors` for
@@ -20,20 +20,20 @@ class AppTheme {
 
   static final ThemeData light = _build(
     brightness: Brightness.light,
-    background: AppPalette.cream,
+    background: AppPalette.linen,
     colorScheme: const ColorScheme.light(
-      primary: AppPalette.plum,
+      primary: AppPalette.terracotta,
       onPrimary: Colors.white,
-      primaryContainer: Color(0xFFEFE1EA), // faint plum tint
-      onPrimaryContainer: AppPalette.plum,
-      secondary: AppPalette.apricot,
-      onSecondary: AppPalette.charcoal,
-      secondaryContainer: Color(0xFFFDEBD8), // faint apricot tint
-      onSecondaryContainer: AppPalette.charcoal,
+      primaryContainer: Color(0xFFFBE3DB), // faint terracotta tint
+      onPrimaryContainer: AppPalette.terracotta,
+      secondary: AppPalette.sage,
+      onSecondary: Colors.white,
+      secondaryContainer: Color(0xFFE3EEE6), // faint sage tint
+      onSecondaryContainer: AppPalette.sage,
       surface: AppPalette.ivory,
-      onSurface: AppPalette.charcoal,
+      onSurface: AppPalette.slate,
       onSurfaceVariant: AppPalette.mauveGray,
-      surfaceContainerHighest: Color(0xFFF3EEEB),
+      surfaceContainerHighest: Color(0xFFF3EEE4),
       outline: AppPalette.divider,
       outlineVariant: AppPalette.divider,
       error: AppPalette.errorLight,
@@ -46,14 +46,14 @@ class AppTheme {
     brightness: Brightness.dark,
     background: AppPalette.darkBackground,
     colorScheme: const ColorScheme.dark(
-      primary: AppPalette.darkPlum,
+      primary: AppPalette.darkTerracotta,
       onPrimary: AppPalette.darkBackground,
-      primaryContainer: Color(0xFF473140), // dark plum tint
-      onPrimaryContainer: AppPalette.darkPlum,
-      secondary: AppPalette.darkApricot,
+      primaryContainer: Color(0xFF4A342C), // dark terracotta tint
+      onPrimaryContainer: AppPalette.darkTerracotta,
+      secondary: AppPalette.darkSage,
       onSecondary: AppPalette.darkBackground,
-      secondaryContainer: Color(0xFF453723), // dark apricot tint
-      onSecondaryContainer: AppPalette.darkApricot,
+      secondaryContainer: Color(0xFF2E3B32), // dark sage tint
+      onSecondaryContainer: AppPalette.darkSage,
       surface: AppPalette.darkSurface,
       onSurface: AppPalette.darkText,
       onSurfaceVariant: AppPalette.darkMutedText,
@@ -72,16 +72,14 @@ class AppTheme {
     required ColorScheme colorScheme,
     required AppSemanticColors semanticColors,
   }) {
-    // Fraunces (a warm, editorial serif) for headings/titles; Inter (a clean,
-    // highly-legible sans) for body text — replaces the plain 'Georgia'
-    // fontFamily, which silently fell back to the platform default on
-    // Android since Georgia isn't bundled there.
+    // Playfair Display (an editorial serif) for headings/dish titles; Inter
+    // (a clean, highly-legible sans) for body/ingredients/data.
     final baseTextTheme = GoogleFonts.interTextTheme(
       ThemeData(brightness: brightness).textTheme,
     ).apply(bodyColor: colorScheme.onSurface, displayColor: colorScheme.onSurface);
 
     TextStyle heading({required double fontSize, required FontWeight fontWeight}) =>
-        GoogleFonts.fraunces(
+        GoogleFonts.playfairDisplay(
           fontSize: fontSize,
           fontWeight: fontWeight,
           color: colorScheme.onSurface,
@@ -108,38 +106,43 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: colorScheme.surface,
-        elevation: 0,
+        elevation: 2,
+        shadowColor: const Color(0x0D000000),
+        surfaceTintColor: Colors.transparent,
         margin: const EdgeInsets.symmetric(vertical: 8),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: colorScheme.outlineVariant, width: 1.5),
+          borderRadius: BorderRadius.circular(16),
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(18)),
+          borderRadius: BorderRadius.all(Radius.circular(24)),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.4),
+          elevation: 2,
+          shadowColor: colorScheme.primary.withValues(alpha: 0.35),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: colorScheme.primary,
-          side: BorderSide(color: colorScheme.primary, width: 1.5),
+          foregroundColor: colorScheme.secondary,
+          backgroundColor: colorScheme.secondary.withValues(alpha: 0.1),
+          side: BorderSide(color: colorScheme.secondary, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
           ),
           textStyle: const TextStyle(fontWeight: FontWeight.w600),
         ),
@@ -180,7 +183,7 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: colorScheme.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(16),
         ),
         titleTextStyle: heading(fontSize: 20, fontWeight: FontWeight.w700),
         contentTextStyle:

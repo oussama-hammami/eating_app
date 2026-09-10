@@ -32,6 +32,7 @@ class RootShell extends StatefulWidget {
 /// on) all 4 [IndexedStack] tabs.
 class _RootShellState extends State<RootShell> {
   final _storage = LocalStorage();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final ValueNotifier<int> _tabIndex = ValueNotifier(0);
   final ValueNotifier<List<Recipe>> _recipes = ValueNotifier([]);
@@ -330,22 +331,82 @@ class _RootShellState extends State<RootShell> {
     );
   }
 
+  Widget _buildDrawer(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+              child: Text(l10n.appTitle, style: Theme.of(context).textTheme.titleLarge),
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: colorScheme.secondary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.shield_outlined, size: 16, color: colorScheme.secondary),
+                    const SizedBox(width: 8),
+                    Text(
+                      l10n.privacyLocalStorageBadge,
+                      style: TextStyle(
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ValueListenableBuilder<int>(
-        valueListenable: _tabIndex,
-        builder: (context, tabIndex, _) {
-          return IndexedStack(
-            index: tabIndex,
-            children: [
-              _visitedTabIndexes.contains(0) ? _recipesTab() : const SizedBox.shrink(),
-              _visitedTabIndexes.contains(1) ? _plannerTab() : const SizedBox.shrink(),
-              _visitedTabIndexes.contains(2) ? _groceriesTab() : const SizedBox.shrink(),
-              _visitedTabIndexes.contains(3) ? _communityTab() : const SizedBox.shrink(),
-            ],
-          );
-        },
+      key: _scaffoldKey,
+      drawer: _buildDrawer(context),
+      body: Stack(
+        children: [
+          ValueListenableBuilder<int>(
+            valueListenable: _tabIndex,
+            builder: (context, tabIndex, _) {
+              return IndexedStack(
+                index: tabIndex,
+                children: [
+                  _visitedTabIndexes.contains(0) ? _recipesTab() : const SizedBox.shrink(),
+                  _visitedTabIndexes.contains(1) ? _plannerTab() : const SizedBox.shrink(),
+                  _visitedTabIndexes.contains(2) ? _groceriesTab() : const SizedBox.shrink(),
+                  _visitedTabIndexes.contains(3) ? _communityTab() : const SizedBox.shrink(),
+                ],
+              );
+            },
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4, top: 4),
+              child: IconButton(
+                icon: const Icon(Icons.menu),
+                tooltip: AppLocalizations.of(context)!.menuTooltip,
+                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: ValueListenableBuilder<int>(
         valueListenable: _tabIndex,

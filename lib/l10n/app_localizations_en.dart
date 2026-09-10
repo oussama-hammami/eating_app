@@ -24,6 +24,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navPlanner => 'Planner';
 
   @override
+  String get menuTooltip => 'Menu';
+
+  @override
+  String get privacyLocalStorageBadge => '100% Local Storage';
+
+  @override
   String get plannerTitle => '🗓️  Weekly Planner';
 
   @override
@@ -59,6 +65,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get plannerShareWeek => 'Share week';
+
+  @override
+  String get plannerExportPdf => 'Export PDF';
+
+  @override
+  String plannerExportPdfTitle(String start, String end) {
+    return 'Weekly meal plan — $start – $end';
+  }
+
+  @override
+  String get plannerExportPdfNoMeals => 'No meals planned';
 
   @override
   String get plannerShareWeekTitle => 'Share this week';

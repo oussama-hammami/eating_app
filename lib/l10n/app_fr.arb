@@ -5,6 +5,8 @@
   "navGroceries": "Courses",
   "navCommunity": "Communauté",
   "navPlanner": "Planning",
+  "menuTooltip": "Menu",
+  "privacyLocalStorageBadge": "100% Stockage Local",
 
   "plannerTitle": "🗓️  Planning hebdomadaire",
   "plannerPreviousWeek": "Semaine précédente",
@@ -18,6 +20,9 @@
   "plannerGenerateGroceriesConfirmTitle": "Ajouter la semaine aux courses ?",
   "plannerGenerateGroceriesConfirmMessage": "Cela ajoute chaque ingrédient des repas planifiés cette semaine — proportionné aux portions — à votre liste de courses.",
   "plannerShareWeek": "Partager la semaine",
+  "plannerExportPdf": "Exporter en PDF",
+  "plannerExportPdfTitle": "Planning de la semaine — {start} – {end}",
+  "plannerExportPdfNoMeals": "Aucun repas prévu",
   "plannerShareWeekTitle": "Partager cette semaine",
   "plannerShareWeekInstructions": "Scannez ce QR code avec l'application d'un autre appareil pour importer {count, plural, one {ce repas} other {ces {count} repas}}.",
   "plannerScanTitle": "Scanner pour importer",

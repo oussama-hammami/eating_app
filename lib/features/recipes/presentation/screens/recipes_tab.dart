@@ -749,6 +749,7 @@ class _RecipesTabState extends State<RecipesTab> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'recipesTabFab',
         onPressed: _openAddRecipeDialog,
         child: const Icon(Icons.add),
       ),

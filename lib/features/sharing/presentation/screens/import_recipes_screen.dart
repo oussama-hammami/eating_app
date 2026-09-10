@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/recipe.dart';
@@ -56,12 +57,12 @@ class _ImportRecipesScreenState extends State<ImportRecipesScreen> {
                       ),
                       StatChip(
                         icon: Icons.local_fire_department,
-                        label: l10n.caloriesKcalChip(recipe.calories),
-                        color: colorScheme.secondary,
+                        label: '${recipe.calories}',
+                        color: AppPalette.calories,
                       ),
                       StatChip(
                         icon: Icons.people_outline,
-                        label: l10n.portionsChip(recipe.portions),
+                        label: '${recipe.portions}',
                         color: const Color(0xFF92003A),
                       ),
                     ],

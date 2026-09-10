@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../l10n/app_localizations.dart';
-
 /// Vertical day-of-week selector for the planner's left sidebar — one tile
 /// per day of the active week, each showing the day name, date number, and
 /// a small badge with that day's total calories.
@@ -27,7 +25,6 @@ class PlannerDaySidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     // Deep Plum — deliberately a literal brand color (not colorScheme.primary)
@@ -90,7 +87,7 @@ class PlannerDaySidebar extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          l10n.caloriesKcalChip(caloriesByDay[index]),
+                          '${caloriesByDay[index]}',
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w600,

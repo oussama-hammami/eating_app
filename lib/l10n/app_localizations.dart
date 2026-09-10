@@ -128,6 +128,18 @@ abstract class AppLocalizations {
   /// **'Planner'**
   String get navPlanner;
 
+  /// No description provided for @menuTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menuTooltip;
+
+  /// No description provided for @privacyLocalStorageBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Local Storage'**
+  String get privacyLocalStorageBadge;
+
   /// No description provided for @plannerTitle.
   ///
   /// In en, this message translates to:
@@ -199,6 +211,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share week'**
   String get plannerShareWeek;
+
+  /// No description provided for @plannerExportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get plannerExportPdf;
+
+  /// No description provided for @plannerExportPdfTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly meal plan — {start} – {end}'**
+  String plannerExportPdfTitle(String start, String end);
+
+  /// No description provided for @plannerExportPdfNoMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'No meals planned'**
+  String get plannerExportPdfNoMeals;
 
   /// No description provided for @plannerShareWeekTitle.
   ///

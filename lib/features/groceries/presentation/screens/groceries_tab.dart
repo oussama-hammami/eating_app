@@ -110,7 +110,7 @@ class GroceriesTab extends StatelessWidget {
       final quantity = item.displayQuantity;
       return quantity.isEmpty ? '$prefix${item.name}' : '$prefix${item.name} — $quantity';
     }).join('\n');
-    SharePlus.instance.share(ShareParams(text: text, subject: l10n.shareGroceriesTitle));
+    Share.share(text, subject: l10n.shareGroceriesTitle);
   }
 
   Widget _actionButton(
@@ -208,6 +208,7 @@ class GroceriesTab extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'groceriesTabFab',
         onPressed: () => _openAddArticleDialog(context),
         icon: const Icon(Icons.add),
         label: Text(l10n.addArticle),

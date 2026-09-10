@@ -28,7 +28,7 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
     success: AppPalette.successLight,
     onSuccess: Colors.white,
     warning: AppPalette.warningLight,
-    onWarning: AppPalette.charcoal,
+    onWarning: AppPalette.slate,
     info: AppPalette.infoLight,
     onInfo: Colors.white,
   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_palette.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../recipes/domain/entities/meal_type.dart';
 import '../../../recipes/domain/entities/recipe.dart';
@@ -54,11 +55,27 @@ class MealSlotSection extends StatelessWidget {
             padding: const EdgeInsets.only(left: 4, bottom: 2),
             child: Row(
               children: [
-                Icon(mealType.icon, size: 16, color: Theme.of(context).colorScheme.primary),
-                const SizedBox(width: 6),
-                Text(
-                  mealType.label(l10n),
-                  style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppPalette.mealType,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(mealType.icon, size: 14, color: AppPalette.onMealType),
+                      const SizedBox(width: 6),
+                      Text(
+                        mealType.label(l10n),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          color: AppPalette.onMealType,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 IconButton(

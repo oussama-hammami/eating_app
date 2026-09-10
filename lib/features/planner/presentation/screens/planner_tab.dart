@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
 
+import '../../../../core/theme/app_palette.dart';
 import '../../../../core/widgets/stat_chip.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../widgets/common/primary_button.dart';
 import '../../../recipes/domain/entities/meal_type.dart';
 import '../../../recipes/domain/entities/recipe.dart';
 import '../../domain/entities/meal_plan_entry.dart';
+import '../../domain/usecases/build_weekly_plan_pdf.dart';
 import '../widgets/meal_slot_section.dart';
 import '../widgets/planner_day_sidebar.dart';
 import '../widgets/recipe_picker_sheet.dart';
@@ -210,6 +214,23 @@ class _PlannerTabState extends State<PlannerTab> {
     );
   }
 
+  Future<void> _exportWeekPdf() async {
+    final l10n = AppLocalizations.of(context)!;
+    final weekDays = _weekDays;
+    final bytes = await buildWeeklyPlanPdf(
+      weekDays: weekDays,
+      weekEntries: _weekEntries,
+      recipes: widget.recipes,
+      title: l10n.plannerExportPdfTitle(
+        DateFormat.MMMd().format(weekDays.first),
+        DateFormat.MMMd().format(weekDays.last),
+      ),
+      mealTypeLabel: (mealType) => mealType.label(l10n),
+      noMealsLabel: l10n.plannerExportPdfNoMeals,
+    );
+    await Printing.layoutPdf(onLayout: (_) async => bytes);
+  }
+
   Future<void> _openScanImport() async {
     final l10n = AppLocalizations.of(context)!;
     final imported = await Navigator.of(context).push<(List<MealPlanEntry>, List<Recipe>)>(
@@ -241,14 +262,14 @@ class _PlannerTabState extends State<PlannerTab> {
         title: Text(l10n.plannerTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            tooltip: l10n.plannerGenerateGroceries,
-            onPressed: weekIsEmpty ? null : _confirmGenerateGroceries,
-          ),
-          IconButton(
             icon: const Icon(Icons.ios_share),
             tooltip: l10n.plannerShareWeek,
             onPressed: weekIsEmpty ? null : _openShareWeek,
+          ),
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf_outlined),
+            tooltip: l10n.plannerExportPdf,
+            onPressed: weekIsEmpty ? null : _exportWeekPdf,
           ),
           IconButton(
             icon: const Icon(Icons.qr_code_scanner),
@@ -309,22 +330,22 @@ class _PlannerTabState extends State<PlannerTab> {
                       children: [
                         StatChip(
                           icon: Icons.local_fire_department,
-                          label: l10n.caloriesKcalChip(dayTotals.calories),
-                          color: colorScheme.secondary,
+                          label: '${dayTotals.calories}',
+                          color: AppPalette.calories,
                         ),
                         StatChip(
                           icon: Icons.bolt,
-                          label: l10n.proteinGChip(dayTotals.protein),
+                          label: '${dayTotals.protein}',
                           color: const Color(0xFF2A835F),
                         ),
                         StatChip(
                           icon: Icons.grain,
-                          label: l10n.carbsGChip(dayTotals.carbs),
+                          label: '${dayTotals.carbs}',
                           color: colorScheme.onSurface,
                         ),
                         StatChip(
                           icon: Icons.opacity,
-                          label: l10n.fatGChip(dayTotals.fat),
+                          label: '${dayTotals.fat}',
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ],
@@ -354,6 +375,23 @@ class _PlannerTabState extends State<PlannerTab> {
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          boxShadow: const [
+            BoxShadow(color: Color(0x14000000), blurRadius: 12, offset: Offset(0, -2)),
+          ],
+        ),
+        child: SafeArea(
+          minimum: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+          top: false,
+          child: PrimaryButton(
+            label: l10n.plannerGenerateGroceries,
+            icon: Icons.shopping_cart_outlined,
+            onPressed: weekIsEmpty ? null : _confirmGenerateGroceries,
+          ),
         ),
       ),
     );
