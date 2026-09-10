@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appTitle": "My Food This Week",
+  "appTitle": "PlanA Table",
   "navRecipes": "Recettes",
   "navGroceries": "Courses",
   "navCommunity": "Communauté",
@@ -56,7 +56,7 @@
   "filterExcludeIngredientsLabel": "Exclure des ingrédients",
   "filterIngredientInputHint": "Tapez un ingrédient et appuyez sur entrée…",
   "privacyPolicyTitle": "Politique de confidentialité",
-  "privacyPolicyBody": "My Food This Week ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.",
+  "privacyPolicyBody": "PlanA Table ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.",
   "privacyPolicyViewFull": "Voir la politique complète",
   "privacyPolicyClose": "Fermer",
   "communityTitle": "🌍  Recettes de la communauté",

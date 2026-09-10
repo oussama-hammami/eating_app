@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'My Food This Week'**
+  /// **'PlanA Table'**
   String get appTitle;
 
   /// No description provided for @navRecipes.
@@ -425,7 +425,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyBody.
   ///
   /// In en, this message translates to:
-  /// **'My Food This Week does not collect or share any personal data. Recipes, ingredients, and photos are stored only on your device.'**
+  /// **'PlanA Table does not collect or share any personal data. Recipes, ingredients, and photos are stored only on your device.'**
   String get privacyPolicyBody;
 
   /// No description provided for @privacyPolicyViewFull.

@@ -1,6 +1,6 @@
 {
-    "name": "eating_app",
-    "short_name": "eating_app",
+    "name": "PlanA Table",
+    "short_name": "PlanA Table",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

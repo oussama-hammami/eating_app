@@ -9,7 +9,7 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get appTitle => 'My Food This Week';
+  String get appTitle => 'PlanA Table';
 
   @override
   String get navRecipes => 'Recettes';
@@ -203,7 +203,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get privacyPolicyBody =>
-      'My Food This Week ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.';
+      'PlanA Table ne collecte ni ne partage aucune donnée personnelle. Les recettes, ingrédients et photos sont stockés uniquement sur votre appareil.';
 
   @override
   String get privacyPolicyViewFull => 'Voir la politique complète';
